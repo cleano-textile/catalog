@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کیلینو | تمام محصولات</title>
+    <meta name="description" content="لیست کامل و یکپارچه محصولات منسوجات آشپزخانه CLEANO.">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='70' font-family='sans-serif' font-weight='300' fill='%231a1a1a'>C</text></svg>">
+    
+    <link rel="stylesheet" href="cleano-core.css?v=2.0">
+    
+    <style>
+        /* استایل مینیمال و حرفه‌ای تیترهای جداکننده دسته‌بندی‌ها */
+        .category-section { max-width: 1200px; margin: 60px auto 80px; padding: 0 40px; }
+        
+        .category-title { 
+            font-size: 24px; 
+            font-weight: 300; 
+            color: var(--text-main); 
+            margin-bottom: 40px; 
+            padding-bottom: 15px; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-end; 
+        }
+        
+        .category-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            font-weight: 400;
+        }
+        
+        /* گرید محصولات (مشابه صفحات دسته‌بندی) */
+        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 30px; }
+        .product-card { display: flex; flex-direction: column; gap: 15px; position: relative; }
+        
+        .card-img-box { position: relative; aspect-ratio: 4/5; overflow: hidden; background: var(--bg-img); }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; display: block; }
+        .product-card:hover .card-img { transform: scale(1.04); }
+        
+        /* دکمه افزودن سریع روی عکس */
+        .quick-add-pill {
+            position: absolute; bottom: 20px; left: 50%; transform: translate(-50%, 15px);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color); border-radius: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            display: flex; align-items: center; padding: 4px 6px; opacity: 0; 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 80%; max-width: 200px; z-index: 10;
+        }
+        .product-card:hover .quick-add-pill { transform: translate(-50%, 0); opacity: 1; }
+        
+        .pill-qty { display: flex; align-items: center; border-left: 1px solid var(--border-color); flex: 1; justify-content: space-between; direction: ltr; padding-right: 5px; }
+        .pill-btn { background: none; border: none; font-size: 16px; color: var(--text-muted); cursor: pointer; padding: 0 8px; height: 30px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .pill-btn:hover { color: var(--text-main); transform: scale(1.1); }
+        .pill-input { width: 25px; text-align: center; border: none; font-size: 13px; font-weight: 500; font-family: sans-serif; background: transparent; color: var(--text-main); pointer-events: none; }
+        
+        .pill-add { background: none; border: none; font-family: 'Vazirmatn', sans-serif; font-size: 12px; color: var(--text-main); font-weight: 500; padding: 0 12px; cursor: pointer; transition: 0.3s; white-space: nowrap; }
+        .pill-add:hover { color: var(--brand-green); }
+        .pill-add.success-state { color: var(--brand-green); font-weight: bold; pointer-events: none; }
+        
+        /* اطلاعات زیر کارت */
+        .card-info { text-decoration: none; text-align: right; display: flex; flex-direction: column; gap: 6px; }
+        .card-title { font-size: 14px; font-weight: 500; color: var(--text-main); margin: 0; transition: 0.3s; }
+        .product-card:hover .card-title { color: var(--brand-green); }
+        
+        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+        .card-ref { font-size: 11px; font-family: 'Helvetica Neue', sans-serif; color: var(--text-muted); letter-spacing: 1px; }
+        .card-moq { font-size: 10px; color: var(--text-muted); font-weight: 300; background: #f5f5f5; padding: 3px 8px; border-radius: 2px; }
+
+        @media (max-width: 992px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 30px 15px; }
+            .category-section { padding: 0 20px; margin: 40px auto 60px; }
+            .category-title { font-size: 18px; }
+            .category-subtitle { font-size: 9px; }
+            .card-meta { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .quick-add-pill { transform: translate(-50%, 0); opacity: 1; bottom: 15px; width: 85%; }
+            .pill-btn { padding: 0 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- جایگاه هدر -->
+    <div id="cleano-header-placeholder"></div>
+
+    <!-- کانتینر اصلی که جاوااسکریپت محصولات را در آن می‌چیند -->
+    <div id="catalog-container"></div>
+
+    <!-- جایگاه فوتر -->
+    <div id="cleano-footer-placeholder"></div>
+
+    <!-- تنظیمات مسیر پایه برای فایل‌های روت -->
+    <script>
+        const BASE_URL = "./"; 
+        const ACTIVE_CATEGORY = "all"; 
+    </script>
+    <script src="cleano-core.js?v=2.0"></script>
+    
+    <!-- منطق چیدمان و تفکیک محصولات در صفحه All -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('catalog-container');
+            if(!container) return;
+
+            // تعریف دسته‌بندی‌ها با استایل حرفه‌ای و زیرنویس انگلیسی
+            const categories = [
+                { name: "دستمال‌های آشپزخانه", subtitle: "Kitchen Towels", filter: "dastmal-ashpazkhane" },
+                { name: "ست پارچه‌ای", subtitle: "Textile Sets", filter: "set-parcheie" },
+                { name: "ست فر", subtitle: "Oven Sets", filter: "set-fer" },
+                { name: "سفره‌های ژله‌ای", subtitle: "PEVA Tablecloths", filter: "sofre" },
+                { name: "محصولات تکمیلی", subtitle: "Accessories", filter: "mahsolat-takmili" }
+            ];
+
+            let finalHTML = '';
+
+            categories.forEach(cat => {
+                // فیلتر کردن محصولاتی که آدرسشان شامل نام پوشه آن دسته است
+                const prods = catalogDB.filter(p => p.url.includes('/' + cat.filter + '/'));
+                if(prods.length === 0) return;
+
+                // ساخت تیتر جداکننده جدید و مینیمال برای هر دسته
+                finalHTML += `
+                    <div class="category-section">
+                        <div class="category-title">
+                            <span>${cat.name}</span>
+                            <span class="category-subtitle">${cat.subtitle}</span>
+                        </div>
+                        <div class="product-grid">
+                `;
+                
+                // تولید کارت‌های محصول
+                prods.forEach(p => {
+                    finalHTML += `
+                        <div class="product-card">
+                            <div class="card-img-box">
+                                <a href="${p.url}">
+                                    <img src="${p.img}" alt="${p.title}" class="card-img" onerror="this.onerror=null; this.src='${p.img.replace('.jpg', '.png')}'; this.onerror=function(){this.onerror=null; this.src='${p.img.replace('.png', '.jpg')}';}">
+                                </a>
+                                <div class="quick-add-pill" onclick="event.stopPropagation();">
+                                    <div class="pill-qty">
+                                        <button class="pill-btn" onclick="changeCatQty(event, this, -1)">−</button>
+                                        <input type="text" class="pill-input" value="1" readonly>
+                                        <button class="pill-btn" onclick="changeCatQty(event, this, 1)">+</button>
+                                    </div>
+                                    <button class="pill-add" onclick="quickAddWithQty(event, '${p.id}', this)">افزودن</button>
+                                </div>
+                            </div>
+                            <a href="${p.url}" class="card-info">
+                                <h3 class="card-title">${p.title}</h3>
+                                <div class="card-meta">
+                                    <span class="card-ref">REF: ${p.ref}</span>
+                                    <span class="card-moq">سفارش: حداقل ۱ کارتن</span>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                });
+                
+                finalHTML += `</div></div>`; // بستن گرید و سکشن
+            });
+
+            // تزریق کدهای تولید شده به صفحه
+            container.innerHTML = finalHTML;
+        });
+
+        // توابع مربوط به دکمه‌های افزودن سریع در این صفحه
+        function changeCatQty(e, btn, dir) {
+            e.preventDefault(); 
+            e.stopPropagation();
+            let input = btn.parentElement.querySelector('.pill-input');
+            let val = parseInt(input.value) || 1;
+            val += dir; 
+            if(val < 1) val = 1; 
+            input.value = val;
+        }
+
+        function quickAddWithQty(e, productId, btn) {
+            e.preventDefault(); 
+            e.stopPropagation();
+            let pill = btn.closest('.quick-add-pill');
+            let input = pill.querySelector('.pill-input');
+            let qty = parseInt(input.value) || 1;
+            
+            if(typeof window.addProductToCart === 'function') {
+                window.addProductToCart(productId, qty);
+            }
+            
+            const originalText = btn.innerText;
+            btn.classList.add('success-state'); 
+            btn.innerText = '✓'; 
+            
+            setTimeout(() => { 
+                btn.classList.remove('success-state'); 
+                btn.innerText = originalText; 
+                input.value = 1; 
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

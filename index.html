@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>CLEANO | Home Textile Collection</title>
+    <meta name="description" content="کاتالوگ دیجیتال و پورتال فروش عمده منسوجات آشپزخانه CLEANO. نسل جدید محصولات پارچه‌ای با طراحی مینیمال و کیفیت پایدار.">
+    
+    <meta property="og:title" content="کاتالوگ فروش عمده | CLEANO">
+    <meta property="og:description" content="کاتالوگ دیجیتال و پورتال فروش عمده منسوجات آشپزخانه CLEANO. نسل جدید محصولات پارچه‌ای با طراحی مینیمال و کیفیت پایدار.">
+    <meta property="og:image" content="aks-page-aval/hero-banner.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='70' font-family='sans-serif' font-weight='300' fill='%231a1a1a'>C</text></svg>">
+    
+    <link rel="stylesheet" href="cleano-core.css?v=2.0">
+    
+    <style>
+        /* نوار بالای صفحه */
+        .top-bar-container { position: relative; background-color: var(--text-main); color: #ffffff; font-size: 10px; padding: 10px 0; border-bottom: none; direction: ltr; letter-spacing: 2px; overflow: hidden; white-space: nowrap; text-transform: uppercase; font-weight: 300; z-index: 101; }
+        .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 35s linear infinite; }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        .close-top-bar { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 15px; font-weight: 300; z-index: 10; opacity: 0.6; transition: opacity 0.3s ease; padding: 5px; font-family: sans-serif; }
+        .close-top-bar:hover { opacity: 1; }
+
+        /* بنر اصلی */
+        .hero-section { display: flex; align-items: stretch; padding: 0; border-bottom: 1px solid var(--border-color); background-color: var(--bg-page); direction: rtl; margin-bottom: 100px; }
+        .hero-text-box { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px; }
+        .hero-text { max-width: 450px; }
+        .hero-text h1 { font-size: 42px; font-weight: 200; line-height: 1.4; margin: 0 0 20px 0; color: var(--text-main); letter-spacing: -1px; }
+        .hero-text h1 strong { font-weight: 500; display: block; }
+        .hero-text p { font-size: 14px; color: var(--text-muted); font-weight: 300; line-height: 2.2; margin: 0; }
+        
+        .hero-img-box { flex: 1; background-color: var(--bg-img); font-size: 0; }
+        .hero-img-box img { width: 100%; height: 100%; min-height: 80vh; object-fit: cover; display: block; }
+
+        /* استایل‌های عمومی کارت‌ها */
+        .product-block { display: block; text-decoration: none; cursor: pointer; position: relative; }
+        .cat-img-box { position: relative; width: 100%; background-color: var(--bg-img); overflow: hidden; }
+        .product-block:hover .cat-img-box img { transform: scale(1.03); }
+        .cat-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; display: block; }
+        
+        .cat-info { padding: 25px 15px 0 0; position: relative; text-align: right; display: flex; flex-direction: column; gap: 6px; }
+        .cat-title { font-size: 20px; font-weight: 300; color: var(--text-main); margin: 0; letter-spacing: -0.5px; transition: color 0.3s ease; }
+        .cat-link { font-size: 12px; font-weight: 300; color: var(--text-muted); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+        .product-block:hover .cat-link { color: var(--brand-green); padding-right: 8px; }
+
+        /* 1. بلوک ست پارچه‌ای (تک و عریض) */
+        .flagship-section { max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; }
+        .flagship-section .cat-img-box { aspect-ratio: 2/1; }
+
+        /* 2. بلوک‌های 2 تایی */
+        .grid-2-col { max-width: 1200px; margin: 0 auto 80px; padding: 0 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; }
+        .grid-2-col .cat-img-box { aspect-ratio: 1/1; }
+        .grid-2-col .cat-title { font-size: 18px; }
+
+        /* مانیفست برند (بین دو ردیف قرار می‌گیرد) */
+        .manifesto-section { padding: 80px 40px; text-align: center; max-width: 800px; margin: 0 auto 80px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+        .manifesto-subtitle { font-size: 10px; color: var(--text-muted); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 30px; display: block; font-family: sans-serif; }
+        .manifesto-title { font-size: 32px; font-weight: 300; color: var(--text-main); line-height: 1.6; margin: 0 0 30px 0; letter-spacing: -0.5px; }
+        .manifesto-desc { font-size: 14px; color: var(--text-muted); line-height: 2.2; font-weight: 300; margin: 0; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 992px) {
+            .hero-section { flex-direction: column; direction: rtl; margin-bottom: 60px; }
+            .hero-text-box { padding: 60px 20px; }
+            .hero-img-box img { min-height: 60vh; }
+            
+            .flagship-section { padding: 0 20px; margin-bottom: 60px; }
+            .flagship-section .cat-img-box { aspect-ratio: 4/3; }
+            
+            .grid-2-col { grid-template-columns: 1fr; gap: 60px; padding: 0 20px; margin-bottom: 60px; }
+            
+            .manifesto-section { padding: 60px 20px; margin-bottom: 60px; border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar-container" id="topBar">
+        <div class="marquee-content">
+            Home Textile Collection Catalogue - 2026 &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp; Eco-Friendly Materials & Minimalist Design &nbsp;&nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp;&nbsp; Exclusive B2B Wholesale Portal
+        </div>
+        <span class="close-top-bar" onclick="document.getElementById('topBar').style.display='none'" title="Close">✕</span>
+    </div>
+
+    <!-- جایگاه هدر مرکزی -->
+    <div id="cleano-header-placeholder"></div>
+
+    <section class="hero-section">
+        <div class="hero-text-box">
+            <div class="hero-text">
+                <h1>روحِ تازه،<br><strong>برای قلبِ خانه.</strong></h1>
+                <p>محصولاتی که برای شنیدنِ جمله‌ی «چقدر زیباست!» طراحی شده‌اند. ترکیبِ رنگ‌های چشم‌نواز و پارچه‌های لطیف که در همان نگاهِ اول، هر سلیقه‌ای را مجذوب می‌کنند.</p>
+            </div>
+        </div>
+        <div class="hero-img-box">
+            <img src="aks-page-aval/hero-banner.png" alt="Cleano Home Textile" onerror="this.onerror=null; this.src='aks-page-aval/hero-banner.jpg'">
+        </div>
+    </section>
+
+    <!-- بلوک اول: ست پارچه‌ای (تک و عریض) -->
+    <section class="flagship-section reveal">
+        <a href="set-parcheie/index.html" class="product-block">
+            <div class="cat-img-box">
+                <img src="aks-page-aval/cat-set-parchei.png" alt="ست پارچه‌ای آشپزخانه" onerror="this.onerror=null; this.src='aks-page-aval/cat-set-parchei.jpeg'">
+            </div>
+            <div class="cat-info">
+                <h3 class="cat-title">کالکشن ست پارچه‌ای</h3>
+                <span class="cat-link">مشاهده مجموعه ⟵</span>
+            </div>
+        </a>
+    </section>
+
+    <!-- ردیف اول: دستمال و ست فر -->
+    <section class="grid-2-col reveal">
+        <!-- دستمال‌های آشپزخانه -->
+        <a href="dastmal-ashpazkhane/index.html" class="product-block">
+            <div class="cat-img-box">
+                <img src="aks-page-aval/cat-dastmal.png" alt="دستمال‌های آشپزخانه" onerror="this.onerror=null; this.src='aks-page-aval/cat-dastmal.jpeg'">
+            </div>
+            <div class="cat-info">
+                <h3 class="cat-title">دستمال‌های آشپزخانه</h3>
+                <span class="cat-link">مشاهده مجموعه ⟵</span>
+            </div>
+        </a>
+        
+        <!-- ست فر -->
+        <a href="set-fer/index.html" class="product-block">
+            <div class="cat-img-box">
+                <img src="aks-page-aval/cat-set-fer.png" alt="ست فر" onerror="this.onerror=null; this.src='aks-page-aval/cat-set-fer.jpeg'">
+            </div>
+            <div class="cat-info">
+                <h3 class="cat-title">کالکشن ست فر</h3>
+                <span class="cat-link">مشاهده مجموعه ⟵</span>
+            </div>
+        </a>
+    </section>
+
+    <!-- مانیفست برند -->
+    <section class="manifesto-section reveal">
+        <span class="manifesto-subtitle">The Essence of Home</span>
+        <h2 class="manifesto-title">خانه، از آشپزخانه آغاز می‌شود.</h2>
+        <p class="manifesto-desc">آشپزخانه فقط محلی برای پخت‌وپز نیست، بلکه تپنده‌ترین نقطه‌ی هر خانه است. ما منسوجاتی طراحی می‌کنیم که شایسته‌ی این فضا باشند؛ قطعاتی گرم، دعوت‌کننده و بااصالت که داستانِ یک خانه‌ی پرمهر را روایت می‌کنند.</p>
+    </section>
+
+    <!-- ردیف دوم: سفره و تکمیلی -->
+    <section class="grid-2-col reveal" style="margin-bottom: 120px;">
+        <!-- سفره -->
+        <a href="sofre/index.html" class="product-block">
+            <div class="cat-img-box">
+                <img src="aks-page-aval/cat-sofreh.png" alt="سفره‌های ژله‌ای" onerror="this.onerror=null; this.src='aks-page-aval/cat-sofreh.jpeg'">
+            </div>
+            <div class="cat-info">
+                <h3 class="cat-title">کالکشن سفره‌های ژله‌ای</h3>
+                <span class="cat-link">مشاهده مجموعه ⟵</span>
+            </div>
+        </a>
+
+        <!-- محصولات تکمیلی -->
+        <a href="mahsolat-takmili/index.html" class="product-block">
+            <div class="cat-img-box">
+                <img src="aks-page-aval/cat-takmili.png" alt="محصولات تکمیلی" onerror="this.onerror=null; this.src='aks-page-aval/cat-takmili.jpeg'">
+            </div>
+            <div class="cat-info">
+                <h3 class="cat-title">محصولات تکمیلی</h3>
+                <span class="cat-link">مشاهده مجموعه ⟵</span>
+            </div>
+        </a>
+    </section>
+
+    <!-- جایگاه فوتر مرکزی -->
+    <div id="cleano-footer-placeholder"></div>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+
+    <!-- اتصال به هسته مرکزی و تنظیمات پایه -->
+    <script>
+        const BASE_URL = "./";          
+        const ACTIVE_CATEGORY = "all";  
+    </script>
+    <script src="cleano-core.js?v=2.0"></script>
+
+</body>
+</html>
