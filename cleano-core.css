@@ -1,0 +1,496 @@
+@import url('https://v1.fontapi.ir/css/Vazirmatn');
+
+:root {
+    --bg-page: #ffffff;      
+    --bg-img: #f4f4f4;       
+    --text-main: #1a1a1a;
+    --text-muted: #757575;
+    --border-color: #eaeaea;
+    --brand-green: #2E4A3D; 
+    --btn-dark: #222222; 
+}
+
+body { font-family: 'Vazirmatn', sans-serif; background-color: var(--bg-page); color: var(--text-main); margin: 0; padding: 0; line-height: 1.6; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+
+header { display: flex; justify-content: space-between; align-items: center; padding: 25px 40px; position: sticky; top: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid var(--border-color); direction: ltr; }
+.logo-box { display: flex; align-items: baseline; gap: 40px; }
+.logo { font-size: 26px; font-weight: 200; letter-spacing: 6px; font-family: sans-serif; }
+.nav-links { display: flex; gap: 25px; font-size: 13px; color: var(--text-muted); align-items: center; }
+.nav-links a { transition: color 0.3s ease; cursor: pointer; }
+.nav-links a:hover { color: var(--brand-green); }
+
+.nav-links .order-btn { color: var(--text-main); font-weight: 500; font-family: 'Vazirmatn', sans-serif; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--text-main); padding-bottom: 2px; }
+.cart-badge { background-color: var(--text-main); color: #fff; font-size: 10px; font-family: sans-serif; font-weight: 600; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0 4px; box-sizing: border-box; }
+@keyframes badgePop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
+.cart-badge.pop { animation: badgePop 0.3s ease-out; }
+
+.search-icon { display: flex; align-items: center; justify-content: center; opacity: 0.7; transition: 0.3s ease; background: none; border: none; cursor: pointer; color: inherit; padding: 0; }
+.search-icon:hover { opacity: 1; color: var(--brand-green); }
+
+.mega-wrapper { position: static; }
+.mega-trigger { padding: 30px 0; margin: -30px 0; }
+.mega-menu { position: absolute; top: 100%; left: 0; right: 0; width: 100%; background: var(--bg-page); border-bottom: 1px solid var(--border-color); box-shadow: 0 15px 40px rgba(0,0,0,0.06); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; direction: rtl; z-index: 999; cursor: default; pointer-events: none; }
+.mega-wrapper:hover .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+.mega-container { max-width: 1200px; margin: 0 auto; padding: 50px 40px; display: flex; gap: 80px; align-items: stretch; }
+.mega-text { flex: 1; display: flex; flex-direction: column; justify-content: center; text-align: right; }
+.mega-subtitle { font-family: sans-serif; font-size: 11px; letter-spacing: 3px; color: var(--brand-green); text-transform: uppercase; margin-bottom: 15px; }
+.mega-title { font-size: 32px; font-weight: 300; color: var(--text-main); margin: 0 0 15px 0; }
+.mega-desc { font-size: 13px; color: var(--text-muted); line-height: 2; margin: 0 0 35px 0; font-weight: 300; max-width: 320px; }
+.mega-link { font-family: sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--text-main); border-bottom: 1px solid var(--text-main); padding-bottom: 4px; align-self: flex-start; transition: 0.3s; text-transform: uppercase; }
+.mega-link:hover { color: var(--brand-green); border-color: var(--brand-green); }
+.mega-images { flex: 1.5; display: flex; gap: 30px; }
+.mega-card { flex: 1; text-decoration: none; display: flex; flex-direction: column; gap: 12px; }
+.mega-img-box { width: 100%; aspect-ratio: 4/5; background: var(--bg-img); overflow: hidden; }
+.mega-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; display: block; }
+.mega-card:hover .mega-img-box img { transform: scale(1.05); }
+.mega-card-title { font-size: 14px; color: var(--text-main); font-weight: 500; margin: 0; text-align: right; transition: 0.3s; }
+.mega-card-ref { font-family: sans-serif; font-size: 11px; color: var(--text-muted); letter-spacing: 1px; text-align: right; }
+.mega-card:hover .mega-card-title { color: var(--brand-green); }
+
+.search-panel { position: absolute; top: 100%; right: 40px; width: 380px; background: var(--bg-page); border: 1px solid var(--border-color); box-shadow: 0 15px 40px rgba(0,0,0,0.08); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; direction: rtl; z-index: 1000; }
+.search-panel.active { opacity: 1; visibility: visible; transform: translateY(0); }
+.search-input-box { border-bottom: 1px solid var(--border-color); padding: 10px 25px; }
+.search-input-box input { width: 100%; border: none; outline: none; font-family: 'Vazirmatn', sans-serif; font-size: 14px; padding: 10px 0; background: transparent; color: var(--text-main); font-weight: 300; }
+.search-heading { font-size: 11px; color: var(--text-muted); padding: 20px 25px 5px; margin: 0; font-weight: 400; }
+.search-list { display: flex; flex-direction: column; padding: 0 25px 20px; }
+.search-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f0f0f0; transition: opacity 0.3s; text-decoration: none; color: var(--text-main); }
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { opacity: 0.6; }
+.search-item img { width: 40px; height: 50px; object-fit: cover; background: var(--bg-img); }
+.search-item-info { display: flex; flex-direction: column; text-align: right; }
+.search-item-title { font-size: 13px; font-weight: 400; margin-bottom: 3px; }
+.search-item-ref { font-size: 11px; color: var(--text-muted); font-family: sans-serif; letter-spacing: 1px; }
+
+.sub-nav { padding: 15px 40px; border-bottom: 1px solid var(--border-color); display: flex; gap: 25px; font-size: 13px; color: var(--text-muted); overflow-x: auto; white-space: nowrap; direction: ltr; justify-content: flex-start; align-items: center; }
+.sub-nav a { transition: 0.3s; font-family: 'Vazirmatn', sans-serif; letter-spacing: 0.5px; }
+.sub-nav a:hover, .sub-nav a.active { color: var(--text-main); border-bottom: 1px solid var(--text-main); padding-bottom: 2px; }
+
+footer { padding: 80px 40px 20px 40px; background-color: var(--bg-page); border-top: 1px solid var(--border-color); overflow: hidden; position: relative; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; font-size: 12px; color: var(--text-muted); direction: ltr; text-align: left; position: relative; z-index: 2; margin-bottom: 60px; }
+.footer-col h4 { font-family: sans-serif; font-size: 11px; font-weight: 600; color: var(--text-main); margin: 0 0 20px 0; letter-spacing: 1px; text-transform: uppercase; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.footer-col a { transition: color 0.3s ease; font-family: 'Vazirmatn', sans-serif; direction: rtl; display: inline-block; text-align: right; }
+.footer-col a:hover { color: var(--brand-green); }
+.lead-input { border-bottom: 1px solid var(--text-main); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: text; margin-top: 15px; }
+.lead-input input { background: transparent; border: none; outline: none; font-family: sans-serif; font-size: 12px; color: var(--text-main); width: 100%; }
+.lead-input input::placeholder { color: var(--text-muted); font-family: 'Vazirmatn', sans-serif; font-weight: 300; }
+.lead-input button { background: none; border: none; cursor: pointer; color: var(--text-main); padding: 0; display: flex; }
+.lead-input button:hover { color: var(--brand-green); }
+.giant-logo { font-size: 16vw; font-weight: 200; letter-spacing: -2px; color: var(--text-main); opacity: 0.03; text-align: center; line-height: 0.75; font-family: sans-serif; pointer-events: none; user-select: none; width: 100%; margin-top: 20px; }
+
+.cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); z-index: 10000; opacity: 0; visibility: hidden; transition: 0.4s ease; }
+.cart-overlay.open { opacity: 1; visibility: visible; }
+
+.cart-drawer { position: fixed; top: 0; left: -450px; width: 100%; max-width: 420px; height: 100vh; background: var(--bg-page); z-index: 10001; transition: left 0.5s cubic-bezier(0.25, 1, 0.5, 1); display: flex; flex-direction: column; box-shadow: 10px 0 40px rgba(0,0,0,0.1); direction: rtl; }
+.cart-drawer.open { left: 0; }
+
+.cart-header { padding: 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+.cart-header h3 { font-size: 16px; font-weight: 400; margin: 0; color: var(--text-main); }
+.close-cart { background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; padding: 5px; line-height: 1; transition: 0.3s; }
+.close-cart:hover { color: var(--text-main); transform: rotate(90deg); }
+
+.cart-quick-add { padding: 25px 30px; border-bottom: 1px solid var(--border-color); background-color: #fafafa; position: relative; }
+.quick-add-label { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; display: block; font-weight: 300; }
+.quick-add-input-box { display: flex; border: 1px solid var(--border-color); background: #fff; }
+.quick-add-input-box input { flex: 1; border: none; padding: 12px 15px; font-family: 'Vazirmatn', sans-serif; font-size: 12px; outline: none; background: transparent; }
+.quick-add-results { position: absolute; top: 100%; left: 30px; right: 30px; background: #fff; border: 1px solid var(--border-color); border-top: none; box-shadow: 0 10px 20px rgba(0,0,0,0.05); z-index: 10; max-height: 250px; overflow-y: auto; display: none; }
+.quick-add-results.active { display: block; }
+.quick-result-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: 0.2s; }
+.quick-result-item:hover { background: #f9f9f9; }
+.quick-result-img { width: 30px; height: 40px; object-fit: cover; background: var(--bg-img); }
+.quick-result-title { font-size: 12px; font-weight: 400; color: var(--text-main); }
+.quick-result-ref { font-size: 10px; color: var(--text-muted); font-family: sans-serif; display: block; margin-top: 2px; }
+
+.cart-items-container { flex: 1; overflow-y: auto; padding: 10px 30px; }
+.empty-cart-msg { text-align: center; color: var(--text-muted); font-size: 13px; font-weight: 300; margin-top: 40px; }
+
+.cart-item { display: flex; gap: 20px; padding: 25px 0; border-bottom: 1px solid var(--border-color); position: relative; align-items: center; }
+.cart-item-img { width: 70px; height: 90px; object-fit: cover; background: var(--bg-img); }
+.cart-item-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.cart-item-title { font-size: 14px; font-weight: 400; color: var(--text-main); margin: 0 0 4px 0; }
+.cart-item-ref { font-size: 11px; color: var(--text-muted); font-family: sans-serif; letter-spacing: 1px; margin-bottom: 15px; display: block; }
+.remove-item { position: absolute; top: 25px; left: 0; background: none; border: none; color: #bbb; cursor: pointer; font-size: 14px; padding: 5px; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+.remove-item:hover { color: #ff4d4d; transform: scale(1.2); }
+
+/* اصلاح جایگاه + و - در سبد خرید (چون از چپ به راست تغییر پیدا کرده بود) */
+.qty-controls { display: flex; align-items: center; border: 1px solid var(--border-color); width: fit-content; direction: ltr; }
+.qty-btn { background: none; border: none; padding: 4px 12px; cursor: pointer; color: var(--text-muted); font-size: 16px; transition: 0.2s; }
+.qty-btn:hover { color: var(--text-main); background: #f5f5f5; }
+.qty-input { width: 35px; text-align: center; border: none; font-size: 12px; font-family: sans-serif; padding: 0; color: var(--text-main); font-weight: 500; outline: none; }
+
+.cart-footer { padding: 30px; border-top: 1px solid var(--border-color); background: var(--bg-page); }
+.cart-footer-actions { display: flex; gap: 10px; }
+.whatsapp-send-btn { flex: 2; background: var(--btn-dark); color: #fff; border: none; padding: 18px 0; font-family: 'Vazirmatn', sans-serif; font-size: 13px; font-weight: 400; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; letter-spacing: 0.5px; }
+.whatsapp-send-btn:hover { background: #000000; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.whatsapp-send-btn svg { width: 18px; height: 18px; }
+.print-btn { flex: 1; background: #fff; color: var(--text-main); border: 1px solid var(--border-color); padding: 18px 0; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Vazirmatn', sans-serif; font-size: 13px; }
+.print-btn:hover { background: #f9f9f9; border-color: #ccc; }
+.print-btn svg { width: 18px; height: 18px; }
+
+/* ========================================================================= */
+/* استایل‌های اختصاصی صفحات داخلی محصول */
+/* ========================================================================= */
+.title-section { margin-bottom: 25px; }
+.product-title { font-size: 26px; font-weight: 500; margin: 0 0 5px 0; color: var(--text-main); }
+.ref-wrapper { display: flex; align-items: center; gap: 8px; }
+.product-ref { font-size: 12px; color: var(--text-muted); font-family: 'Helvetica Neue', sans-serif; font-weight: 300; letter-spacing: 1px; }
+.barcode-trigger { background: none; border: none; color: var(--text-muted); padding: 2px; cursor: pointer; display: flex; align-items: center; opacity: 0.6; transition: 0.3s; }
+.barcode-trigger:hover { opacity: 1; color: var(--text-main); transform: scale(1.05); }
+
+.size-row { display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid var(--border-color); font-size: 13px; }
+.size-row span:first-child { color: var(--text-main); font-weight: 500; }
+.size-row span:last-child { color: var(--text-muted); font-weight: 300; font-family: sans-serif; letter-spacing: 0.5px; }
+
+.spec-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
+.spec-list li { display: flex; font-size: 13px; line-height: 2; margin-bottom: 8px; }
+.spec-label { color: var(--text-main); font-weight: 500; min-width: 110px; }
+.spec-value { color: var(--text-muted); font-weight: 300; }
+
+.action-row { display: flex; gap: 15px; margin-bottom: 50px; height: 54px; }
+/* تنظیمِ جهتِ پلاس و ماینوس به صورت چپ به راست در شمارشگر */
+.page-qty-controls { display: flex; align-items: center; border: 1px solid var(--border-color); width: 130px; justify-content: space-between; direction: ltr; }
+.page-qty-btn { background: none; border: none; padding: 0 15px; cursor: pointer; color: var(--text-muted); font-size: 18px; height: 100%; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+.page-qty-btn:hover { color: var(--text-main); background: #f9f9f9; }
+.page-qty-input { width: 40px; text-align: center; border: none; font-size: 14px; font-family: sans-serif; color: var(--text-main); font-weight: 500; outline: none; background: transparent; }
+
+.add-btn { flex: 1; height: 100%; background-color: var(--btn-dark); color: #fff; border: none; font-family: 'Vazirmatn', sans-serif; font-size: 14px; font-weight: 400; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.5px; }
+.add-btn:hover { background-color: #000; }
+
+@media (max-width: 992px) {
+    .footer-top { grid-template-columns: 1fr 1fr; padding: 0 20px; gap: 40px; }
+    .footer-col:first-child { grid-column: span 2; }
+    header, .sub-nav { padding-left: 20px; padding-right: 20px; }
+    .search-panel { left: 20px; right: 20px; width: auto; }
+    .mega-container { flex-direction: column; gap: 40px; padding: 30px 20px; }
+    .cart-drawer { width: 90%; }
+}
+@media (max-width: 600px) {
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-col:first-child { grid-column: span 1; text-align: center; }
+}
+/* ========================================================================= */
+/* اصلاح نهایی فلش‌ها (رفع باگ RTL و چسباندن به دیواره‌ها) */
+/* ========================================================================= */
+#main-slider-img, #lightbox { cursor: pointer !important; }
+.lb-scroll-area img { cursor: default !important; }
+
+.click-zone {
+    width: 25% !important; 
+    max-width: none !important;
+    background: transparent !important; 
+    display: block !important; /* حذف فلکس‌باکس برای رفع باگ وسط افتادن فلش */
+    z-index: 10 !important;
+}
+
+.click-zone::after {
+    content: '';
+    width: 18px; height: 18px;
+    border-top: 1.5px solid #222; 
+    border-right: 1.5px solid #222;
+    position: absolute !important;
+    top: 50% !important;
+    margin-top: -9px !important;
+    opacity: 0; 
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
+.click-zone:hover::after { opacity: 0.4; }
+
+.zone-right::after {
+    right: 25px !important; /* پین شدنِ دقیق به دیواره‌ی راست */
+    transform: rotate(45deg); 
+}
+.zone-right:hover::after { transform: rotate(45deg) scale(1.1); }
+
+.zone-left::after {
+    left: 25px !important; /* پین شدنِ دقیق به دیواره‌ی چپ */
+    transform: rotate(-135deg); 
+}
+.zone-left:hover::after { transform: rotate(-135deg) scale(1.1); }
+/* ========================================================================= */
+/* اصلاح خوانایی متن‌ها (حفظ ظاهر مینیمال در کنار تضاد رنگی استاندارد) */
+/* ========================================================================= */
+
+/* مقادیر جدول فروش (مثل ۱ کارتن، ۱ پک، ابعاد کارتن) */
+.size-row span:last-child {
+    color: #555555 !important; /* خاکستری زغالی خوانا */
+    font-weight: 400 !important;
+}
+
+/* مقادیر داخل آکاردئون‌ها (مثل جنس رویه، ابعاد محصول و شستشو) */
+.spec-value {
+    color: #555555 !important;
+    font-weight: 400 !important;
+}
+
+/* پاراگراف توضیحات کوتاه زیر اسم محصول */
+.product-desc {
+    color: #4a4a4a !important; /* کمی تیره‌تر برای جلوگیری از خستگی چشم در متن طولانی */
+}
+
+/* متن‌های داخل آکاردئون‌ها */
+.accordion-content p {
+    color: #555555 !important;
+}
+/* ========================================================================= */
+/* استایل‌های ساختار اصلی صفحه محصول (منتقل شده از فایل‌های HTML) */
+/* ========================================================================= */
+
+.product-container { display: flex; align-items: flex-start; gap: 80px; padding: 40px; max-width: 1400px; margin: 0 auto; }
+.info-col { flex: 1; padding-bottom: 80px; }
+
+.gallery-col { flex: 1.2; position: sticky; top: 120px; aspect-ratio: 4/5; background-color: var(--bg-img); overflow: hidden; touch-action: pan-y; }
+.gallery-col img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.4s ease; }
+
+.slider-counter { position: absolute; bottom: 30px; left: 30px; font-size: 12px; font-family: sans-serif; color: var(--text-main); z-index: 10; letter-spacing: 1px; }
+
+/* مخفی‌سازی و قالب‌بندی پاپ‌آپ‌ها (لایت‌باکس و بارکد) */
+#lightbox { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(5px); z-index: 9999; overflow-y: auto; opacity: 0; transition: 0.4s; }
+#lightbox.active { display: block; opacity: 1; }
+.lb-scroll-area { padding: 60px 20px 100px; display: flex; flex-direction: column; align-items: center; gap: 40px; min-height: 100vh; }
+.lb-scroll-area img { width: 100%; max-width: 850px; aspect-ratio: 4/5; background-color: var(--bg-img); object-fit: cover; display: block; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+.lb-close { position: fixed; top: 30px; right: 40px; background: none; border: none; z-index: 10000; padding: 10px; color: var(--text-main); transition: 0.3s; }
+.lb-close:hover { opacity: 0.5; }
+
+#barcode-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+#barcode-modal.active { display: flex; opacity: 1; }
+.barcode-box { background: var(--bg-page); padding: 40px 30px; text-align: center; max-width: 320px; width: 90%; }
+.barcode-img { width: 100%; max-width: 200px; margin: 15px auto 0; display: block; mix-blend-mode: multiply; }
+
+/* استایل‌دهی آکاردئون‌ها، مسیرها و جدول فروش */
+.breadcrumb { font-size: 11px; color: var(--text-muted); margin-bottom: 40px; font-weight: 300; }
+.breadcrumb a { transition: color 0.3s ease; }
+.breadcrumb a:hover { color: var(--text-main); }
+.breadcrumb .separator { margin: 0 8px; opacity: 0.4; font-weight: 100; }
+
+.accordion-wrapper { border-top: 1px solid var(--border-color); }
+.accordion-item { border-bottom: 1px solid var(--border-color); }
+.accordion-header { padding: 20px 0; font-size: 13px; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); font-weight: 400; }
+.accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.accordion-content p { font-size: 12px; line-height: 2; margin: 0 0 20px 0; font-weight: 300; }
+
+/* واکنش‌گرایی اولیه برای تبلت و موبایل */
+@media (max-width: 992px) {
+    .product-container { flex-direction: column; padding: 20px; gap: 30px; }
+    .info-col { padding-bottom: 20px; }
+    .gallery-col { position: relative; top: 0; height: auto; aspect-ratio: 4/5; width: 100%; order: -1; }
+    .lb-scroll-area { padding: 80px 10px 40px; gap: 20px; }
+}
+/* ========================================================================= */
+/* استایل‌های گالری و نوارهای کلیک چپ و راست */
+/* ========================================================================= */
+#main-slider-img { cursor: pointer !important; }
+
+.click-zone {
+    position: absolute !important;
+    top: 0; bottom: 0;
+    width: 25% !important; 
+    max-width: none !important;
+    background: transparent !important; 
+    display: block !important;
+    z-index: 10 !important;
+}
+
+.click-zone::after {
+    content: '';
+    width: 18px; height: 18px;
+    border-top: 1.5px solid #222; 
+    border-right: 1.5px solid #222;
+    position: absolute !important;
+    top: 50% !important;
+    margin-top: -9px !important;
+    opacity: 0; 
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
+.click-zone:hover::after { opacity: 0.4; }
+
+.zone-right { right: 0 !important; }
+.zone-right::after { right: 25px !important; transform: rotate(45deg); }
+.zone-right:hover::after { transform: rotate(45deg) scale(1.1); }
+
+.zone-left { left: 0 !important; }
+.zone-left::after { left: 25px !important; transform: rotate(-135deg); }
+.zone-left:hover::after { transform: rotate(-135deg) scale(1.1); }
+/* ========================================================================= */
+/* دکمه بزرگ‌نمایی گالری (لایت‌باکس) */
+/* ========================================================================= */
+.expand-btn { 
+    position: absolute; bottom: 20px; right: 20px; z-index: 10; 
+    background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    border: none; border-radius: 50%; 
+    width: 44px; height: 44px; 
+    display: flex; align-items: center; justify-content: center; 
+    cursor: pointer; transition: 0.3s ease; color: var(--text-main); 
+}
+.expand-btn:hover { background: #fff; transform: scale(1.05); }
+
+@media (max-width: 992px) {
+    .expand-btn { bottom: 10px; right: 10px; width: 36px; height: 36px; }
+}
+/* =========================================
+   اصلاح هم‌ترازی و استایل مینیمال صفحه محصول
+========================================= */
+
+/* حذف تورفتگی و مرتب‌سازی پاراگراف توضیحات */
+.product-desc {
+    text-align: justify !important;
+    text-justify: inter-word;
+    line-height: 2.2 !important;
+    font-size: 14px !important;
+    color: var(--text-muted) !important;
+    margin: 25px 0 35px 0 !important; /* حاشیه‌های چپ و راست کاملاً صفر شد */
+    padding: 0 !important;
+}
+
+/* زیباتر کردن لیست اطلاعات تجاری (خطوط ظریف و انسجام بیشتر) */
+.size-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 0 35px 0 !important;
+    border-top: 1px solid var(--border-color);
+}
+
+.size-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center;
+    padding: 16px 0 !important;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 13.5px !important;
+}
+
+.size-row span:first-child {
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+.size-row span:last-child {
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* اصلاح هم‌ترازی تایتل و کد REF */
+.title-section {
+    margin-bottom: 10px !important;
+    padding: 0 !important;
+}
+/* ========================================================================= */
+/* UI/UX MOBILE OVERHAUL (Glassmorphism & Soft UI) - Added for App Feel      */
+/* ========================================================================= */
+
+/* دسکتاپ: مخفی کردن منوی اپلیکیشنی پایین */
+@media (min-width: 993px) {
+    .mobile-bottom-nav { display: none !important; }
+}
+
+@media (max-width: 992px) {
+    /* 1. پاکسازی هدر و مخفی کردن منوی دسکتاپ */
+    header { justify-content: center !important; padding: 15px 20px !important; border-bottom: none !important; background: rgba(255,255,255,0.9) !important; backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; }
+    header .nav-links { display: none !important; }
+    header .logo { font-size: 22px !important; letter-spacing: 3px !important; }
+    .sub-nav { display: none !important; } /* مخفی کردن ساب‌منوی متنی بالا */
+    
+    /* 2. نوار شیشه‌ای پایین موبایل (Bottom Navigation) */
+    body { padding-bottom: 90px !important; background-color: #fcfcfc !important; } 
+    .mobile-bottom-nav {
+        display: flex !important;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-top: 1px solid rgba(0,0,0,0.06);
+        z-index: 9999;
+        justify-content: space-around;
+        padding: 12px 15px 25px 15px; /* پدینگ پایین برای آیفون */
+        box-shadow: 0 -5px 25px rgba(0,0,0,0.04);
+    }
+    .mb-nav-item {
+        display: flex; flex-direction: column; align-items: center; gap: 5px;
+        color: #888; text-decoration: none; font-size: 10px; font-weight: 600;
+        transition: color 0.3s; font-family: 'Vazirmatn', sans-serif;
+    }
+    .mb-nav-item:hover, .mb-nav-item:active { color: var(--text-main); }
+    .mb-cart-icon { position: relative; }
+    .mb-cart-badge {
+        position: absolute; top: -6px; right: -8px;
+        background: var(--text-main); color: #fff;
+        font-size: 9px; width: 16px; height: 16px;
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        font-weight: bold; border: 2px solid #fff;
+    }
+
+    /* 3. کارت‌های گوگولی و نرم (Soft UI Cards) */
+    .product-block, .product-card {
+        border: none !important;
+        border-radius: 24px !important;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.04) !important;
+        background: #fff !important;
+        overflow: hidden;
+    }
+    .cat-img-box, .card-img-box { border-radius: 24px 24px 0 0 !important; }
+    .cat-info, .card-info { padding: 20px !important; }
+    
+    /* 4. صفحه تکی محصول (روان و جدا شده از دسکتاپ) */
+    .product-container { flex-direction: column !important; padding: 0 !important; gap: 0 !important; }
+    
+    /* انتقال عکس به بالا و تمام‌صفحه کردن */
+    .gallery-col {
+        order: -1 !important;
+        width: 100% !important;
+        position: relative !important;
+        top: 0 !important;
+        border-radius: 0 0 35px 35px !important;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        background: #fff;
+    }
+    #main-slider-img { border-radius: 0 !important; min-height: 400px; object-fit: cover; }
+    .click-zone { display: none !important; } /* حذف کلیک‌های چپ و راست دسکتاپ در موبایل */
+    
+    /* کپسول شمارنده عکس‌ها روی تصویر */
+    .slider-counter { 
+        bottom: 15px !important; 
+        background: rgba(255,255,255,0.8) !important; 
+        backdrop-filter: blur(8px); 
+        color: #1a1a1a !important;
+        font-weight: 600;
+        border-radius: 20px !important;
+        padding: 5px 15px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    /* اطلاعات محصول در موبایل */
+    .info-col { width: 100% !important; padding: 30px 20px 140px 20px !important; } /* پدینگ پایین زیاد برای اکشن‌بار */
+    .title-section { flex-direction: column !important; align-items: flex-start !important; gap: 8px; margin-bottom: 15px !important; }
+    .product-title { font-size: 24px !important; font-weight: 600 !important; }
+    .breadcrumb { margin-bottom: 15px !important; font-size: 11px !important; }
+    
+    /* 5. دکمه‌های کپسولی اکشن در صفحه محصول (Floating Action Bar) */
+    .action-row {
+        position: fixed;
+        bottom: 70px; /* دقیقا مماس روی منوی نویگیشن پایین */
+        left: 0; right: 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(15px);
+        padding: 15px 20px;
+        border-top: 1px solid rgba(0,0,0,0.04);
+        z-index: 9998;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.06);
+        border-radius: 30px 30px 0 0;
+        display: flex; gap: 10px;
+    }
+    .add-btn { border-radius: 30px !important; font-size: 14px !important; font-weight: 600 !important; flex: 1.5 !important; }
+    .page-qty-controls { flex: 1 !important; border-radius: 30px !important; background: #f5f5f5 !important; border: none !important; }
+    .page-qty-btn { font-size: 20px !important; color: #555 !important; }
+    
+    /* 6. آکاردئون‌های نرم‌تر */
+    .accordion-item { border-radius: 20px !important; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.04) !important; background: #fff !important; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+    .accordion-header { padding: 18px !important; font-weight: 500; font-size: 14px; }
+    
+    /* 7. استایل جدول سایزها در موبایل */
+    .size-row { padding: 12px 0 !important; font-size: 12px !important; }
+    .size-row span:last-child { font-weight: 600 !important; }
+}
