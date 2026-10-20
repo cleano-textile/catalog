@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>کیلینو | دم کن برنج</title>
-    <meta name="description" content="کد سفارش: ۰۲۳ - فروش عمده پک ۳ عددی دم کن برنج.">
+    
+    <!-- پیش‌نمایش حرفه‌ای لینک در واتساپ و تلگرام -->
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="کیلینو | دم کن برنج (CL-023)">
+    <meta property="og:description" content="هر کارتن ۱۲ بسته ۳ عددی — دم کن برنج سه سایز با لبه‌های کش‌دوزی‌شده و آستر جاذب رطوبت.">
+    <meta property="og:image" content="damkon-berenj-1.webp">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='70' font-family='sans-serif' font-weight='300' fill='%231a1a1a'>C</text></svg>">
-    <link rel="stylesheet" href="../../cleano-core.css?v=2.0">
+    <link rel="stylesheet" href="../../cleano-core.css?v=60.0">
 </head>
 <body>
     <div id="cleano-header-placeholder"></div>
@@ -14,27 +21,24 @@
     <div id="cleano-footer-placeholder"></div>
 
     <script>
-        const BASE_URL = "../../";        
+        const BASE_URL = "../../"; 
         const ACTIVE_CATEGORY = "set-parchei"; 
-        
+
         window.PRODUCT_DATA = {
-            id: "CL-023", ref: "CL-023", title: "دم کن برنج",
+            id: "CL-023", 
+            ref: "CL-023", 
+            title: "دم کن برنج",
+            titleEn: "RICE COOKER",
             category: { name: "ست پارچه‌ای", link: "../index.html" },
-            description: "یک پک سه‌عددی (سایزهای بزرگ، متوسط و کوچک). طراحی‌شده با لبه‌های کش‌دوزی‌شده جهت فیکس شدن دقیق روی درب قابلمه. لایه میانی این محصول با قابلیت جذب بالای بخار، فرآیند دم کشیدن برنج را بهینه‌سازی می‌کند.",
+            description: "یک پک سه‌عددی (سایزهای بزرگ، متوسط و کوچک). طراحی‌شده با لبه‌های کش‌دوزی‌شده جهت فیکس شدن دقیق روی درب قابلمه. لایه میانی این محصول با قابلیت جذب بالای بخار، فرآیند دم کشیدن برنج را بهینه‌سازی می‌کند. استفاده از آستر اسپان باند سفید در لایه داخلی، علاوه بر حفظ بهداشت، از تغییر رنگ و بوی برنج در دماهای بالا جلوگیری می‌کند.",
             salesData: {
-                moq: "۱ کارتن", pack1: "۱ پک (۳ سایز در هر پک)", pack2: "۱۲ پک در هر کارتن", colors: "۱۲ طرح اختصاصی", boxSize: "40 × 30 × 20 cm"
+                pack1: "3",               // توجه: بر اساس دیتابیس (catalogDB) و اینکه ست ۳ تایی یک پک محسوب می‌شود، روی 1 تنظیم شده (یا می‌توانید 3 بگذارید بسته به سیاست قیمت‌گذاریتان)
+                pack2: "12",              // تعداد کارتن
+                colors: "12",             // تنوع رنگ / طرح (۱۲ طرح اختصاصی)
+                size: " ۳ سایز",        // سایز محصول
+                cartonSize: "40 × 30 × 20", // ابعاد کارتن
+                cartonWeight: "-"         // وزن کارتن
             },
-            specs: [
-                { label: "جنس رویه", value: "پارچه تترون درجه یک" },
-                { label: "لایه داخلی", value: "اسپان باند سفید (مات و بهداشتی)" },
-                { label: "لایه میانی", value: "پشم شیشه جاذب رطوبت" }
-            ],
-            specsText: "استفاده از آستر اسپان باند سفید در لایه داخلی، علاوه بر حفظ بهداشت، از تغییر رنگ و بوی برنج در دماهای بالا جلوگیری می‌کند.",
-            maintenance: [
-                { label: "شستشو", value: "آب سرد، ماشین لباسشویی" },
-                { label: "دوام هندسی", value: "عدم دفرمه شدن کش‌ها پس از استفاده مداوم" }
-            ],
-            maintenanceText: "جهت حفظ قابلیت جذب بخارِ لایه میانی، از اتوکشی با حرارت بسیار بالا خودداری نمایید.",
             images: [
                 "damkon-berenj-1.webp", 
                 "damkon-berenj-2.webp", 
@@ -48,6 +52,6 @@
             ]
         };
     </script>
-    <script src="../../cleano-core.js?v=2.0"></script>
+    <script src="../../cleano-core.js?v=60.0"></script>
 </body>
 </html>
