@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>کیلینو | کیسه سبزی</title>
-    <meta name="description" content="کد سفارش: ۰۰۷ - فروش عمده پک یک عددی کیسه سبزی با آستر جاذب رطوبت.">
+    
+    <!-- پیش‌نمایش حرفه‌ای لینک در واتساپ و تلگرام -->
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="کیلینو | کیسه سبزی (CL-007)">
+    <meta property="og:description" content="هر کارتن ۲۴ بسته ۱ عددی — کیسه سبزی پارچه‌ای با آستر داخلی، ایده‌آل برای حفظ طراوت سبزیجات در یخچال.">
+    <meta property="og:image" content="kise-sabzi-1.webp">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='70' font-family='sans-serif' font-weight='300' fill='%231a1a1a'>C</text></svg>">
-    <link rel="stylesheet" href="../../cleano-core.css?v=2.0">
+    <link rel="stylesheet" href="../../cleano-core.css?v=60.0">
 </head>
 <body>
     <div id="cleano-header-placeholder"></div>
@@ -15,36 +22,23 @@
 
     <script>
         const BASE_URL = "../../"; 
-        const ACTIVE_CATEGORY = "takmili"; 
-        
+        const ACTIVE_CATEGORY = "mahsolat-takmili"; 
+
         window.PRODUCT_DATA = {
             id: "CL-007", 
             ref: "CL-007", 
             title: "کیسه سبزی",
+            titleEn: "VEGETABLE BAG",
             category: { name: "محصولات تکمیلی", link: "../index.html" },
-            description: "یک عدد کیسه پارچه‌ای چندمنظوره و کاربردی در ابعاد ۴۵ در ۳۵ سانتی‌متر. این محصول به لطف استفاده از آستر سفید و جاذب رطوبت در لایه داخلی، انتخابی ایده‌آل برای حفظ طراوت و نگهداری میوه و سبزیجات در یخچال است. علاوه بر این، طراحی زیبا و مینیمال آن باعث شده تا به عنوان یک کیسه پارچه‌ای روزمره نیز بسیار پرکاربرد باشد.",
-            
+            description: "کیسه پارچه‌ای چندمنظوره و کاربردی در ابعاد ۴۵ در ۳۵ سانتی‌متر. این محصول به لطف استفاده از آستر سفید و جاذب رطوبت در لایه داخلی، انتخابی ایده‌آل برای حفظ طراوت و نگهداری میوه و سبزیجات در یخچال است. تعبیه یک بند کیپ‌شونده‌ی مقاوم در دهانه‌ی کیسه، امکان باز و بسته کردن سریع را فراهم کرده و استفاده از آن را بسیار راحت و کاربردی می‌سازد.",
             salesData: {
-                moq: "۱ کارتن", 
-                pack1: "۱ پک (یک عددی)", 
-                pack2: "۲۴ پک در هر کارتن", 
-                colors: "۱۲ طرح اختصاصی", 
-                boxSize: "40 × 30 × 20 cm"
+                pack1: "۱",               // توجه: بر اساس دیتابیس (catalogDB) تعداد در بسته 2 است
+                pack2: "۲۴",              // توجه: بر اساس دیتابیس (catalogDB) تعداد کارتن 50 است
+                colors: "12",             // تنوع رنگ / طرح (۱۲ طرح اختصاصی)
+                size: "45 × 35",          // سایز محصول
+                cartonSize: "40 × 30 × 20", // ابعاد کارتن
+                cartonWeight: "-"         // وزن کارتن
             },
-            
-            specs: [
-                { label: "ابعاد", value: "۴۵ × ۳۵ سانتی‌متر" },
-                { label: "جنس رویه", value: "پارچه باکیفیت و مقاوم" },
-                { label: "لایه داخلی", value: "آستر سفید (جاذب رطوبت و بهداشتی)" }
-            ],
-            specsText: "تعبیه یک بند کیپ‌شونده‌ی مقاوم در دهانه‌ی کیسه، امکان باز و بسته کردن سریع را فراهم کرده و استفاده از آن را بسیار راحت و کاربردی می‌سازد.",
-            
-            maintenance: [
-                { label: "شستشو", value: "آب سرد، ماشین لباسشویی (حداکثر ۳۰ درجه)" },
-                { label: "دوام هندسی", value: "عدم تغییر فرم پس از شستشوی مکرر" }
-            ],
-            maintenanceText: "جهت حفظ کیفیت رنگ و انسجام بافت پارچه، اکیداً از مصرف مواد سفیدکننده قوی در هنگام شستشو خودداری نمایید.",
-            
             images: [
                 "kise-sabzi-1.webp", 
                 "kise-sabzi-2.webp", 
@@ -59,6 +53,6 @@
             ]
         };
     </script>
-    <script src="../../cleano-core.js?v=2.0"></script>
+    <script src="../../cleano-core.js?v=60.0"></script>
 </body>
 </html>
