@@ -2463,6 +2463,23 @@ body.home-on-hero .main-header {
     display: none;
 }
 
+/* استایل شیشه‌ای دکمه بستن بزرگ‌نمایی تصویر (خوانا روی عکس‌های تیره و روشن) */
+.lb-close {
+    width: 42px;
+    height: 42px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    top: 20px;
+    right: 20px;
+}
+
 @media (max-width: 900px) {
     * {
         -webkit-tap-highlight-color: transparent;
@@ -2472,24 +2489,15 @@ body.home-on-hero .main-header {
         overflow-x: hidden;
     }
 
+    /* ۱. حذف کامل نوار اعلان بالای صفحه در موبایل */
     .static-top-bar {
-        font-size: 8.5px;
-        letter-spacing: 1.2px;
-        height: 32px;
-        padding: 0 30px;
-    }
-
-    .top-bar-close {
-        right: 10px;
+        display: none !important;
     }
 
     .main-header {
+        top: 0 !important;
         height: 60px;
         padding: 0 18px;
-    }
-
-    body.has-top-bar:not(.scrolled-past-top) .main-header {
-        top: 32px;
     }
 
     .header-left {
@@ -2528,7 +2536,7 @@ body.home-on-hero .main-header {
 
     .search-wrapper .search-input {
         position: fixed;
-        top: 60px;
+        top: 60px !important;
         left: 0;
         width: 100% !important;
         height: 48px;
@@ -2547,10 +2555,6 @@ body.home-on-hero .main-header {
         z-index: 9998;
     }
 
-    body.has-top-bar:not(.scrolled-past-top) .search-wrapper .search-input {
-        top: 92px;
-    }
-
     .search-wrapper.mobile-search-open .search-input {
         opacity: 1;
         visibility: visible;
@@ -2559,7 +2563,7 @@ body.home-on-hero .main-header {
 
     .global-search-dropdown {
         position: fixed;
-        top: 108px;
+        top: 108px !important;
         left: 12px;
         right: 12px;
         width: auto;
@@ -2567,10 +2571,7 @@ body.home-on-hero .main-header {
         box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
     }
 
-    body.has-top-bar:not(.scrolled-past-top) .global-search-dropdown {
-        top: 140px;
-    }
-
+    /* ۲. صفحه اول و طراحی ژورنالی بخش پایانی (با پس‌زمینه سفیدِ خودِ تم) */
     .hero-section {
         height: 100vh;
         height: 100dvh;
@@ -2619,7 +2620,7 @@ body.home-on-hero .main-header {
     }
 
     .collection-grid-section {
-        padding: 64px 18px 56px;
+        padding: 64px 18px 40px;
     }
 
     .cg-section-subtitle {
@@ -2640,22 +2641,26 @@ body.home-on-hero .main-header {
         min-width: 100%;
     }
 
+    /* بخش پایانی (Our Story) با تم سفید اصلی، خط عمودی ژورنالی و اولویت متن قبل از عکس */
     .final-section {
-        background-color: #f6f5f2;
-        border-top: 1px solid #eceae4;
-        padding: 64px 0 72px;
-        margin-top: 10px;
+        background-color: var(--bg-page);
+        padding: 40px 0 72px;
+        position: relative;
+    }
+
+    .final-section::before {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 42px;
+        background-color: #dcdcdc;
+        margin: 0 auto 32px;
     }
 
     .final-content-wrapper {
-        flex-direction: column-reverse;
+        flex-direction: column; /* قرار گرفتن تیتر و دکمه بالای عکس برای تمایز کامل از دسته‌بندی‌ها */
         padding: 0 22px;
-        gap: 30px;
-    }
-
-    .final-image-area {
-        aspect-ratio: 4/3;
-        border-radius: 4px;
+        gap: 32px;
     }
 
     .final-text-area {
@@ -2665,21 +2670,36 @@ body.home-on-hero .main-header {
     }
 
     .final-subtitle {
-        margin-bottom: 14px;
-        color: #888;
+        margin-bottom: 12px;
+        color: #999;
     }
 
     .final-title {
-        font-size: 30px;
+        font-size: 32px;
         margin-bottom: 16px;
     }
 
     .final-desc {
         font-size: 12.5px;
-        line-height: 1.75;
-        margin-bottom: 26px;
+        line-height: 1.8;
+        margin-bottom: 24px;
+        max-width: 330px;
     }
 
+    .final-link {
+        background: rgba(246, 246, 246, 0.7);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        padding: 12px 24px;
+        border-radius: 3px;
+        font-size: 10px;
+    }
+
+    .final-image-area {
+        aspect-ratio: 16/10;
+        border-radius: 4px;
+    }
+
+    /* ۳. فوتر در موبایل */
     .main-footer {
         padding: 20px 18px;
     }
@@ -2694,6 +2714,7 @@ body.home-on-hero .main-header {
         font-size: 9px;
     }
 
+    /* ۴. نوار بازگشت در سمت چپ (مشترک در دسته‌بندی، ALL و صفحه محصول) */
     .cat-top-bar-nav,
     .amory-top-nav {
         flex-direction: row-reverse;
@@ -2738,28 +2759,46 @@ body.home-on-hero .main-header {
         font-weight: 500;
     }
 
+    /* ۵. تنظیم دقیق بنر دسته‌بندی‌ها و نوار چسبان فیلتر در موبایل */
     .cat-hero-section {
-        padding-bottom: 18px;
+        padding-bottom: 10px;
     }
 
     .cat-hero-content {
-        width: calc(100% - 36px);
-        aspect-ratio: 4/3;
-        padding: 22px;
-        align-items: flex-end;
+        width: calc(100% - 32px);
+        aspect-ratio: 16/9; /* حفظ نسبت اصلی بنر برای جلوگیری از افتادن متن روی تصویر محصول */
+        padding: 18px 20px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .cat-hero-text-area {
+        max-width: 58%;
     }
 
     .cat-hero-main-title {
-        font-size: 24px;
+        font-size: 19px;
+        line-height: 1.2;
         margin-bottom: 6px;
     }
 
     .cat-hero-desc {
-        font-size: 11px;
-        line-height: 1.55;
+        font-size: 9.5px;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
+    /* چسبان شدن نوار دسته‌بندی‌ها دقیقاً زیر هدر موبایل */
     .cat-filter-bar {
+        position: sticky;
+        top: 60px;
+        z-index: 950;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         padding: 14px 18px;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -2772,8 +2811,8 @@ body.home-on-hero .main-header {
     }
 
     .cat-filter-links {
-        gap: 22px;
-        padding-left: 10px;
+        gap: 24px;
+        padding: 0 6px;
     }
 
     .cat-filter-links a {
@@ -2781,7 +2820,7 @@ body.home-on-hero .main-header {
     }
 
     .minimal-page-wrapper {
-        padding: 20px 16px 64px !important;
+        padding: 22px 16px 64px !important;
     }
 
     .all-cat-divider {
@@ -2906,6 +2945,7 @@ body.home-on-hero .main-header {
         font-size: 9px;
     }
 
+    /* ۶. صفحه تکی محصول (Level 3) در موبایل */
     .wudo-header {
         height: 60px;
         background: rgba(255, 255, 255, 0.92);
@@ -2965,14 +3005,26 @@ body.home-on-hero .main-header {
 
     .amory-nav {
         bottom: 16px;
-        padding: 8px 12px;
+        padding: 10px 14px;
+        gap: 10px;
+    }
+
+    /* افزایش ناحیه لمس نقطه‌های گالری در موبایل */
+    .amory-nav-item {
+        position: relative;
+    }
+
+    .amory-nav-item::after {
+        content: "";
+        position: absolute;
+        inset: -7px;
     }
 
     .amory-zoom-btn {
         bottom: 14px;
         right: 14px;
-        width: 34px;
-        height: 34px;
+        width: 36px;
+        height: 36px;
     }
 
     .amory-right {
@@ -3013,8 +3065,8 @@ body.home-on-hero .main-header {
         max-width: 100%;
     }
 
-    .cart-overlay,
-    .print-modal-overlay {
+    /* ۷. کشوی سبد سفارش و پنجره ضدکیبورد مشخصات سفارش‌دهنده در موبایل */
+    .cart-overlay {
         align-items: flex-end;
     }
 
@@ -3039,26 +3091,31 @@ body.home-on-hero .main-header {
 
     .cart-items-container {
         padding: 10px 20px 20px;
+        -webkit-overflow-scrolling: touch;
     }
 
     .cart-footer {
         padding: 14px 20px calc(22px + env(safe-area-inset-bottom, 0px));
     }
 
+    /* قرارگیری پنجره مشخصات در مرکز صفحه موبایل تا کیبورد روی دکمه‌ها نیفتد */
     .print-modal-overlay {
-        background: rgba(0, 0, 0, 0.28);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
+        align-items: center;
+        padding: 16px;
+        box-sizing: border-box;
+        background: rgba(0, 0, 0, 0.32);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
     }
 
     .print-modal {
         width: 100%;
-        max-width: 100%;
+        max-width: 380px;
         background: #ffffff !important;
-        border-radius: 14px 14px 0 0;
-        padding: 26px 20px calc(28px + env(safe-area-inset-bottom, 0px));
+        border-radius: 8px;
+        padding: 26px 20px;
         transform: translateY(0) !important;
-        box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
         border: none;
         box-sizing: border-box;
         position: relative;

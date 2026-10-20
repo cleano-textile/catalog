@@ -859,8 +859,9 @@ window.renderProductPage = function() {
 
     window.amoryImages.forEach(src => { const pre = new Image(); pre.src = src; });
 
-    window.changeAmorySlide = function(idx) {
+    window.changeAmorySlide = function(idx, swipeDir = 0) {
         if (window.amoryCurrentIdx === idx) return;
+        const dir = swipeDir !== 0 ? swipeDir : (idx > window.amoryCurrentIdx ? 1 : -1);
         window.amoryCurrentIdx = idx;
         const mainImg = document.getElementById('amory-main-img');
         if (!mainImg) return;
@@ -870,8 +871,11 @@ window.renderProductPage = function() {
             else el.classList.remove('active');
         });
 
+        const slideOffset = window.innerWidth <= 900 ? (dir > 0 ? '-18px' : '18px') : '0px';
+        const enterOffset = window.innerWidth <= 900 ? (dir > 0 ? '18px' : '-18px') : '0px';
+
         mainImg.style.opacity = '0';
-        mainImg.style.transform = 'scale(1.02)';
+        mainImg.style.transform = `translateX(${slideOffset}) scale(1.01)`;
 
         const nextSrc = window.amoryImages[idx];
         const tempImg = new Image();
@@ -879,20 +883,25 @@ window.renderProductPage = function() {
 
         setTimeout(() => {
             const revealNewImg = () => {
+                mainImg.style.transition = 'none';
+                mainImg.style.transform = `translateX(${enterOffset}) scale(1.01)`;
                 mainImg.src = nextSrc;
                 requestAnimationFrame(() => {
-                    mainImg.style.opacity = '1';
-                    mainImg.style.transform = 'scale(1)';
+                    requestAnimationFrame(() => {
+                        mainImg.style.transition = 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+                        mainImg.style.opacity = '1';
+                        mainImg.style.transform = 'translateX(0) scale(1)';
+                    });
                 });
             };
             if (tempImg.complete) revealNewImg();
             else tempImg.onload = revealNewImg;
-        }, 220);
+        }, 190);
     };
 
     window.navAmorySlide = function(dir) {
         let newIdx = (window.amoryCurrentIdx + dir + window.amoryImages.length) % window.amoryImages.length;
-        window.changeAmorySlide(newIdx);
+        window.changeAmorySlide(newIdx, dir);
     };
     
     window.changePageQtyNew = function(delta) {
@@ -927,8 +936,12 @@ window.renderProductPage = function() {
             icon.innerText = '−'; 
             icon.style.transform = 'rotate(180deg)';
             setTimeout(() => {
-                wrapper.scrollIntoView({behavior: "smooth", block: "nearest"});
-            }, 300);
+                const rect = wrapper.getBoundingClientRect();
+                const overflowBottom = rect.bottom - window.innerHeight;
+                if (overflowBottom > 0) {
+                    window.scrollBy({ top: overflowBottom + 36, behavior: 'smooth' });
+                }
+            }, 480);
         }
     };
     
@@ -1401,9 +1414,58 @@ window.closeLightbox = function(e, force = false) {
 };
 
 // =========================================================================
-// 7. امکانات اختصاصی موبایل (Touch Swipe، دکمه + کارت‌ها و اشتراک‌گذاری برگه)
+// 7. امکانات اختصاصی موبایل (Touch Swipe، قفل اسکرول، فیلتر هوشمند و اشتراک‌گذاری)
 // =========================================================================
 
+// الف) قفل استاندارد اسکرول صفحه پشتی در iOS و Android هنگام باز بودن پنجره‌ها
+window.syncBodyScrollLock = function() {
+    const cartOpen = document.getElementById('cart-overlay')?.classList.contains('active');
+    const printOpen = document.getElementById('print-info-modal')?.classList.contains('active');
+    const lbOpen = document.getElementById('lightbox')?.classList.contains('active');
+    if (cartOpen || printOpen || lbOpen) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+};
+
+document.addEventListener('touchmove', function(e) {
+    const cartOpen = document.getElementById('cart-overlay')?.classList.contains('active');
+    const printOpen = document.getElementById('print-info-modal')?.classList.contains('active');
+    const lbOpen = document.getElementById('lightbox')?.classList.contains('active');
+    if (!cartOpen && !printOpen && !lbOpen) return;
+
+    // اجازه اسکرول فقط در داخل لیست سبد خرید و لیست عکس‌های بزرگ‌نمایی
+    if (e.target.closest('#cart-items-container') || e.target.closest('#lb-scroll-area')) return;
+    e.preventDefault();
+}, { passive: false });
+
+// ب) تنظیم موقعیت نوار دسته‌بندی‌ها زیر هدر و وسط‌چین کردن دسته فعال در موبایل
+window.initMobileCategoryBarUX = function() {
+    const filterBar = document.getElementById('filter-anchor');
+    if (!filterBar || typeof ACTIVE_CATEGORY === 'undefined' || ACTIVE_CATEGORY === 'all') return;
+
+    // ۱. آوردن دسته‌بندی فعال به وسط نوار اسکرول افقی
+    const activeLink = filterBar.querySelector('a.active');
+    if (activeLink) {
+        const scrollLeft = activeLink.offsetLeft - (filterBar.clientWidth / 2) + (activeLink.clientWidth / 2);
+        filterBar.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+    }
+
+    // ۲. در موبایل: شروع صفحه از نوار دسته‌بندی‌ها زیر هدر (با قابلیت اسکرول به بالا برای دیدن بنر)
+    if (window.innerWidth <= 900 && window.scrollY < 10) {
+        setTimeout(() => {
+            const headerHeight = 60;
+            const barTop = filterBar.getBoundingClientRect().top + window.scrollY - headerHeight;
+            if (barTop > 0) {
+                window.scrollTo({ top: barTop, behavior: 'instant' });
+            }
+        }, 60);
+    }
+};
+window.addEventListener('DOMContentLoaded', () => setTimeout(window.initMobileCategoryBarUX, 90));
+
+// ج) باز کردن نوار خرید سریع روی کارت‌های موبایل با زدن دکمه +
 window.toggleMobileCardAdd = function(e, btn) {
     e.preventDefault();
     e.stopPropagation();
@@ -1443,6 +1505,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// د) ورق زدن عکس‌های گالری محصول با کشیدن انگشت (Touch Swipe در iOS و Android)
 document.addEventListener('touchstart', function(e) {
     const gallery = e.target.closest('.amory-left');
     if (!gallery || e.target.closest('button')) return;
@@ -1457,12 +1520,13 @@ document.addEventListener('touchend', function(e) {
     const diffY = e.changedTouches[0].screenY - window._touchStartY;
     window._touchStartX = null;
 
-    if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+    if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
         if (diffX < 0) window.navAmorySlide(1);
         else window.navAmorySlide(-1);
     }
 }, { passive: true });
 
+// هـ) اشتراک‌گذاری مستقیم عکس برگه سفارش سازگار با iOS Safari و Android Chrome
 window.executeImageShare = function() {
     const btn = document.getElementById('share-image-btn');
     if (!btn) return;
@@ -1488,6 +1552,7 @@ window.executeImageShare = function() {
         setTimeout(() => {
             html2canvas(captureBox, {
                 scale: 2,
+                useCORS: true,
                 backgroundColor: "#ffffff",
                 logging: false,
                 onclone: (clonedDoc) => clonedDoc.querySelectorAll('img').forEach(img => img.remove())
@@ -1497,22 +1562,43 @@ window.executeImageShare = function() {
                     btn.innerText = originalText;
                     btn.style.pointerEvents = 'auto';
                     if (!blob) return;
-                    const file = new File([blob], jalaliFileName, { type: 'image/jpeg' });
+                    const file = new File([blob], jalaliFileName, { type: 'image/jpeg', lastModified: Date.now() });
                     if (navigator.canShare && navigator.canShare({ files: [file] })) {
                         try {
                             await navigator.share({ files: [file], title: 'برگه سفارش کیلینو' });
                             window.closePrintModal(null, true);
-                        } catch (err) {}
+                        } catch (err) {
+                            // اگر کاربر خودش پنجره اشتراک‌گذاری را بست، کاری نکن؛ اگر خطای مرورگر بود دانلود کن
+                            if (err && err.name !== 'AbortError') {
+                                const url = URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.download = jalaliFileName;
+                                link.href = url;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                setTimeout(() => URL.revokeObjectURL(url), 3000);
+                                window.closePrintModal(null, true);
+                            }
+                        }
                     } else {
+                        const url = URL.createObjectURL(blob);
                         const link = document.createElement('a');
                         link.download = jalaliFileName;
-                        link.href = URL.createObjectURL(blob);
+                        link.href = url;
+                        document.body.appendChild(link);
                         link.click();
+                        document.body.removeChild(link);
+                        setTimeout(() => URL.revokeObjectURL(url), 3000);
                         window.closePrintModal(null, true);
                     }
                 }, 'image/jpeg', 0.95);
+            }).catch(() => {
+                if (captureBox.parentNode) document.body.removeChild(captureBox);
+                btn.innerText = originalText;
+                btn.style.pointerEvents = 'auto';
             });
-        }, 120);
+        }, 100);
     };
 
     if (typeof html2canvas === 'undefined') {
@@ -1525,6 +1611,7 @@ window.executeImageShare = function() {
     }
 };
 
+// و) جایگزینی هوشمند بنر صفحه اول در موبایل
 window.updateHeroBannerForDevice = function() {
     const heroImg = document.querySelector('.hero-section img');
     if (!heroImg) return;
