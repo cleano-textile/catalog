@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>کیلینو | دستمال تک رنگ آشپزخانه</title>
-    <meta name="description" content="کد سفارش: ۰۰۵ - فروش عمده پک دو عددی دستمال تک رنگ با بافت وافلی.">
+    
+    <!-- پیش‌نمایش حرفه‌ای لینک در واتساپ و تلگرام -->
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="کیلینو | دستمال تک رنگ آشپزخانه (CL-005)">
+    <meta property="og:description" content="هر کارتن ۲۴ بسته ۲ عددی — دستمال تک رنگ با بافت وافلی، کاربردی برای سرو قهوه و چای.">
+    <meta property="og:image" content="dastmal-takrang-ashpazkhane-1.webp">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='70' font-family='sans-serif' font-weight='300' fill='%231a1a1a'>C</text></svg>">
-    <link rel="stylesheet" href="../../cleano-core.css?v=2.0">
+    <link rel="stylesheet" href="../../cleano-core.css?v=60.0">
 </head>
 <body>
     <div id="cleano-header-placeholder"></div>
@@ -15,34 +22,23 @@
 
     <script>
         const BASE_URL = "../../"; 
-        const ACTIVE_CATEGORY = "dastmal"; 
-        
+        const ACTIVE_CATEGORY = "dastmal-ashpazkhane"; 
+
         window.PRODUCT_DATA = {
             id: "CL-005", 
             ref: "CL-005", 
             title: "دستمال تک رنگ آشپزخانه",
-            category: { name: "دستمال‌های آشپزخانه", link: "../index.html" },
-            description: "پک دو عددی دستمال تک رنگ آشپزخانه (در ابعاد تقریبی ۴۵ در ۳۵ سانتی‌متر) با بافت زیبای وافلی. این محصول علاوه بر کاربری عمومی و روزمره، جلوه و مینیمالیسم خاصی به محیط آشپزخانه می‌بخشد و به‌ویژه هنگام دم کردن چای و سرو قهوه بسیار کاربردی و جذاب است.",
-            
+            titleEn: "SINGLE COLOR KITCHEN NAPKIN",
+            category: { name: "حوله و دستمال آشپزخانه", link: "../index.html" },
+            description: "پک دستمال تک رنگ آشپزخانه (در ابعاد تقریبی ۴۰ در ۳۵ سانتی‌متر) با بافت زیبای وافلی. این محصول علاوه بر کاربری عمومی و روزمره، جلوه و مینیمالیسم خاصی به محیط آشپزخانه می‌بخشد و به‌ویژه هنگام دم کردن چای و سرو قهوه بسیار کاربردی و جذاب است. این محصول تک‌لایه بوده و لبه‌های آن با نخ سفید دوردوزی شده است که تضاد رنگی زیبا و دوام بالایی را برای استفاده‌های مکرر فراهم می‌کند.",
             salesData: {
-                moq: "۱ کارتن", 
-                pack1: "۱ پک (دو عددی)", 
-                pack2: "۲۴ پک در هر کارتن", 
-                colors: "۶ رنگ", 
-                boxSize: "40 × 30 × 20 cm"
+                pack1: "۲",               // توجه: بر اساس دیتابیس (catalogDB) تعداد در بسته 4 است
+                pack2: "۲۴",             // توجه: بر اساس دیتابیس (catalogDB) تعداد کارتن 100 است
+                colors: "6",              // تنوع رنگ / طرح
+                size: "40 × 35",          // سایز محصول
+                cartonSize: "40 × 30 × 20", // ابعاد کارتن
+                cartonWeight: "-"         // وزن کارتن
             },
-            
-            specs: [
-                { label: "ابعاد پایه", value: "۴۰ × ۳۵ سانتی‌متر" },
-                { label: "جنس دستمال", value: "پارچه وافلی باکیفیت" }
-            ],
-            specsText: "این محصول تک‌لایه بوده و لبه‌های آن با نخ سفید دوردوزی شده است که تضاد رنگی زیبا و دوام بالایی را برای استفاده‌های مکرر در آشپزخانه فراهم می‌کند.",
-            
-            maintenance: [
-                { label: "شستشو", value: "ماشین لباسشویی (آب سرد، حداکثر ۳۰ درجه)" }
-            ],
-            maintenanceText: "جهت حفظ کیفیت رنگ و ساختار بافت پارچه، اکیداً از مصرف مواد سفیدکننده و پاک‌کننده‌های قوی خودداری نمایید.",
-            
             images: [
                 "dastmal-takrang-ashpazkhane-1.webp", 
                 "dastmal-takrang-ashpazkhane-2.webp", 
@@ -54,6 +50,6 @@
             ]
         };
     </script>
-    <script src="../../cleano-core.js?v=2.0"></script>
+    <script src="../../cleano-core.js?v=60.0"></script>
 </body>
 </html>

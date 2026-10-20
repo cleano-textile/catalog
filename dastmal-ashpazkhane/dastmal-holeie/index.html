@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>کیلینو | دستمال حوله‌ای</title>
-    <meta name="description" content="کد سفارش: ۰۲۸ - فروش عمده پک دو عددی دستمال حوله‌ای آشپزخانه.">
+    
+    <!-- پیش‌نمایش حرفه‌ای لینک در واتساپ و تلگرام -->
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="کیلینو | دستمال حوله‌ای (CL-028)">
+    <meta property="og:description" content="هر کارتن ۱۲ بسته ۲ عددی — بافته شده از ترکیب الیاف پنبه و پلی‌استر با لبه‌های ریش‌ریش.">
+    <meta property="og:image" content="dastmal-holeie-1.webp">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='70' font-family='sans-serif' font-weight='300' fill='%231a1a1a'>C</text></svg>">
-    <link rel="stylesheet" href="../../cleano-core.css?v=2.0">
+    <link rel="stylesheet" href="../../cleano-core.css?v=60.0">
 </head>
 <body>
     <div id="cleano-header-placeholder"></div>
@@ -15,34 +22,23 @@
 
     <script>
         const BASE_URL = "../../"; 
-        const ACTIVE_CATEGORY = "dastmal"; 
-        
+        const ACTIVE_CATEGORY = "dastmal-ashpazkhane"; 
+
         window.PRODUCT_DATA = {
             id: "CL-028", 
             ref: "CL-028", 
             title: "دستمال حوله‌ای",
-            category: { name: "دستمال‌های آشپزخانه", link: "../index.html" },
+            titleEn: "HAND KERCHIEF",
+            category: { name: "حوله و دستمال آشپزخانه", link: "../index.html" },
             description: "پک دو عددی دستمال حوله‌ای در ابعاد ۴۰ در ۳۵ سانتی‌متر، بافته شده از ترکیب الیاف پنبه و پلی‌استر. این دستمال‌ها که مستقیماً توسط دستگاه بافته می‌شوند، علاوه بر کارایی بالا، با لبه‌های ریش‌ریشِ خود زیبایی خاصی به فضای آشپزخانه می‌بخشند.",
-            
             salesData: {
-                moq: "۱ کارتن", 
-                pack1: "۱ پک (دو عددی)", 
-                pack2: "۱۲ پک در هر کارتن", 
-                colors: "متغیر", 
-                boxSize: "40 × 30 × 20 cm"
+                pack1: "2",               // تعداد در هر بسته (دو عددی)
+                pack2: "12",              // تعداد بسته در کارتن
+                colors: "متغیر",          // تنوع رنگ / طرح
+                size: "40 × 35",          // سایز محصول
+                cartonSize: "40 × 30 × 20", // ابعاد کارتن
+                cartonWeight: "-"         // وزن کارتن
             },
-            
-            specs: [
-                { label: "ابعاد", value: "۴۰ × ۳۵ سانتی‌متر" },
-                { label: "جنس دستمال", value: "بافته شده از نخ پنبه و پلی‌استر" }
-            ],
-            specsText: "دو طرف این دستمال به صورت استاندارد سردوزی شده و دو طرف دیگر آن دارای بافت ریش‌ریش است که جلوه‌ای کلاسیک و چشم‌نواز به آن می‌دهد.",
-            
-            maintenance: [
-                { label: "شستشو", value: "آب سرد، ماشین لباسشویی (حداکثر ۳۰ درجه)" }
-            ],
-            maintenanceText: "جهت حفظ کیفیت رنگ و بافت پارچه، اکیداً از مصرف مواد سفیدکننده قوی در هنگام شستشو خودداری نمایید.",
-            
             images: [
                 "dastmal-holeie-1.webp", 
                 "dastmal-holeie-2.webp", 
@@ -54,6 +50,6 @@
             ]
         };
     </script>
-    <script src="../../cleano-core.js?v=2.0"></script>
+    <script src="../../cleano-core.js?v=60.0"></script>
 </body>
 </html>

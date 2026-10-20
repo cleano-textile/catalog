@@ -1,9 +1,9 @@
 // =========================================================================
-// CLEANO CORE JS - CENTRALIZED LOGIC & UI RENDERER
+// CLEANO CORE JS - CENTRALIZED LOGIC & UI RENDERER (DESKTOP & MOBILE)
 // =========================================================================
 
 // =========================================================================
-// 1. متغیرهای سراسری و دیتابیس محصولات
+// 1. متغیرهای سراسری، توابع کمکی اعداد و دیتابیس محصولات
 // =========================================================================
 const bUrl = typeof BASE_URL !== 'undefined' ? BASE_URL : "../../";
 
@@ -13,36 +13,152 @@ window.getCleanPath = function(path) {
     return base + path;
 };
 
+window.toFaDigits = function(num) {
+    if (num === null || num === undefined) return "";
+    const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return String(num).replace(/[0-9]/g, w => fa[+w]);
+};
+
+window.toEnDigits = function(str) {
+    if (!str) return "";
+    return String(str)
+        .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+        .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+};
+
 const catalogDB = [
-    { id: "CL-017", title: "دستگیره فر", ref: "CL-017", url: "set-fer/dastgire-fer/index.html", img: "set-fer/cover-dastgire-fer.webp", salesData: { pack2: "50 کارتن" } },
-    { id: "CL-018", title: "دستکش فر", ref: "CL-018", url: "set-fer/dastkesh-fer/index.html", img: "set-fer/cover-dastkesh-fer.webp", salesData: { pack2: "40 کارتن" } },
-    { id: "CL-016", title: "دستگیره آشپزخانه", ref: "CL-016", url: "set-parcheie/dastgire-ashpazkhane/index.html", img: "set-parcheie/cover-dastgire-ashpazkhane.webp", salesData: { pack2: "60 کارتن" } },
-    { id: "CL-014", title: "دستگیره قابلمه", ref: "CL-014", url: "set-parcheie/dastgire-ghablame/index.html", img: "set-parcheie/cover-dastgire-ghablame.webp", salesData: { pack2: "60 کارتن" } },
-    { id: "CL-023", title: "دم کن برنج", ref: "CL-023", url: "set-parcheie/damkon-berenj/index.html", img: "set-parcheie/cover-damkon-berenj.webp", salesData: { pack2: "12 کارتن" } },
-    { id: "CL-021", title: "پیشبند آشپزخانه", ref: "CL-021", url: "set-parcheie/pishband/index.html", img: "set-parcheie/cover-pishband.webp", salesData: { pack2: "30 کارتن" } },
-    { id: "CL-019", title: "نمگیر ظروف", ref: "CL-019", url: "set-parcheie/namgir-zorof/index.html", img: "set-parcheie/cover-namgir-zorof.webp", salesData: { pack2: "20 کارتن" } },
-    { id: "CL-001", title: "دستمال طرحدار آشپزخانه", ref: "CL-001", url: "dastmal-ashpazkhane/dastmal-tarhdar-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-dastmal-tarhdar-ashpazkhane.webp", salesData: { pack2: "100 کارتن" } },
-    { id: "CL-002", title: "دستمال تنظیف دولایه", ref: "CL-002", url: "dastmal-ashpazkhane/dastmal-tanzif-dolaie/index.html", img: "dastmal-ashpazkhane/cover-dastmal-tanzif-dolaie.webp", salesData: { pack2: "100 کارتن" } },
-    { id: "CL-004", title: "دستمال میکروفایبر", ref: "CL-004", url: "dastmal-ashpazkhane/dastmal-microfiber/index.html", img: "dastmal-ashpazkhane/cover-dastmal-microfiber.webp", salesData: { pack2: "80 کارتن" } },
-    { id: "CL-005", title: "دستمال تک رنگ آشپزخانه", ref: "CL-005", url: "dastmal-ashpazkhane/dastmal-takrang-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-dastmal-takrang-ashpazkhane.webp", salesData: { pack2: "100 کارتن" } },
-    { id: "CL-006", title: "حوله آشپزخانه", ref: "CL-006", url: "dastmal-ashpazkhane/hole-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-hole-ashpazkhane.webp", salesData: { pack2: "50 کارتن" } },
-    { id: "CL-028", title: "دستمال حوله‌ای", ref: "CL-028", url: "dastmal-ashpazkhane/dastmal-holeie/index.html", img: "dastmal-ashpazkhane/cover-dastmal-holeie.webp", salesData: { pack2: "40 کارتن" } },
-    { id: "CL-029", title: "دستمال نخ پنبه", ref: "CL-029", url: "dastmal-ashpazkhane/dastmal-nakh-panbe/index.html", img: "dastmal-ashpazkhane/cover-dastmal-nakh-panbe.webp", salesData: { pack2: "80 کارتن" } },
-    { id: "CL-030", title: "دستمال وایت ویو", ref: "CL-030", url: "dastmal-ashpazkhane/dastmal-white-view/index.html", img: "dastmal-ashpazkhane/cover-dastmal-white-view.webp", salesData: { pack2: "80 کارتن" } },
-    { id: "CL-010", title: "سفره دو نفره", ref: "CL-010", url: "sofre/sofre-do-nafare/index.html", img: "sofre/cover-sofre-do-nafare.webp", salesData: { pack2: "10 کارتن" } },
-    { id: "CL-011", title: "سفره چهار نفره", ref: "CL-011", url: "sofre/sofre-chahar-nafare/index.html", img: "sofre/cover-sofre-chahar-nafare.webp", salesData: { pack2: "10 کارتن" } },
-    { id: "CL-012", title: "سفره شش نفره", ref: "CL-012", url: "sofre/sofre-shesh-nafare/index.html", img: "sofre/cover-sofre-shesh-nafare.webp", salesData: { pack2: "8 کارتن" } },
-    { id: "CL-013", title: "سفره هشت نفره", ref: "CL-013", url: "sofre/sofre-hasht-nafare/index.html", img: "sofre/cover-sofre-hasht-nafare.webp", salesData: { pack2: "8 کارتن" } },
-    { id: "CL-007", title: "کیسه سبزی", ref: "CL-007", url: "mahsolat-takmili/kise-sabzi/index.html", img: "mahsolat-takmili/cover-kise-sabzi.webp", salesData: { pack2: "50 کارتن" } },
-    { id: "CL-009", title: "سفره نان", ref: "CL-009", url: "mahsolat-takmili/sofre-nan/index.html", img: "mahsolat-takmili/cover-sofre-nan.webp", salesData: { pack2: "30 کارتن" } },
-    { id: "CL-020", title: "نمگیر میکروفایبر", ref: "CL-020", url: "mahsolat-takmili/namgir-microfiber/index.html", img: "mahsolat-takmili/cover-namgir-microfiber.webp", salesData: { pack2: "20 کارتن" } },
-    { id: "CL-022", title: "پیشبند ضد آب و ضد لک", ref: "CL-022", url: "mahsolat-takmili/pishband-zede-ab-va-zede-lak/index.html", img: "mahsolat-takmili/cover-pishband-zede-ab-va-zede-lak.webp", salesData: { pack2: "25 کارتن" } }
+    { id: "CL-017", title: "دستگیره فر", titleEn: "OVEN HANDLE COVER", ref: "CL-017", url: "set-fer/dastgire-fer/index.html", img: "set-fer/cover-dastgire-fer.webp", salesData: { pack1: "2", pack2: "50" } },
+    { id: "CL-018", title: "دستکش فر", titleEn: "OVEN GLOVES", ref: "CL-018", url: "set-fer/dastkesh-fer/index.html", img: "set-fer/cover-dastkesh-fer.webp", salesData: { pack1: "2", pack2: "24" } },
+    { id: "CL-016", title: "دستگیره آشپزخانه", titleEn: "POT HOLDER", ref: "CL-016", url: "set-parcheie/dastgire-ashpazkhane/index.html", img: "set-parcheie/cover-dastgire-ashpazkhane.webp", salesData: { pack1: "2", pack2: "12" } },
+    { id: "CL-014", title: "دستگیره قابلمه", titleEn: "POT HOLDER", ref: "CL-014", url: "set-parcheie/dastgire-ghablame/index.html", img: "set-parcheie/cover-dastgire-ghablame.webp", salesData: { pack1: "2", pack2: "24" } },
+    { id: "CL-023", title: "دم کن برنج", titleEn: "RICE COOKER", ref: "CL-023", url: "set-parcheie/damkon-berenj/index.html", img: "set-parcheie/cover-damkon-berenj.webp", salesData: { pack1: "1", pack2: "12" } },
+    { id: "CL-021", title: "پیشبند آشپزخانه", titleEn: "APRON", ref: "CL-021", url: "set-parcheie/pishband/index.html", img: "set-parcheie/cover-pishband.webp", salesData: { pack1: "1", pack2: "24" } },
+    { id: "CL-019", title: "نمگیر ظروف", titleEn: "DISH DRAINER", ref: "CL-019", url: "set-parcheie/namgir-zorof/index.html", img: "set-parcheie/cover-namgir-zorof.webp", salesData: { pack1: "1", pack2: "24" } },
+    { id: "CL-001", title: "دستمال طرحدار آشپزخانه", titleEn: "PATTERNED KITCHEN NAPKIN", ref: "CL-001", url: "dastmal-ashpazkhane/dastmal-tarhdar-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-dastmal-tarhdar-ashpazkhane.webp", salesData: { pack1: "4", pack2: "100" } },
+    { id: "CL-002", title: "دستمال تنظیف دولایه", titleEn: "DOUBLE LAYER NAPKIN", ref: "CL-002", url: "dastmal-ashpazkhane/dastmal-tanzif-dolaie/index.html", img: "dastmal-ashpazkhane/cover-dastmal-tanzif-dolaie.webp", salesData: { pack1: "4", pack2: "100" } },
+    { id: "CL-004", title: "دستمال میکروفایبر", titleEn: "MICROFIBER TOWEL", ref: "CL-004", url: "dastmal-ashpazkhane/dastmal-microfiber/index.html", img: "dastmal-ashpazkhane/cover-dastmal-microfiber.webp", salesData: { pack1: "3", pack2: "80" } },
+    { id: "CL-005", title: "دستمال تک رنگ آشپزخانه", titleEn: "SINGLE COLOR KITCHEN NAPKIN", ref: "CL-005", url: "dastmal-ashpazkhane/dastmal-takrang-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-dastmal-takrang-ashpazkhane.webp", salesData: { pack1: "4", pack2: "100" } },
+    { id: "CL-006", title: "حوله آشپزخانه", titleEn: "KITCHEN TOWEL", ref: "CL-006", url: "dastmal-ashpazkhane/hole-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-hole-ashpazkhane.webp", salesData: { pack1: "2", pack2: "50" } },
+    { id: "CL-028", title: "دستمال حوله‌ای", titleEn: "TERRY TOWEL", ref: "CL-028", url: "dastmal-ashpazkhane/dastmal-holeie/index.html", img: "dastmal-ashpazkhane/cover-dastmal-holeie.webp", salesData: { pack1: "2", pack2: "40" } },
+    { id: "CL-029", title: "دستمال نخ پنبه", titleEn: "COTTON TOWEL", ref: "CL-029", url: "dastmal-ashpazkhane/dastmal-nakh-panbe/index.html", img: "dastmal-ashpazkhane/cover-dastmal-nakh-panbe.webp", salesData: { pack1: "3", pack2: "80" } },
+    { id: "CL-030", title: "دستمال وایت ویو", titleEn: "WHITE VIEW TOWEL", ref: "CL-030", url: "dastmal-ashpazkhane/dastmal-white-view/index.html", img: "dastmal-ashpazkhane/cover-dastmal-white-view.webp", salesData: { pack1: "1", pack2: "12" } },
+    { id: "CL-010", title: "سفره دو نفره", titleEn: "TWOSOME TABLECLOTH", ref: "CL-010", url: "sofre/sofre-do-nafare/index.html", img: "sofre/cover-sofre-do-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
+    { id: "CL-011", title: "سفره چهار نفره", titleEn: "FOURSOME TABLECLOTH", ref: "CL-011", url: "sofre/sofre-chahar-nafare/index.html", img: "sofre/cover-sofre-chahar-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
+    { id: "CL-012", title: "سفره شش نفره", titleEn: "SIXSOME TABLECLOTH", ref: "CL-012", url: "sofre/sofre-shesh-nafare/index.html", img: "sofre/cover-sofre-shesh-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
+    { id: "CL-013", title: "سفره هشت نفره", titleEn: "EIGHTSOME TABLECLOTH", ref: "CL-013", url: "sofre/sofre-hasht-nafare/index.html", img: "sofre/cover-sofre-hasht-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
+    { id: "CL-007", title: "کیسه سبزی", titleEn: "VEGETABLE BAG", ref: "CL-007", url: "mahsolat-takmili/kise-sabzi/index.html", img: "mahsolat-takmili/cover-kise-sabzi.webp", salesData: { pack1: "2", pack2: "50" } },
+    { id: "CL-009", title: "سفره نان", titleEn: "BREAD CLOTH", ref: "CL-009", url: "mahsolat-takmili/sofre-nan/index.html", img: "mahsolat-takmili/cover-sofre-nan.webp", salesData: { pack1: "1", pack2: "30" } },
+    { id: "CL-020", title: "نمگیر میکروفایبر", titleEn: "MICROFIBER DISH DRAINER", ref: "CL-020", url: "mahsolat-takmili/namgir-microfiber/index.html", img: "mahsolat-takmili/cover-namgir-microfiber.webp", salesData: { pack1: "1", pack2: "24" } },
+    { id: "CL-022", title: "پیشبند ضد آب و ضد لک", titleEn: "APRON WATERPROOF AND ANTI STAIN", ref: "CL-022", url: "mahsolat-takmili/pishband-zede-ab-va-zede-lak/index.html", img: "mahsolat-takmili/cover-pishband-zede-ab-va-zede-lak.webp", salesData: { pack1: "1", pack2: "12" } }
 ];
+
+// همگام‌سازی خودکار دیتابیس با مقادیر ذخیره‌شده از فایل‌های HTML محصولات
+window.syncCatalogWithHtmlMeta = function() {
+    try {
+        const metaStore = JSON.parse(localStorage.getItem('cleano_html_meta') || '{}');
+        if (metaStore["CL-004"] && metaStore["CL-004"].titleEn === "MICROFIBER CLOTH") {
+            metaStore["CL-004"].titleEn = "MICROFIBER TOWEL";
+            localStorage.setItem('cleano_html_meta', JSON.stringify(metaStore));
+        }
+        const packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}');
+        catalogDB.forEach(item => {
+            if (metaStore[item.id]) {
+                if (metaStore[item.id].titleEn) item.titleEn = metaStore[item.id].titleEn;
+                if (metaStore[item.id].title) item.title = metaStore[item.id].title;
+            }
+            if (packStore[item.id]) {
+                if (!item.salesData) item.salesData = {};
+                if (packStore[item.id].pack1) item.salesData.pack1 = packStore[item.id].pack1;
+                if (packStore[item.id].pack2) item.salesData.pack2 = packStore[item.id].pack2;
+            }
+        });
+    } catch(e) {}
+};
+window.syncCatalogWithHtmlMeta();
 
 let orderList = JSON.parse(localStorage.getItem('cleano_order_list')) || [];
 
+const minimalCartSVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
+
+window.getUnifiedHeaderHTML = function(isHomePage = false, isAllPage = false) {
+    const homeHref = window.getCleanPath('index.html');
+    const allHref = window.getCleanPath('all/index.html');
+    return `
+        <div class="header-left">
+            <a href="${homeHref}" class="home-logo">CLEANO</a>
+            <nav class="main-nav-links">
+                <a href="${homeHref}" class="nav-link ${isHomePage ? 'active' : ''}">HOME</a>
+                <a href="${allHref}" class="nav-link ${isAllPage ? 'active' : ''}">ALL</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="search-wrapper">
+                <input type="text" class="search-input" placeholder="جستجوی نام یا کد..." autocomplete="off" onkeyup="window.handleGlobalSearch(this)" onfocus="window.handleGlobalSearch(this)">
+                <button class="header-icon-btn search-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+                <div class="global-search-dropdown"></div>
+            </div>
+            <button class="header-icon-btn cart-trigger" onclick="window.toggleCartModal()">
+                ${minimalCartSVG}
+                <span class="cart-count-badge" style="display:none;">۰</span>
+            </button>
+        </div>
+    `;
+};
+
+window.toggleFooterLangMenu = function(e) {
+    if (e) e.stopPropagation();
+    const dropdown = e.currentTarget.closest('.footer-lang-dropdown');
+    if (!dropdown) return;
+    const isOpen = dropdown.classList.contains('open');
+    document.querySelectorAll('.footer-lang-dropdown.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) dropdown.classList.add('open');
+};
+
+window.selectFooterLang = function(lang, e) {
+    if (e) e.stopPropagation();
+    const dropdown = e.currentTarget.closest('.footer-lang-dropdown');
+    if (dropdown) dropdown.classList.remove('open');
+};
+
+window.getUnifiedFooterHTML = function() {
+    const homeHref = window.getCleanPath('index.html');
+    return `
+        <div class="footer-content">
+            <div class="footer-left">
+                <a href="${homeHref}" class="footer-logo">CLEANO</a>
+                <span class="footer-copyright">© 2026 Home Textile Catalog</span>
+            </div>
+            <div class="footer-right">
+                <div class="footer-lang-dropdown">
+                    <button type="button" class="footer-lang-trigger" onclick="window.toggleFooterLangMenu(event)" title="Language">
+                        <span>FA</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                    </button>
+                    <div class="footer-lang-menu" onclick="event.stopPropagation()">
+                        <button type="button" class="footer-lang-option active" onclick="window.selectFooterLang('FA', event)">
+                            <span>FA</span>
+                            <span class="lang-native">فارسی</span>
+                        </button>
+                        <button type="button" class="footer-lang-option disabled" onclick="window.selectFooterLang('EN', event)">
+                            <span>EN</span>
+                            <span class="lang-native">English</span>
+                        </button>
+                        <button type="button" class="footer-lang-option disabled" onclick="window.selectFooterLang('AR', event)">
+                            <span>AR</span>
+                            <span class="lang-native">العربية</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
 window.handleGlobalSearch = function(inputElement) {
-    const query = inputElement.value.toLowerCase().trim();
+    const rawQuery = inputElement.value.trim();
+    const query = window.toEnDigits(rawQuery).toLowerCase();
     const wrapper = inputElement.closest('.search-wrapper');
     if (!wrapper) return;
     
@@ -52,16 +168,30 @@ window.handleGlobalSearch = function(inputElement) {
         dropdown.className = 'global-search-dropdown';
         wrapper.appendChild(dropdown);
     }
-    if (query.length < 2) { dropdown.style.display = 'none'; dropdown.innerHTML = ''; return; }
+    if (query.length < 1) { dropdown.style.display = 'none'; dropdown.innerHTML = ''; return; }
 
-    const results = catalogDB.filter(item => item.title.toLowerCase().includes(query) || item.ref.toLowerCase().includes(query));
+    window.syncCatalogWithHtmlMeta();
+
+    const results = catalogDB.filter(item => 
+        item.title.toLowerCase().includes(query) || 
+        item.ref.toLowerCase().includes(query) || 
+        (item.titleEn && item.titleEn.toLowerCase().includes(query))
+    );
+
     if (results.length > 0) {
         let html = '';
         results.forEach(res => {
             const imgPath = window.getCleanPath(res.img);
             const linkPath = window.getCleanPath(res.url);
             const fallbackImg = window.getCleanPath('aks-page-aval/cat-set-parcheie.webp');
-            html += `<a href="${linkPath}" class="g-search-item"><img src="${imgPath}" alt="${res.title}" onerror="this.onerror=null; this.src='${fallbackImg}';"><div class="g-search-info"><span class="g-search-title">${res.title}</span><span class="g-search-ref">${res.ref}</span></div></a>`;
+            html += `
+                <a href="${linkPath}" class="g-search-item">
+                    <img src="${imgPath}" alt="${res.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">
+                    <div class="g-search-info">
+                        <span class="g-search-title">${res.title}</span>
+                        <span class="g-search-ref">${res.ref}</span>
+                    </div>
+                </a>`;
         });
         dropdown.innerHTML = html;
     } else {
@@ -71,132 +201,72 @@ window.handleGlobalSearch = function(inputElement) {
 };
 
 document.addEventListener('click', function(event) {
-    const isClickInside = event.target.closest('.search-wrapper');
-    if (!isClickInside) { document.querySelectorAll('.global-search-dropdown').forEach(el => { el.style.display = 'none'; }); }
+    if (!event.target.closest('.search-wrapper')) { 
+        document.querySelectorAll('.global-search-dropdown').forEach(el => { el.style.display = 'none'; }); 
+    }
+    if (!event.target.closest('.footer-lang-dropdown')) {
+        document.querySelectorAll('.footer-lang-dropdown.open').forEach(el => el.classList.remove('open'));
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.global-search-dropdown').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.footer-lang-dropdown.open').forEach(el => el.classList.remove('open'));
+        const cartOverlay = document.getElementById('cart-overlay');
+        if (cartOverlay && cartOverlay.classList.contains('active')) window.toggleCartModal();
+        const printModal = document.getElementById('print-info-modal');
+        if (printModal && printModal.classList.contains('active')) window.closePrintModal(null, true);
+        const barcodePopup = document.getElementById('barcode-popup');
+        if (barcodePopup && barcodePopup.classList.contains('active')) barcodePopup.classList.remove('active');
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && lightbox.classList.contains('active')) window.closeLightbox(null, true);
+    } else if (typeof window.navAmorySlide === 'function' && document.getElementById('amory-main-img')) {
+        if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+        if (e.key === 'ArrowRight') window.navAmorySlide(1);
+        if (e.key === 'ArrowLeft') window.navAmorySlide(-1);
+    }
 });
 
 // =========================================================================
-// 2. کدهای مربوط به سبد خرید و چاپ فاکتور (Modal UI)
+// 2. سبد سفارش و موتور تولید فاکتور تک‌صفحه‌ای A4 (سیاه‌وسفید)
 // =========================================================================
 const cartDrawerHTML = `
-<style>
-.global-search-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:rgba(244,244,244,.85)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;width:280px;border-radius:8px;box-shadow:0 15px 40px rgba(0,0,0,.08);border:1px solid rgba(255,255,255,.6)!important;padding:10px;display:none;direction:rtl;z-index:10000;max-height:300px;overflow-y:auto}
-.global-search-dropdown.active{display:block!important}
-.g-search-item{display:flex;align-items:center;gap:15px;padding:10px;text-decoration:none;border-radius:6px;transition:.2s}
-.g-search-item:hover{background:rgba(0,0,0,.03)}
-.g-search-item img{width:40px;height:40px;border-radius:4px;object-fit:cover;mix-blend-mode:multiply}
-.g-search-info{display:flex;flex-direction:column;text-align:right}
-.g-search-title{font-family:'Vazirmatn',sans-serif;font-size:13px;font-weight:500;color:#1a1a1a;margin:0;transition: color 0.3s;}
-.g-search-item:hover .g-search-title{color:var(--brand-green);}
-.g-search-ref{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;color:#888;letter-spacing:1.5px;margin-top:3px;text-transform:uppercase}
-.g-search-empty{font-family:'Vazirmatn',sans-serif;font-size:12px;color:#888;text-align:center;padding:20px 0}
-.mega-menu{background:rgba(244,244,244,.85)!important;backdrop-filter:blur(15px)!important;-webkit-backdrop-filter:blur(15px)!important;border:1px solid rgba(255,255,255,.6)!important}
-.cart-count-badge,.wudo-badge,#mobile-cart-badge{position:absolute;top:-5px!important;right:-8px!important;background-color:var(--brand-green)!important;color:#fff!important;font-size:9px!important;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif!important;font-weight:600!important;min-width:16px!important;height:16px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0 4px!important;box-sizing:border-box!important;border:1px solid var(--brand-green)!important;box-shadow:0 2px 5px rgba(0,0,0,.05)!important;transition:.3s}
-
-/* استایل یکپارچه و شیشه‌ای پنجره سبد سفارش */
-.cart-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,.45);z-index:10000;opacity:0;visibility:hidden;transition:.4s ease;backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);display:flex;justify-content:center;align-items:center}
-.cart-overlay.active{opacity:1;visibility:visible}
-.cart-modal{width:90%;max-width:480px;max-height:85vh;background:#fff;z-index:10001;border-radius:4px;box-shadow:0 30px 80px rgba(0,0,0,.1);border:1px solid rgba(0,0,0,.05);transform:translateY(25px) scale(.98);transition:all .4s cubic-bezier(.25,1,.5,1);display:flex;flex-direction:column;direction:rtl;overflow:hidden}
-.cart-overlay.active .cart-modal{transform:translateY(0) scale(1)}
-
-.cart-header{display:flex;justify-content:space-between;align-items:center;padding:30px 40px 20px;border-bottom:1px solid #f2f2f2}
-.cart-header-right{display:flex;align-items:baseline;gap:12px}
-.cart-header h3{margin:0;font-size:15px;font-weight:500;font-family:'Vazirmatn',sans-serif;color:#1a1a1a}
-.clear-cart-btn{background:none;border:none;font-family:'Vazirmatn',sans-serif;font-size:10px;color:#aaa;cursor:pointer;padding:0;transition:.2s}
-.clear-cart-btn:hover{color:#ff5252}
-.close-cart{background:none;border:none;font-size:20px;color:#999;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;padding:0}
-.close-cart:hover{color:#1a1a1a;transform:rotate(90deg)}
-
-/* اسکرول‌بار فوق‌العاده ظریف و مینیمال */
-.cart-items-container{padding:25px 40px;overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:#e0e0e0 transparent}
-.cart-items-container::-webkit-scrollbar{width:3px}
-.cart-items-container::-webkit-scrollbar-track{background:transparent}
-.cart-items-container::-webkit-scrollbar-thumb{background-color:#e0e0e0;border-radius:10px}
-
-.cart-cat-block{border:none;margin-bottom:28px}
-.cart-cat-block:last-child{margin-bottom:10px}
-.cart-cat-head{background:transparent;padding:0 0 10px 0;border-bottom:1px solid #eaeaea;font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:500;color:#999;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-
-.compact-cart-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px dotted #eaeaea;transition:background .3s}
-.compact-cart-row:last-child{border-bottom:none}
-.cc-info{display:flex;flex-direction:column;gap:5px}
-.cc-title{font-family:'Vazirmatn',sans-serif;font-size:13px;font-weight:400;color:#1a1a1a;margin:0;text-decoration:none;transition:color .2s}
-.cc-title:hover{color:var(--brand-green)}
-.cc-meta{display:flex;align-items:center;gap:8px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;color:#aaa;letter-spacing:1px;text-transform:uppercase}
-.cc-meta-units{font-family:'Vazirmatn',sans-serif;font-size:10px;color:#888;font-weight:300;letter-spacing:0;direction:rtl}
-
-.cc-actions{display:flex;align-items:center;gap:12px}
-.cc-qty-box{display:flex;align-items:center;gap:6px;direction:ltr;background:#fafafa;border:1px solid #f0f0f0;border-radius:3px;padding:4px 8px}
-.cc-btn{background:transparent;border:none;cursor:pointer;color:#777;display:flex;align-items:center;justify-content:center;transition:.2s;font-size:15px;padding:0;width:18px;height:18px}
-.cc-btn:hover{color:var(--brand-green);}
-.cc-input{width:28px;text-align:center;border:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;padding:0;pointer-events:none;background:transparent;color:#1a1a1a}
-.cc-remove{background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;opacity:.6;transition:all .2s ease;display:flex;align-items:center;justify-content:center;padding:4px}
-.compact-cart-row:hover .cc-remove{opacity:1}
-.cc-remove:hover{color:#ff5252}
-
-/* بخش فوتر و خلاصه جمع کل سفارش */
-.cart-footer{padding:20px 40px 30px;background:#fcfcfc;border-top:1px solid #f0f0f0;display:flex;flex-direction:column;gap:15px}
-.cart-summary-bar{display:flex;justify-content:space-between;align-items:center;font-family:'Vazirmatn',sans-serif;font-size:12px;color:#666;padding:0 2px}
-.cs-total-val{font-weight:600;color:#1a1a1a;font-size:13px}
-.pill-download-btn{background:#f4f4f4;color:#1a1a1a;border:1px solid #eaeaea;border-radius:3px;padding:15px 40px;font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .3s ease;display:inline-flex;align-items:center;justify-content:center;width:100%;box-shadow:0 4px 15px rgba(0,0,0,.02)}
-.pill-download-btn:hover{background:var(--brand-green);border-color:var(--brand-green);color:#fff;transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.05)}
-
-.print-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.45);z-index:20000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);opacity:0;transition:opacity .4s ease}
-.print-modal-overlay.active{display:flex;opacity:1}
-.print-modal{background:#fff;width:90%;max-width:400px;border-radius:4px;padding:40px;box-shadow:0 25px 60px rgba(0,0,0,.12);border:1px solid rgba(0,0,0,.05);direction:rtl;transform:translateY(20px);transition:transform .4s ease;text-align:center}
-.print-modal-overlay.active .print-modal{transform:translateY(0)}
-.print-modal h3{margin:0 0 8px 0;font-weight:500;font-size:16px;color:var(--text-main);font-family:'Vazirmatn',sans-serif}
-.print-modal p{font-size:12px;color:var(--text-muted);margin-bottom:25px;line-height:1.6}
-.print-modal input[type="text"]{width:100%;padding:14px;background:#fafafa;border:1px solid #eaeaea;border-radius:3px;margin-bottom:12px;font-family:'Vazirmatn',sans-serif;font-size:12px;box-sizing:border-box;transition:.3s;color:var(--text-main)}
-.print-modal input[type="text"]:focus{background:#fff;border-color:var(--brand-green);outline:none}
-.print-checkbox-label{display:flex;align-items:center;justify-content:center;gap:8px;font-size:11px;color:#777;margin-bottom:30px;cursor:pointer;user-select:none}
-.print-modal-actions{display:flex;gap:10px;margin-top:10px}
-.print-modal-actions button{flex:1;padding:14px;border-radius:3px;font-family:'Vazirmatn',sans-serif;font-size:12px;cursor:pointer;font-weight:500;border:none;transition:.3s}
-.print-cancel-btn{background:transparent;color:#888;border:1px solid transparent}
-.print-cancel-btn:hover{background:#f9f9f9;color:#333;border-color:#eaeaea}
-.print-confirm-btn{background:var(--brand-green);color:#fff}
-.print-confirm-btn:hover{opacity:.8}
-</style>
-<div class="cart-overlay" id="cart-overlay" onclick="toggleCartModal()">
+<div class="cart-overlay" id="cart-overlay" onclick="window.toggleCartModal()">
     <div class="cart-modal" id="cart-modal" onclick="event.stopPropagation()">
         <div class="cart-header">
-            <div class="cart-header-right">
-                <h3>سبد سفارش</h3>
-                <button class="clear-cart-btn" id="clear-cart-btn" onclick="window.clearAllCart()" style="display:none;">(خالی کردن سبد)</button>
-            </div>
-            <button class="close-cart" onclick="toggleCartModal()">✕</button>
+            <h3>سبد سفارش</h3>
+            <button class="close-cart" onclick="window.toggleCartModal()">✕</button>
         </div>
         <div class="cart-items-container" id="cart-items-container"></div>
-        <div class="cart-footer">
+        <div class="cart-footer" id="cart-footer-box">
             <div class="cart-summary-bar" id="cart-summary-bar" style="display:none;">
-                <span id="cs-items-count">0 عنوان کالا</span>
-                <span class="cs-total-val" id="cs-total-cartons">مجموع: 0 کارتن</span>
+                <button class="clear-cart-btn" id="clear-cart-btn" onclick="window.clearAllCart()" title="حذف تمام اقلام سبد">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+                <span class="cs-total-val" id="cs-total-cartons">مجموع: ۰ کارتن</span>
             </div>
-            <button class="pill-download-btn" onclick="openPrintModal()" id="main-download-btn">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                دانلود فاکتور
+            <button class="pill-download-btn" onclick="window.openPrintModal()" id="main-download-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                دریافت برگه سفارش
             </button>
         </div>
     </div>
 </div>
-<div id="print-info-modal" class="print-modal-overlay" onclick="closePrintModal(event)">
+<div id="print-info-modal" class="print-modal-overlay" onclick="window.closePrintModal(event)">
     <div class="print-modal" onclick="event.stopPropagation()">
-        <h3>ثبت اطلاعات فاکتور</h3>
-        <p>نام مشتری را وارد کنید تا مستقیماً در فاکتور چاپ شود.</p>
-        <input type="text" id="print-customer-name" placeholder="نام مشتری / فروشگاه" autocomplete="off">
+        <h3>مشخصات سفارش‌دهنده</h3>
+        <p>در صورت تمایل نام و شماره تماس را وارد کنید (در صورت خالی گذاشتن، جای آن در برگه سفارش خالی می‌ماند).</p>
+        <input type="text" id="print-customer-name" placeholder="نام مشتری / فروشگاه (اختیاری)" autocomplete="off">
         <input type="text" id="print-customer-phone" placeholder="شماره تماس (اختیاری)" autocomplete="off">
-        <label class="print-checkbox-label">
-            <input type="checkbox" id="print-skip-info" onchange="togglePrintInputs(this)">
-            <span>ثبت بدون نام (فاکتور خام)</span>
-        </label>
         <div class="print-modal-actions">
-            <button onclick="closePrintModal(event, true)" class="print-cancel-btn">انصراف</button>
-            <button onclick="executeImageDownload()" class="print-confirm-btn" id="generate-image-btn">تایید و دانلود</button>
+            <button onclick="window.closePrintModal(event, true)" class="print-cancel-btn">انصراف</button>
+            <button onclick="window.executeDirectPrint()" class="print-direct-btn">چاپ مستقیم</button>
+            <button onclick="window.executeImageShare()" class="print-share-btn" id="share-image-btn">اشتراک‌گذاری</button>
+            <button onclick="window.executeImageDownload()" class="print-confirm-btn" id="generate-image-btn">دانلود عکس برگه</button>
         </div>
     </div>
 </div>`;
-
-const minimalCartSVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
 
 window.toggleCartModal = function() { 
     const overlay = document.getElementById('cart-overlay'); 
@@ -217,6 +287,22 @@ window.updateQty = function(productId, change) {
     } 
     else if (change > 0) { orderList.push({ id: productId, qty: change }); }
     localStorage.setItem('cleano_order_list', JSON.stringify(orderList)); 
+    window.updateCartUI();
+};
+
+window.setDirectCartQty = function(productId, rawVal) {
+    let cleanNum = parseInt(window.toEnDigits(rawVal).replace(/[^0-9]/g, ''));
+    if (isNaN(cleanNum) || cleanNum <= 0) {
+        window.removeFromCart(productId);
+        return;
+    }
+    let itemIndex = orderList.findIndex(i => i.id === productId);
+    if (itemIndex > -1) {
+        orderList[itemIndex].qty = cleanNum;
+    } else {
+        orderList.push({ id: productId, qty: cleanNum });
+    }
+    localStorage.setItem('cleano_order_list', JSON.stringify(orderList));
     window.updateCartUI();
 };
 
@@ -245,7 +331,7 @@ window.changeCatQty = function(e, btn, dir) {
     val += dir; 
     if (val < 1) val = 1; 
     input.value = val;
-    if (numDisplay) numDisplay.innerText = val;
+    if (numDisplay) numDisplay.innerText = window.toFaDigits(val);
 };
 
 window.quickAddWithQty = function(e, productId, btn) {
@@ -268,9 +354,10 @@ window.quickAddWithQty = function(e, productId, btn) {
         btn.classList.remove('success-state'); 
         textSpan.innerText = originalText; 
         if (input) input.value = 1; 
-        if (numDisplay) numDisplay.innerText = '1';
-    }, 1500);
+        if (numDisplay) numDisplay.innerText = '۱';
+    }, 1400);
 };
+
 window.handleSmartAdd = function(productId, btn, selectId) { 
     const input = document.getElementById(selectId); 
     const qty = input ? parseInt(input.value) : 1; 
@@ -279,37 +366,51 @@ window.handleSmartAdd = function(productId, btn, selectId) {
         window.updateQty(productId, qty); 
         
         const origText = btn.innerText; 
-        btn.style.backgroundColor = 'var(--brand-green)'; 
-        btn.style.borderColor = 'var(--brand-green)'; 
-        btn.style.color = '#fff'; 
-        btn.style.pointerEvents = 'none'; 
+        btn.classList.add('success-state');
         btn.innerText = `افزوده شد ✓`; 
         
         setTimeout(() => { 
-            btn.style.backgroundColor = '#f4f4f4'; 
-            btn.style.borderColor = '#eaeaea';
-            btn.style.color = '#1a1a1a'; 
-            btn.style.pointerEvents = 'auto'; 
+            btn.classList.remove('success-state');
             btn.innerText = origText; 
             if(input) input.value = 1; 
             const numDisplay = document.getElementById('amory-qty-num-display');
-            if(numDisplay) numDisplay.innerText = '1';
-        }, 2000); 
+            if(numDisplay) numDisplay.value = '۱';
+        }, 1600); 
     }
 };
 
+window.syncCategoryCardBadges = function() {
+    document.querySelectorAll('.minimal-product-card').forEach(card => {
+        const badge = card.querySelector('.product-ref-badge');
+        if (!badge) return;
+        const refCode = badge.getAttribute('data-ref') || badge.innerText.trim();
+        badge.setAttribute('data-ref', refCode);
+        const inCart = orderList.find(item => item.id === refCode);
+        if (inCart && inCart.qty > 0) {
+            badge.classList.add('in-cart-badge');
+            badge.innerHTML = `<span class="in-cart-dot"></span><span>${refCode}</span>`;
+        } else {
+            badge.classList.remove('in-cart-badge');
+            badge.innerText = refCode;
+        }
+    });
+};
+
 window.updateCartUI = function() {
+    window.syncCatalogWithHtmlMeta();
     const container = document.getElementById('cart-items-container');
-    const dBtn = document.getElementById('main-download-btn');
+    const footerBox = document.getElementById('cart-footer-box');
     const summaryBar = document.getElementById('cart-summary-bar');
     const clearBtn = document.getElementById('clear-cart-btn');
     let totalDistinctItems = orderList.length;
 
     document.querySelectorAll('.cart-count-badge').forEach(b => {
-        b.innerText = totalDistinctItems;
+        b.innerText = window.toFaDigits(totalDistinctItems);
         if(totalDistinctItems > 0) { b.style.setProperty('display', 'flex', 'important'); } 
         else { b.style.setProperty('display', 'none', 'important'); }
     });
+
+    window.syncCategoryCardBadges();
 
     if(!container) return;
 
@@ -317,11 +418,11 @@ window.updateCartUI = function() {
     try { packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}'); } catch(e) {}
 
     const getCatName = (url) => { 
-        if(url.includes('mahsolat-takmili')) return 'محصولات تکمیلی'; 
-        if(url.includes('set-fer')) return 'ست فر'; 
-        if(url.includes('set-parcheie')) return 'ست پارچه‌ای'; 
-        if(url.includes('dastmal-ashpazkhane')) return 'دستمال‌های آشپزخانه'; 
-        if(url.includes('sofre')) return 'سفره‌های ژله‌ای'; 
+        if(url.startsWith('mahsolat-takmili/')) return 'محصولات تکمیلی'; 
+        if(url.startsWith('set-fer/')) return 'ست فر'; 
+        if(url.startsWith('set-parcheie/') || url.startsWith('set-parchei/')) return 'ست پارچه‌ای'; 
+        if(url.startsWith('dastmal-ashpazkhane/')) return 'حوله و دستمال آشپزخانه'; 
+        if(url.startsWith('sofre/')) return 'سفره‌های ژله‌ای'; 
         return 'سایر محصولات'; 
     };
 
@@ -346,7 +447,6 @@ window.updateCartUI = function() {
         });
 
         if(catTotalCartons > 0) {
-            // حذف شمارنده کارتن دسته‌بندی از سمت چپ هدر
             html += `<div class="cart-cat-block"><div class="cart-cat-head"><span>${cat}</span></div>`;
             groupedCatalog[cat].forEach(p => {
                 let cartItem = orderList.find(i => i.id === p.id);
@@ -355,37 +455,44 @@ window.updateCartUI = function() {
                 if (qty > 0) {
                     let p1 = "", p2 = "";
                     if (typeof PRODUCT_DATA !== 'undefined' && PRODUCT_DATA.id === p.id && PRODUCT_DATA.salesData) {
-                        p1 = String(PRODUCT_DATA.salesData.pack1 || "").replace(/[^0-9]/g, '');
-                        p2 = String(PRODUCT_DATA.salesData.pack2 || "").replace(/[^0-9]/g, '');
+                        p1 = String(window.toEnDigits(PRODUCT_DATA.salesData.pack1 || "")).replace(/[^0-9]/g, '');
+                        p2 = String(window.toEnDigits(PRODUCT_DATA.salesData.pack2 || "")).replace(/[^0-9]/g, '');
                     } else if (packStore[p.id]) {
                         p1 = packStore[p.id].pack1;
                         p2 = packStore[p.id].pack2;
+                    } else if (p.salesData) {
+                        p1 = String(window.toEnDigits(p.salesData.pack1 || "")).replace(/[^0-9]/g, '');
+                        p2 = String(window.toEnDigits(p.salesData.pack2 || "")).replace(/[^0-9]/g, '');
                     }
 
                     let unitsPerCarton = "";
                     if (p2 && p1) {
-                        unitsPerCarton = `هر کارتن ${p2} بسته ${p1} تایی`;
+                        unitsPerCarton = `هر کارتن ${window.toFaDigits(p2)} بسته ${window.toFaDigits(p1)} عددی`;
                     } else if (p2) {
-                        unitsPerCarton = `هر کارتن ${p2} بسته`;
+                        unitsPerCarton = `هر کارتن ${window.toFaDigits(p2)} بسته`;
                     }
 
                     const prodLink = window.getCleanPath(p.url);
+                    const prodThumb = window.getCleanPath(p.img);
 
                     html += `
                     <div class="compact-cart-row">
-                        <div class="cc-info">
-                            <a href="${prodLink}" class="cc-title">${p.title}</a>
-                            <div class="cc-meta">
-                                <span class="cc-ref">${p.ref}</span>${unitsPerCarton ? `<span style="color:#e0e0e0; margin: 0 4px;">|</span><span class="cc-meta-units">${unitsPerCarton}</span>` : ''}
+                        <div class="cc-right-wrap">
+                            <a href="${prodLink}"><img src="${prodThumb}" alt="${p.title}" class="cc-thumb"></a>
+                            <div class="cc-info">
+                                <a href="${prodLink}" class="cc-title">${p.title}</a>
+                                <div class="cc-meta">
+                                    <span class="cc-ref">${p.ref}</span>${unitsPerCarton ? `<span style="color:#e0e0e0; margin: 0 4px;">|</span><span class="cc-meta-units">${unitsPerCarton}</span>` : ''}
+                                </div>
                             </div>
                         </div>
                         <div class="cc-actions">
                             <div class="cc-qty-box">
                                 <button class="cc-btn" onclick="window.updateQty('${p.id}', -1)">−</button>
-                                <input type="text" class="cc-input" value="${qty}" readonly>
+                                <input type="text" class="cc-input" value="${window.toFaDigits(qty)}" onchange="window.setDirectCartQty('${p.id}', this.value)" onfocus="this.select()">
                                 <button class="cc-btn" onclick="window.updateQty('${p.id}', 1)">+</button>
                             </div>
-                            <button class="cc-remove" onclick="window.removeFromCart('${p.id}')" title="حذف از سبد">✕</button>
+                            <button class="cc-remove" onclick="window.removeFromCart('${p.id}')" title="حذف">✕</button>
                         </div>
                     </div>`;
                 }
@@ -394,37 +501,217 @@ window.updateCartUI = function() {
         }
     }
 
-    container.innerHTML = html || '<div style="text-align:center; padding: 50px 0; color:#aaa; font-family:\'Vazirmatn\',sans-serif; font-size:12px;">سبد سفارش شما خالی است.</div>';
-    
-    if(totalDistinctItems === 0) { 
-        if(dBtn) { dBtn.style.opacity = '0.5'; dBtn.style.pointerEvents = 'none'; }
-        if(summaryBar) summaryBar.style.display = 'none';
+    const allCatalogLink = window.getCleanPath('all/index.html');
+    if (totalDistinctItems === 0) {
+        container.innerHTML = `
+            <div class="cart-empty-state">
+                <p class="cart-empty-text">سبد سفارش شما در حال حاضر خالی است.</p>
+                <a href="${allCatalogLink}" class="cart-empty-cta">مشاهده کاتالوگ و انتخاب محصولات ←</a>
+            </div>
+        `;
+        if(footerBox) footerBox.style.display = 'none';
         if(clearBtn) clearBtn.style.display = 'none';
-    } else { 
-        if(dBtn) { dBtn.style.opacity = '1'; dBtn.style.pointerEvents = 'auto'; }
-        if(clearBtn) clearBtn.style.display = 'inline-block';
+    } else {
+        container.innerHTML = html;
+        if(footerBox) footerBox.style.display = 'flex';
+        if(clearBtn) clearBtn.style.display = 'inline-flex';
         if(summaryBar) {
             summaryBar.style.display = 'flex';
-            document.getElementById('cs-items-count').innerText = `${totalDistinctItems} عنوان کالا`;
-            document.getElementById('cs-total-cartons').innerText = `مجموع: ${grandTotalCartons} کارتن`;
+            document.getElementById('cs-total-cartons').innerText = `مجموع: ${window.toFaDigits(grandTotalCartons)} کارتن`;
         }
     }
 };
 
-window.openPrintModal = function() { if (orderList.length === 0) return; document.getElementById('print-info-modal').classList.add('active'); };
-window.closePrintModal = function(e, force = false) { if (force || e.target.id === 'print-info-modal') document.getElementById('print-info-modal').classList.remove('active'); };
-window.togglePrintInputs = function(checkbox) { const n = document.getElementById('print-customer-name'); const p = document.getElementById('print-customer-phone'); n.disabled = checkbox.checked; p.disabled = checkbox.checked; n.style.opacity = checkbox.checked ? '0.5' : '1'; p.style.opacity = checkbox.checked ? '0.5' : '1'; if(checkbox.checked){ n.value=''; p.value=''; } };
+window.openPrintModal = function() {
+    if (orderList.length === 0) return;
+    const cartOverlay = document.getElementById('cart-overlay');
+    if (cartOverlay && cartOverlay.classList.contains('active')) {
+        cartOverlay.classList.remove('active');
+    }
+    document.getElementById('print-info-modal').classList.add('active');
+};
+window.closePrintModal = function(e, force = false) {
+    if (force || (e && e.target.id === 'print-info-modal')) {
+        document.getElementById('print-info-modal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+};
+
+function generateSinglePageA4Markup() {
+    window.syncCatalogWithHtmlMeta();
+    const today = new Date().toLocaleDateString('fa-IR');
+    const validItems = orderList.filter(i => i.qty > 0);
+    const itemCount = validItems.length;
+    const totalCartons = validItems.reduce((sum, item) => sum + item.qty, 0);
+    
+    const cName = document.getElementById('print-customer-name') ? document.getElementById('print-customer-name').value.trim() : '';
+    const cPhone = document.getElementById('print-customer-phone') ? document.getElementById('print-customer-phone').value.trim() : '';
+
+    let packStore = {};
+    try { packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}'); } catch(e) {}
+
+    const getCatName = (url) => { 
+        if(url.startsWith('mahsolat-takmili/')) return 'محصولات تکمیلی'; 
+        if(url.startsWith('set-fer/')) return 'ست فر'; 
+        if(url.startsWith('set-parcheie/') || url.startsWith('set-parchei/')) return 'ست پارچه‌ای'; 
+        if(url.startsWith('dastmal-ashpazkhane/')) return 'حوله و دستمال آشپزخانه'; 
+        if(url.startsWith('sofre/')) return 'سفره‌های ژله‌ای'; 
+        return 'سایر محصولات'; 
+    };
+
+    const categoriesOrder = ['ست فر', 'ست پارچه‌ای', 'حوله و دستمال آشپزخانه', 'سفره‌های ژله‌ای', 'محصولات تکمیلی', 'سایر محصولات'];
+    let groupedOrder = {};
+    validItems.forEach(item => {
+        const p = catalogDB.find(x => x.id === item.id);
+        if (p) {
+            const cat = getCatName(p.url);
+            if (!groupedOrder[cat]) groupedOrder[cat] = [];
+            groupedOrder[cat].push({ ...item, p: p });
+        }
+    });
+
+    const activeCatCount = Object.keys(groupedOrder).length;
+
+    let rowPad = "8.5px 4px";
+    let catTopPad = "16px";
+    let fontSize = "12.5px";
+    let metaFontSize = "10.5px";
+    if (itemCount > 16 || (itemCount + activeCatCount) > 21) {
+        rowPad = "5px 4px";
+        catTopPad = "10px";
+        fontSize = "11.5px";
+        metaFontSize = "10px";
+    } else if (itemCount > 10) {
+        rowPad = "6.5px 4px";
+        catTopPad = "13px";
+        fontSize = "12px";
+        metaFontSize = "10.5px";
+    }
+
+    let rowsHtml = '';
+    let isFirstCat = true;
+    categoriesOrder.forEach(cat => {
+        if (!groupedOrder[cat] || groupedOrder[cat].length === 0) return;
+
+        const currentCatTopPad = isFirstCat ? "8px" : catTopPad;
+        isFirstCat = false;
+
+        rowsHtml += `
+            <tr>
+                <td colspan="3" style="padding: ${currentCatTopPad} 4px 4px; font-size: 10.5px; font-weight: 500; color: #555; border-bottom: 1px solid #ccc; letter-spacing: 0;">
+                    ${cat}
+                </td>
+            </tr>
+        `;
+
+        groupedOrder[cat].forEach(item => {
+            const p = item.p;
+            let p1 = "", p2 = "";
+            if (packStore[p.id] && packStore[p.id].pack2) {
+                p1 = packStore[p.id].pack1 || (p.salesData ? p.salesData.pack1 : "1");
+                p2 = packStore[p.id].pack2;
+            } else if (p.salesData) {
+                p1 = p.salesData.pack1 || "1";
+                p2 = p.salesData.pack2 || "";
+            }
+            
+            const cleanP1 = String(window.toEnDigits(p1)).replace(/[^0-9]/g, '') || "1";
+            const cleanP2 = String(window.toEnDigits(p2)).replace(/[^0-9]/g, '') || "";
+            const ctnCount = parseInt(cleanP2) || 0;
+            const rowUnits = ctnCount * item.qty;
+
+            const fullProductTitle = p.title.includes('کیلینو') ? p.title : `${p.title} کیلینو`;
+            const packText = cleanP2 ? `هر کارتن ${window.toFaDigits(cleanP2)} بسته ${window.toFaDigits(cleanP1)} عددی` : '';
+
+            rowsHtml += `
+                <tr>
+                    <td style="padding: ${rowPad}; text-align: right; width: 72%; letter-spacing: 0; line-height: 1.45;">
+                        <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                            <span style="font-weight: 500; color: #111; font-size: ${fontSize};">${fullProductTitle}</span>
+                            <span style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: ${metaFontSize}; font-weight: 400; color: #666; letter-spacing: 1px;">${p.ref}</span>
+                            ${packText ? `<span style="color: #bbb; font-size: ${metaFontSize};">|</span><span style="font-size: ${metaFontSize}; color: #555; font-weight: 300;">${packText}</span>` : ''}
+                        </div>
+                    </td>
+                    <td style="padding: ${rowPad}; text-align: center; font-weight: 500; color: #111; width: 14%; font-size: ${fontSize}; letter-spacing: 0; line-height: 1.45;">
+                        ${window.toFaDigits(item.qty)} کارتن
+                    </td>
+                    <td style="padding: ${rowPad}; text-align: left; font-weight: 300; color: #555; width: 14%; font-size: ${metaFontSize}; letter-spacing: 0; line-height: 1.45;">
+                        ${rowUnits > 0 ? window.toFaDigits(rowUnits) + ' بسته' : '—'}
+                    </td>
+                </tr>
+            `;
+        });
+    });
+
+    const customerBarHtml = (cName || cPhone) ? `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 9px 14px; margin-bottom: 12px; background-color: #f8f8f8; border-radius: 3px; font-size: 11.5px; letter-spacing: 0;">
+            <div><span style="color: #666; font-weight: 300; margin-left: 6px;">سفارش‌دهنده:</span><strong style="color: #111; font-weight: 500;">${cName || '—'}</strong></div>
+            <div><span style="color: #666; font-weight: 300; margin-left: 6px;">شماره تماس:</span><strong style="color: #111; font-weight: 500; direction: ltr; display: inline-block;">${cPhone ? window.toFaDigits(cPhone) : '—'}</strong></div>
+        </div>
+    ` : `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 2px 12px; margin-bottom: 10px; border-bottom: 1px solid #ddd; font-size: 11px; font-weight: 300; color: #666; letter-spacing: 0;">
+            <div style="width: 52%;">سفارش‌دهنده:</div>
+            <div style="width: 42%;">شماره تماس:</div>
+        </div>
+    `;
+
+    return `
+        <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; color: #111; font-family: 'Vazirmatn', sans-serif; box-sizing: border-box; letter-spacing: 0;">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #222; padding-bottom: 14px; margin-bottom: 12px;">
+                    <div style="text-align: right; letter-spacing: 0;">
+                        <div style="font-size: 16px; font-weight: 500; color: #111; letter-spacing: 0;">برگه سفارش محصولات</div>
+                        <div style="font-size: 11px; font-weight: 300; color: #555; margin-top: 4px; letter-spacing: 0;">تاریخ: ${today}</div>
+                    </div>
+                    <div style="text-align: left; direction: ltr;">
+                        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 24px; font-weight: 600; color: #111; letter-spacing: 5px; line-height: 1;">CLEANO</div>
+                        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 8.5px; font-weight: 400; letter-spacing: 3px; color: #666; margin-top: 5px;">Home Textile Catalog</div>
+                    </div>
+                </div>
+
+                ${customerBarHtml}
+
+                <table style="width: 100%; border-collapse: collapse; text-align: right;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #333;">
+                            <th style="padding: 7px 4px; text-align: right; font-weight: 400; font-size: 10.5px; color: #555; width: 72%; letter-spacing: 0;">شرح محصول و بسته‌بندی</th>
+                            <th style="padding: 7px 4px; text-align: center; font-weight: 400; font-size: 10.5px; color: #555; width: 14%; letter-spacing: 0;">تعداد کارتن</th>
+                            <th style="padding: 7px 4px; text-align: left; font-weight: 400; font-size: 10.5px; color: #555; width: 14%; letter-spacing: 0;">تعداد بسته</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml}
+                    </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding: 12px 4px; border-top: 1px solid #222; letter-spacing: 0;">
+                    <span style="font-size: 12px; font-weight: 500; color: #111;">جمع کل سفارش</span>
+                    <strong style="font-size: 14px; font-weight: 600; color: #111;">${window.toFaDigits(totalCartons)} کارتن</strong>
+                </div>
+            </div>
+
+            <div style="text-align: center; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 8.5px; font-weight: 400; letter-spacing: 2.5px; color: #666; padding-top: 10px; border-top: 1px solid #e0e0e0; margin-top: auto;">
+                CLEANO — Home Textile Catalog
+            </div>
+        </div>
+    `;
+}
 
 window.executeImageDownload = function() {
     const btn = document.getElementById('generate-image-btn');
     const originalText = btn.innerText;
-    btn.innerText = 'در حال ساخت عکس...';
+    btn.innerText = 'در حال ساخت برگه...';
     btn.style.pointerEvents = 'none';
 
     if (typeof html2canvas === 'undefined') {
         let script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
         script.onload = () => buildAndDownloadA4Image(btn, originalText);
+        script.onerror = () => {
+            btn.innerText = originalText;
+            btn.style.pointerEvents = 'auto';
+            alert('برای دانلود عکس برگه، اتصال اینترنت خود را بررسی کنید یا از دکمه چاپ مستقیم (Save as PDF) استفاده نمایید.');
+        };
         document.head.appendChild(script);
     } else {
         buildAndDownloadA4Image(btn, originalText);
@@ -432,123 +719,90 @@ window.executeImageDownload = function() {
 };
 
 function buildAndDownloadA4Image(btn, originalText) {
-    const today = new Date().toLocaleDateString('fa-IR');
-    const totalCartons = orderList.reduce((sum, item) => sum + item.qty, 0);
-    const skipInfo = document.getElementById('print-skip-info').checked;
-    const cName = skipInfo ? '' : document.getElementById('print-customer-name').value.trim();
-    const cPhone = skipInfo ? '' : document.getElementById('print-customer-phone').value.trim();
-    const nameDisplay = cName ? cName : `........................................`;
-    const phoneDisplay = cPhone ? cPhone : `........................................`;
-
-    let packStore = {};
-    try { packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}'); } catch(e) {}
-
     const captureBox = document.createElement('div');
-    captureBox.style.position = 'absolute'; captureBox.style.top = '0'; captureBox.style.left = '0'; captureBox.style.zIndex = '-9999';
-    captureBox.style.width = '794px'; captureBox.style.minHeight = '1123px'; captureBox.style.backgroundColor = '#ffffff';
-    captureBox.style.padding = '50px 60px'; captureBox.style.boxSizing = 'border-box'; captureBox.style.direction = 'rtl';
-    captureBox.style.color = '#000000'; captureBox.style.display = 'flex'; captureBox.style.flexDirection = 'column'; captureBox.style.justifyContent = 'space-between'; 
+    captureBox.id = 'cleano-a4-capture-box';
+    captureBox.style.position = 'fixed';
+    captureBox.style.top = '0';
+    captureBox.style.left = '0';
+    captureBox.style.zIndex = '-9999';
+    captureBox.style.width = '794px';
+    captureBox.style.height = '1123px';
+    captureBox.style.backgroundColor = '#ffffff';
+    captureBox.style.padding = '34px 46px';
+    captureBox.style.boxSizing = 'border-box';
+    captureBox.style.direction = 'rtl';
     
-    const getCatName = (url) => { 
-        if(url.includes('mahsolat-takmili')) return 'محصولات تکمیلی'; 
-        if(url.includes('set-fer')) return 'ست فر'; 
-        if(url.includes('set-parcheie')) return 'ست پارچه‌ای'; 
-        if(url.includes('dastmal-ashpazkhane')) return 'دستمال‌های آشپزخانه'; 
-        if(url.includes('sofre')) return 'سفره‌های ژله‌ای'; 
-        return 'سایر محصولات'; 
-    };
-
-    let groupedOrder = {};
-    orderList.forEach(item => { 
-        if(item.qty > 0) {
-            const p = catalogDB.find(x => x.id === item.id); 
-            if(p){ 
-                let c = getCatName(p.url); 
-                if(!groupedOrder[c]) groupedOrder[c]=[]; 
-                groupedOrder[c].push({...item, p: p}); 
-            } 
-        }
-    });
-
-    let innerHtml = `
-        <div style="flex: 1; display: flex; flex-direction: column;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 30px;">
-                <div style="text-align: right; font-family: 'Vazirmatn', sans-serif;">
-                    <div style="font-size: 16px; font-weight: 600; color: #000;">فرم سفارش محصولات</div>
-                    <div style="font-size: 11px; color: #555; margin-top: 6px;">تاریخ: ${today}</div>
-                </div>
-                <div style="text-align: left; direction: ltr;">
-                    <h1 style="margin:0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 32px; font-weight: 600; color: #000; letter-spacing: 5px;">CLEANO</h1>
-                    <div style="font-family: Arial, sans-serif; font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: #555; margin-top: 5px;">Order Form</div>
-                </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-family: 'Vazirmatn', sans-serif; font-size: 12px; margin-bottom: 30px;">
-                <div style="flex:1;"><span style="color: #666; margin-left: 8px;">سفارش دهنده:</span><span style="font-weight: 600; color: #000;">${nameDisplay}</span></div>
-                <div style="flex:1; text-align: left;"><span style="color: #666; margin-left: 8px;">شماره تماس:</span><span style="font-weight: 600; color: #000; letter-spacing: 1px;">${phoneDisplay}</span></div>
-            </div>
-            <table style="width: 100%; border-collapse: collapse; font-family: 'Vazirmatn', sans-serif; font-size: 12px; text-align: right;">
-                <thead>
-                    <tr style="border-bottom: 1px solid #000;">
-                        <th style="padding: 10px 5px; font-weight: 600; width: 8%; color: #333;">ردیف</th>
-                        <th style="padding: 10px 5px; font-weight: 600; width: 47%; color: #333;">شرح کالا</th>
-                        <th style="padding: 10px 5px; font-weight: 600; width: 20%; font-family: Arial, sans-serif; letter-spacing: 1px; color: #333;">REF</th>
-                        <th style="padding: 10px 5px; font-weight: 600; text-align: center; width: 25%; color: #333;">تعداد (کارتن)</th>
-                    </tr>
-                </thead>
-                <tbody>
-    `;
-    
-    let rowCount = 1;
-    for (let cat in groupedOrder) {
-        innerHtml += `<tr><td colspan="4" style="font-family: 'Vazirmatn', sans-serif; font-weight: 600; font-size: 10px; padding: 20px 5px 6px 5px; color: #000; letter-spacing: 0.5px;">${cat}</td></tr>`;
-        groupedOrder[cat].forEach(item => {
-            let p1 = "", p2 = "";
-            if (packStore[item.p.id]) {
-                p1 = packStore[item.p.id].pack1;
-                p2 = packStore[item.p.id].pack2;
-            }
-            let packSub = (p2 && p1) ? `<span style="font-size:10px; color:#777; font-weight:300; margin-right:8px;">(هر کارتن ${p2} بسته ${p1} تایی)</span>` : '';
-
-            innerHtml += `
-                <tr style="border-bottom: 1px solid #f0f0f0;">
-                    <td style="padding: 10px 5px; color: #666;">${rowCount}</td>
-                    <td style="padding: 10px 5px; font-weight: 500; color: #000;">${item.p.title}${packSub}</td>
-                    <td style="padding: 10px 5px; font-family: Arial, sans-serif; color: #666; letter-spacing: 1px;">${item.p.ref}</td>
-                    <td style="padding: 10px 5px; text-align: center; font-weight: 600; font-size: 14px; color: #000;">${item.qty}</td>
-                </tr>`;
-            rowCount++;
-        });
-    }
-    
-    innerHtml += `
-                </tbody>
-            </table>
-            <div style="margin-top: 20px; border-top: 2px solid #000; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; font-family: 'Vazirmatn', sans-serif;">
-                <div style="font-size: 14px; font-weight: 600; color: #000;">جمع کل سفارش:</div>
-                <div style="font-size: 16px; font-weight: 700; color: #000;">${totalCartons} کارتن</div>
-            </div>
-        </div>
-        <div style="flex-shrink: 0; margin-top: 60px;">
-            <div style="display: flex; justify-content: space-between; font-family: 'Vazirmatn', sans-serif; font-size: 11px; margin-bottom: 20px;">
-                <div style="width: 200px; text-align: center;"><div style="border-bottom: 1px solid #000; height: 30px; margin-bottom: 10px;"></div>مهر و امضای خریدار</div>
-                <div style="width: 200px; text-align: center;"><div style="border-bottom: 1px solid #000; height: 30px; margin-bottom: 10px;"></div>تایید واحد فروش</div>
-            </div>
-            <div style="text-align: center; font-family: Arial, sans-serif; font-size: 8px; letter-spacing: 2px; color: #888; text-transform: uppercase;">Premium Home Textiles • Minimal Design • Timeless Quality</div>
-        </div>
-    `;
-    
-    captureBox.innerHTML = innerHtml;
+    captureBox.innerHTML = generateSinglePageA4Markup();
     document.body.appendChild(captureBox);
-    window.scrollTo(0, 0);
+
+    let jalaliFileName = `سفارش-کیلینو.jpg`;
+    try {
+        const now = new Date();
+        const parts = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { day: 'numeric', month: 'long', year: 'numeric' }).formatToParts(now);
+        const day = window.toEnDigits((parts.find(p => p.type === 'day') || {}).value || '').trim();
+        const month = ((parts.find(p => p.type === 'month') || {}).value || '').trim().replace(/\s+/g, '-');
+        const year = window.toEnDigits((parts.find(p => p.type === 'year') || {}).value || '').trim();
+        if (day && month && year) {
+            jalaliFileName = `سفارش-کیلینو-${day}-${month}-${year}.jpg`;
+        }
+    } catch (e) {}
 
     setTimeout(() => {
-        html2canvas(captureBox, { scale: 2, useCORS: true, backgroundColor: "#ffffff", scrollY: 0, scrollX: 0 }).then(canvas => {
+        html2canvas(captureBox, {
+            scale: 2,
+            backgroundColor: "#ffffff",
+            logging: false,
+            onclone: (clonedDoc) => {
+                clonedDoc.querySelectorAll('img').forEach(img => img.remove());
+            }
+        }).then(canvas => {
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
-            const link = document.createElement('a'); link.download = `سفارش-کیلینو-${Date.now()}.jpg`; link.href = imgData; link.click();
-            document.body.removeChild(captureBox); window.closePrintModal(null, true); btn.innerText = originalText; btn.style.pointerEvents = 'auto';
+            const link = document.createElement('a');
+            link.download = jalaliFileName;
+            link.href = imgData;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            if (captureBox.parentNode) document.body.removeChild(captureBox);
+            window.closePrintModal(null, true);
+            btn.innerText = originalText;
+            btn.style.pointerEvents = 'auto';
+        }).catch(err => {
+            console.error("Image Download Error:", err);
+            if (captureBox.parentNode) document.body.removeChild(captureBox);
+            btn.innerText = originalText;
+            btn.style.pointerEvents = 'auto';
         });
-    }, 100);
+    }, 120);
 }
+
+window.executeDirectPrint = function() {
+    const printWin = window.open('', '_blank', 'width=850,height=950');
+    if (!printWin) return;
+    printWin.document.write(`
+        <!DOCTYPE html>
+        <html lang="fa" dir="rtl">
+        <head>
+            <meta charset="UTF-8">
+            <title>برگه سفارش کیلینو</title>
+            <link href="https://v1.fontapi.ir/css/Vazirmatn" rel="stylesheet">
+            <style>
+                @page { size: A4 portrait; margin: 8mm 10mm; }
+                html, body { margin: 0; padding: 0; background: #fff; color: #111; font-family: 'Vazirmatn', sans-serif; direction: rtl; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                .a4-print-wrapper { width: 100%; height: 277mm; max-height: 277mm; padding: 3mm 5mm; box-sizing: border-box; overflow: hidden; page-break-inside: avoid; page-break-after: avoid; }
+            </style>
+        </head>
+        <body>
+            <div class="a4-print-wrapper">${generateSinglePageA4Markup()}</div>
+            <script>
+                window.onload = function() { setTimeout(function(){ window.print(); window.close(); }, 350); };
+            <\/script>
+        </body>
+        </html>
+    `);
+    printWin.document.close();
+    window.closePrintModal(null, true);
+};
 
 // =========================================================================
 // 3. رندر صفحه محصول تکی (Single Product Page - Level 3)
@@ -562,11 +816,12 @@ window.renderProductPage = function() {
     window.amoryCurrentIdx = 0;
 
     const categoryData = {
-        "dastmal-ashpazkhane": { catNameEn: "KITCHEN TOWELS & CLOTHS", bannerTitleEn: "KITCHEN TOWELS", faTitle: "حوله و دستمال آشپزخانه", desc: "A large set of highly absorbent and durable towels crafted for daily use.", heroImg: "../dastmal-ashpazkhane/cover-dastmal.webp", bgColor: "#f6f6f6" },
-        "set-parcheie": { catNameEn: "FABRIC SET", bannerTitleEn: "CONTEMPORARY DESIGN", faTitle: "ست پارچه‌ای", desc: "A large set of beautiful & fully flexible home textiles. Lets you create your kitchen space quickly & easily.", heroImg: "../set-parcheie/cover-set-parcheie.webp", bgColor: "#f6f6f6" },
-        "set-fer": { catNameEn: "OVEN SET", bannerTitleEn: "OVEN ESSENTIALS", faTitle: "ست فر", desc: "A perfect blend of heat resistance and elegant design for your daily baking needs.", heroImg: "../set-fer/cover-set-fer.webp", bgColor: "#f6f6f6" },
-        "sofre": { catNameEn: "TABLECLOTHS", bannerTitleEn: "MODERN TABLECLOTHS", faTitle: "سفره‌های ژله‌ای", desc: "Easy to clean, beautifully patterned tablecloths that protect and enhance your dining area.", heroImg: "../sofre/cover-sofre.webp", bgColor: "#f6f6f6" },
-        "mahsolat-takmili": { catNameEn: "EXTRAS", bannerTitleEn: "KITCHEN ACCESSORIES", faTitle: "محصولات تکمیلی", desc: "Discover our range of complementary kitchen accessories designed to make life easier.", heroImg: "../mahsolat-takmili/cover-takmili.webp", bgColor: "#f6f6f6" }
+        "dastmal-ashpazkhane": { catNameEn: "KITCHEN TOWELS & CLOTHS" },
+        "set-parcheie": { catNameEn: "FABRIC SET" },
+        "set-parchei": { catNameEn: "FABRIC SET" },
+        "set-fer": { catNameEn: "OVEN SET" },
+        "sofre": { catNameEn: "TABLECLOTHS" },
+        "mahsolat-takmili": { catNameEn: "EXTRAS" }
     };
     
     const masterProduct = typeof catalogDB !== 'undefined' ? catalogDB.find(p => p.id === d.id) : null;
@@ -579,150 +834,60 @@ window.renderProductPage = function() {
 
     const catInfo = categoryData[catKey] || { catNameEn: "COLLECTION" };
     const headerCategoryEn = catInfo.catNameEn;
-    const catLink = catKey !== "all" ? `${bUrl}${catKey}/index.html#filter-anchor` : `${bUrl}all/index.html#filter-anchor`;
 
-    const mainEnglishTitle = d.titleEn || headerCategoryEn;
-    
-    const amoryStyles = `<style>
-        body{background-color:#fff;margin:0;padding:0}
-        
-        .wudo-header{position:absolute;top:0;left:0;width:100%;height:100px;background:0 0;z-index:9999;display:block;box-sizing:border-box;direction:ltr;pointer-events:none}
-        .wudo-header *{pointer-events:auto}
-        .wh-left{position:fixed;top:0;left:0;width:50%;height:100px;padding-left:80px;display:flex;align-items:center;box-sizing:border-box;}
-        .wudo-logo{font-size:16px;letter-spacing:5px;font-weight:600;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1a1a;text-decoration:none;transition: color 0.3s;}
-        .wudo-logo:hover{color:var(--brand-green);}
-        .wh-right{position:absolute;top:0;right:0;width:50%;height:100px;padding:0 80px 0 40px;display:flex;justify-content:space-between;align-items:center;box-sizing:border-box;}
-        .wudo-nav-links{display:flex;gap:30px}
-        .wudo-nav-links a{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;color:#1a1a1a;text-transform:uppercase;letter-spacing:2px;text-decoration:none;font-weight:600;transition:.3s}
-        .wudo-nav-links a:hover{color:var(--brand-green);}
-        .wh-icons{display:flex;gap:15px;align-items:center}
-        .wudo-icon-btn{background:0 0;border:none;color:#1a1a1a;cursor:pointer;display:flex;align-items:center;position:relative;padding:5px;transition:.3s}
-        .wudo-icon-btn:hover{color:var(--brand-green);}
-        
-        .amory-layout{display:flex;width:100%;min-height:100vh;direction:ltr}
-        .amory-left{position:relative;width:50%;height:100vh;background-color:var(--bg-img);overflow:hidden;position:sticky;top:0}
-        .amory-img-container{width:100%;height:100%;position:absolute;top:0;left:0}
-        .amory-main-img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;transition:opacity .5s ease-in-out}
-        .amory-nav{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:20;background:rgba(255,255,255,.4);backdrop-filter:blur(8px);padding:10px 16px;border-radius:30px}
-        .amory-nav-item{width:6px;height:6px;border-radius:50%;background-color:rgba(26,26,26,.2);cursor:pointer;transition:all .3s ease}
-        .amory-nav-item:hover{background-color:rgba(26,26,26,.6)}
-        .amory-nav-item.active{width:18px;border-radius:3px;background-color:var(--brand-green);}
-        .glass-element{background:rgba(255,255,255,.4);backdrop-filter:blur(10px);color:#1a1a1a;display:flex;justify-content:center;align-items:center;cursor:pointer;transition:.3s;border:none}
-        .glass-element:hover{background:rgba(255,255,255,.8); color:var(--brand-green);}
-        .amory-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:4px;z-index:15}
-        .amory-arrow.prev{left:30px}
-        .amory-arrow.next{right:30px}
-        .amory-zoom-btn{position:absolute;bottom:40px;right:40px;width:40px;height:40px;border-radius:4px;z-index:25}
-        
-        .amory-right{width:50%;min-height:100vh;padding:130px 60px 100px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;direction:ltr;background-color:#fff}
-        .amory-top-nav{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:500px;margin-bottom:120px}
-        .amory-back-btn{display:flex;align-items:center;gap:8px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:600;color:#1a1a1a;text-transform:uppercase;letter-spacing:2px;text-decoration:none;transition:.3s}
-        .amory-back-btn:hover{color:var(--brand-green); transform:translateX(-5px)}
-        .amory-breadcrumbs{display:flex;align-items:center;gap:8px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:9px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:1px}
-        .amory-breadcrumbs a{color:#aaa;text-decoration:none;transition:.3s}
-        .amory-breadcrumbs a:hover{color:var(--brand-green);}
-        .amory-breadcrumbs .sep{color:#ddd}
-        .amory-breadcrumbs .current{color:#1a1a1a;font-weight:600}
-        
-        .amory-title-group{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:50px;width:100%}
-        .amory-en-title{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:26px;font-weight:600;color:#1a1a1a;margin:0 0 10px 0;letter-spacing:6px;text-transform:uppercase}
-        .amory-fa-subtitle{font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:300;color:#888;margin:0 0 15px 0;letter-spacing:1px;direction:rtl;}
-        .amory-ref{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;color:#bbb;letter-spacing:3px;display:inline-block;text-transform:uppercase;}
-        
-        .amory-text-specs{display:flex;align-items:center;justify-content:center;gap:30px;margin-bottom:50px;width:100%;max-width:440px;border-top:1px solid #f9f9f9;border-bottom:1px solid #f9f9f9;padding:20px 0;}
-        .ats-item{display:flex;align-items:baseline;gap:6px}
-        .ats-lbl{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:8px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:2px}
-        .ats-val{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:500;color:#1a1a1a;letter-spacing:1px}
-        
-        .amory-action-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px;width:100%;max-width:440px}
-        
-        .amory-qty-box{display:flex;align-items:center;background:#fafafa;border:1px solid #efefef;height:52px;padding:0 14px;border-radius:3px;width:140px;justify-content:space-between;box-sizing:border-box;transition:border-color 0.3s;}
-        .amory-qty-box:hover{border-color:#ddd;}
-        .amory-qty-btn{background:0 0;border:none;font-size:16px;color:#555;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;width:24px;height:100%;padding:0;}
-        .amory-qty-btn:hover{color:var(--brand-green);}
-        .amory-qty-display{display:flex;align-items:center;gap:5px;direction:rtl;pointer-events:none;user-select:none;}
-        .amory-qty-num{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;color:#1a1a1a;line-height:1;}
-        .amory-qty-lbl{font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:400;color:#888;letter-spacing:0;line-height:1;}
-        .amory-qty-input{display:none;}
-        
-        .amory-cart-btn{background:#f4f4f4;color:#1a1a1a;border:1px solid #eaeaea;height:52px;padding:0 30px;border-radius:3px;font-family:'Vazirmatn',sans-serif;font-size:12px;font-weight:500;letter-spacing:0;cursor:pointer;transition:all .3s ease;flex:1;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.02)}
-        .amory-cart-btn:hover{background:var(--brand-green);border-color:var(--brand-green);color:#fff;box-shadow:0 8px 25px rgba(0,0,0,.05);transform:translateY(-2px)}
-        
-        .amory-more-btn{background:0 0;border:none;padding:15px 0;width:100%;max-width:440px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:.3s;border-bottom:1px solid #eaeaea;margin-top:10px;direction:rtl;}
-        .amory-more-btn-text{font-family:'Vazirmatn',sans-serif;font-size:11px;font-weight:400;color:#666;transition:.3s;letter-spacing:0;}
-        .amory-more-btn-icon{font-family:'Helvetica Neue',Arial,sans-serif;font-size:18px;font-weight:300;color:#999;transition:.3s;line-height:1;}
-        .amory-more-btn:hover .amory-more-btn-text, .amory-more-btn:hover .amory-more-btn-icon{color:var(--brand-green);}
+    const urlParams = new URLSearchParams(window.location.search);
+    let cameFromAll = false;
+    if (urlParams.get('from') === 'all') {
+        cameFromAll = true;
+        try { sessionStorage.setItem('cleano_nav_origin', 'all'); } catch(e) {}
+    } else if (document.referrer && document.referrer.includes('/all/')) {
+        cameFromAll = true;
+    } else {
+        try {
+            if (sessionStorage.getItem('cleano_nav_origin') === 'all') cameFromAll = true;
+        } catch(e) {}
+    }
 
-        .inline-specs-wrapper { width: 100%; max-width: 440px; max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.6s ease, opacity 0.5s ease, padding 0.5s ease; direction: rtl; text-align: right; }
-        .inline-specs-wrapper.active { max-height: 800px; opacity: 1; padding-top: 25px; padding-bottom: 20px; }
-        
-        .imd-desc { font-family: 'Vazirmatn', sans-serif; font-size: 11px; font-weight: 300; color: #666; line-height: 2.2; margin: 0 0 25px 0; text-align: justify; }
-        
-        .imd-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
-        .imd-item { display: flex; align-items: baseline; justify-content: space-between; font-family: 'Vazirmatn', sans-serif; font-size: 11px; border-bottom: 1px dotted #eaeaea; padding-bottom: 6px;}
-        .imd-item:last-child { border-bottom: none; }
-        
-        .imd-lbl { color: #888; font-weight: 300; }
-        .imd-val { color: #1a1a1a; font-weight: 500; }
-        .imd-val.ltr { direction: ltr; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px;}
-        
-        .imd-barcode-trigger { display: inline-flex; align-items: center; gap: 8px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 3px; color: #999; text-transform: uppercase; cursor: pointer; transition: 0.3s; background: none; border: none; padding: 0; margin-top: 30px;}
-        .imd-barcode-trigger:hover { color: #1a1a1a; }
-        .imd-barcode-trigger svg { width: 14px; height: 14px; }
+    const categoryPageLink = catKey !== "all" ? `${bUrl}${catKey}/index.html#filter-anchor` : `${bUrl}all/index.html`;
+    const backTargetLink = cameFromAll ? `${bUrl}all/index.html` : categoryPageLink;
+    const breadcrumbParentText = cameFromAll ? "ALL" : headerCategoryEn;
+    const breadcrumbParentLink = cameFromAll ? `${bUrl}all/index.html` : categoryPageLink;
 
-        .barcode-popup-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.45); z-index:20000; display:flex; justify-content:center; align-items:center; opacity:0; visibility:hidden; transition:.3s ease; backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px); }
-        .barcode-popup-overlay.active { opacity:1; visibility:visible; }
-        .barcode-popup-content { background:#fff; padding:40px; border-radius:4px; box-shadow:0 25px 60px rgba(0,0,0,0.12); border:1px solid rgba(0,0,0,0.05); text-align:center; transform:scale(0.95); transition:.3s ease; position:relative; }
-        .barcode-popup-overlay.active .barcode-popup-content { transform:scale(1); }
-        .barcode-popup-close { position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; cursor:pointer; color:#999; }
-        .barcode-popup-close:hover { color:#1a1a1a; }
-        .barcode-img-large { width:180px; height:auto; mix-blend-mode:multiply; display:block; margin-top:10px;}
+    const mainEnglishTitle = (d.titleEn && d.titleEn.trim() !== '') 
+        ? d.titleEn.trim() 
+        : ((masterProduct && masterProduct.titleEn) || headerCategoryEn);
 
-        .main-footer{position:relative;z-index:10;width:100%;background-color:#fff;border-top:1px solid #eaeaea;padding:30px 80px;box-sizing:border-box;direction:ltr; margin-top: auto;}
-        .main-footer .footer-content{display:flex;justify-content:space-between;align-items:center;width:100%}
-        .main-footer .footer-left{display:flex;align-items:baseline;gap:10px}
-        .main-footer .footer-logo{font-size:11px;font-weight:600;letter-spacing:3px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1a1a;transition: color 0.3s;}
-        .main-footer .footer-logo:hover{color:var(--brand-green);}
-        .main-footer .footer-copyright{font-size:10px;color:#aaa;font-family:sans-serif;letter-spacing:.5px;font-weight:300}
-        .main-footer .footer-right{display:flex;align-items:center;gap:20px}
-        .main-footer .footer-link{font-size:10px;color:#aaa;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;transition:color .3s ease;font-weight:500}
-        .main-footer .footer-link:hover{color:var(--brand-green);}
-        
-        #lightbox{display:none;position:fixed;inset:0;z-index:99999;background:rgba(255,255,255,.98);opacity:0;transition:.3s}
-        #lightbox.active{opacity:1}
-        .lb-close{position:absolute;top:30px;right:30px;background:0 0;border:none;font-size:24px;cursor:pointer;color:#1a1a1a;z-index:10000;transition: color 0.3s;}
-        .lb-close:hover{color:var(--brand-green);}
-        .lb-scroll-area{height:100vh;overflow-y:auto;display:flex;flex-direction:column;align-items:center;padding:50px 0;gap:50px;scroll-behavior:smooth}
-        .lb-scroll-area img{max-width:90vw;max-height:90vh;object-fit:contain}
-        
-        @media (max-width:992px){
-            .amory-layout{flex-direction:column;direction:ltr}
-            .amory-left{width:100%;height:70vh;position:relative}
-            .amory-right{width:100%;padding:60px 20px;min-height:auto}
-            .wudo-header{position:absolute!important;padding:20px 40px!important;display:flex!important;height:auto!important;}
-            .wh-left{position:relative!important;width:50%!important;height:auto!important;padding:0!important;}
-            .wh-right{position:relative!important;width:50%!important;height:auto!important;padding:0!important;justify-content:flex-end;}
-            .wudo-nav-links{display:none!important}
-            .amory-top-nav{margin-bottom:60px;max-width:100%}
-            .amory-text-specs{flex-wrap:wrap;gap:15px}
-            .amory-action-row{max-width:100%}
-            .main-footer .footer-content{flex-direction:column;gap:20px;text-align:center}
-        }
-        </style>
-    `;
+    window.amoryImages.forEach(src => { const pre = new Image(); pre.src = src; });
 
     window.changeAmorySlide = function(idx) {
+        if (window.amoryCurrentIdx === idx) return;
         window.amoryCurrentIdx = idx;
         const mainImg = document.getElementById('amory-main-img');
-        mainImg.style.opacity = '0';
-        setTimeout(() => {
-            mainImg.src = window.amoryImages[window.amoryCurrentIdx];
-            mainImg.style.opacity = '1';
-        }, 250);
+        if (!mainImg) return;
+
         document.querySelectorAll('.amory-nav-item').forEach((el, i) => {
             if(i === idx) el.classList.add('active');
             else el.classList.remove('active');
         });
+
+        mainImg.style.opacity = '0';
+        mainImg.style.transform = 'scale(1.02)';
+
+        const nextSrc = window.amoryImages[idx];
+        const tempImg = new Image();
+        tempImg.src = nextSrc;
+
+        setTimeout(() => {
+            const revealNewImg = () => {
+                mainImg.src = nextSrc;
+                requestAnimationFrame(() => {
+                    mainImg.style.opacity = '1';
+                    mainImg.style.transform = 'scale(1)';
+                });
+            };
+            if (tempImg.complete) revealNewImg();
+            else tempImg.onload = revealNewImg;
+        }, 220);
     };
 
     window.navAmorySlide = function(dir) {
@@ -739,7 +904,15 @@ window.renderProductPage = function() {
         if(newVal < 1) newVal = 1;
         
         input.value = newVal;
-        numDisplay.innerText = newVal;
+        numDisplay.value = window.toFaDigits(newVal);
+    };
+
+    window.onDirectPageQtyInput = function(el) {
+        const input = document.getElementById('amory-qty-input');
+        let clean = parseInt(window.toEnDigits(el.value).replace(/[^0-9]/g, ''));
+        if (isNaN(clean) || clean < 1) clean = 1;
+        input.value = clean;
+        el.value = window.toFaDigits(clean);
     };
     
     window.toggleInlineSpecs = function() {
@@ -769,66 +942,101 @@ window.renderProductPage = function() {
     }
 
     let hlCartonNum = "12"; 
-    let hlCartonText = "12"; 
-    let hlSize = "Free Size"; 
+    let hlSize = ""; 
     let hlPackNum = "1";
-    let hlPackText = "1 pcs"; 
-    let hlColors = "6"; 
-    let hlCartonSize = "-"; 
-    let hlCartonWeight = "-"; 
+    let hlColors = ""; 
+    let hlCartonSize = ""; 
+    let hlCartonWeight = ""; 
     
     if (d.salesData) {
-        if(d.salesData.pack2) {
-            hlCartonNum = d.salesData.pack2.replace(/[^0-9]/g, '');
-            hlCartonText = hlCartonNum; 
-        }
-        if(d.salesData.size) {
-            hlSize = d.salesData.size; 
-        } else if(d.salesData.boxSize) {
-            hlSize = d.salesData.boxSize; 
-        }
-        if(d.salesData.pack1) {
-            hlPackNum = d.salesData.pack1.replace(/[^0-9]/g, '');
-            hlPackText = hlPackNum + " pcs"; 
-        }
-        if(d.salesData.colors) {
-            let colorNum = d.salesData.colors.replace(/[^0-9]/g, '');
-            hlColors = colorNum; 
-        }
-        if(d.salesData.cartonSize) {
-            hlCartonSize = d.salesData.cartonSize.replace(/[a-zA-Z]/g, '').trim();
-        }
-        if(d.salesData.cartonWeight) hlCartonWeight = d.salesData.cartonWeight;
+        if(d.salesData.pack2) hlCartonNum = String(window.toEnDigits(d.salesData.pack2)).replace(/[^0-9]/g, '') || "12";
+        if(d.salesData.size && d.salesData.size !== '-') hlSize = d.salesData.size;
+        else if(d.salesData.boxSize && d.salesData.boxSize !== '-') hlSize = d.salesData.boxSize;
+        if(d.salesData.pack1) hlPackNum = String(window.toEnDigits(d.salesData.pack1)).replace(/[^0-9]/g, '') || "1";
+        if(d.salesData.colors && d.salesData.colors !== '-') hlColors = String(window.toEnDigits(d.salesData.colors)).replace(/[^0-9]/g, '') || d.salesData.colors;
+        if(d.salesData.cartonSize && d.salesData.cartonSize !== '-') hlCartonSize = d.salesData.cartonSize.replace(/[a-zA-Z]/g, '').trim();
+        if(d.salesData.cartonWeight && d.salesData.cartonWeight !== '-') hlCartonWeight = d.salesData.cartonWeight;
     }
 
-    // ذخیره خودکار تعداد در کارتن و تعداد در بسته از HTML محصول برای استفاده در سبد خرید
+    const faSizeText = hlSize.toLowerCase() === 'free size' ? 'فری‌سایز' : window.toFaDigits(hlSize.replace(/cm/ig, '').trim());
+
+    let detailsListHtml = `
+        <li class="imd-item">
+            <span class="imd-lbl">تعداد در بسته</span>
+            <span class="imd-val">${window.toFaDigits(hlPackNum)} عددی</span>
+        </li>
+        <li class="imd-item">
+            <span class="imd-lbl">تعداد در کارتن</span>
+            <span class="imd-val">${window.toFaDigits(hlCartonNum)} بسته</span>
+        </li>
+    `;
+    if (hlSize) {
+        detailsListHtml += `
+        <li class="imd-item">
+            <span class="imd-lbl">سایز محصول</span>
+            <span class="imd-val">${faSizeText}</span>
+        </li>`;
+    }
+    if (hlColors) {
+        detailsListHtml += `
+        <li class="imd-item">
+            <span class="imd-lbl">تنوع رنگ / طرح</span>
+            <span class="imd-val">${window.toFaDigits(hlColors)}</span>
+        </li>`;
+    }
+    if (hlCartonSize) {
+        detailsListHtml += `
+        <li class="imd-item">
+            <span class="imd-lbl">ابعاد کارتن</span>
+            <span class="imd-val ltr-val">${window.toFaDigits(hlCartonSize)}</span>
+        </li>`;
+    }
+    if (hlCartonWeight) {
+        detailsListHtml += `
+        <li class="imd-item">
+            <span class="imd-lbl">وزن کارتن</span>
+            <span class="imd-val">${window.toFaDigits(hlCartonWeight)}</span>
+        </li>`;
+    }
+
+    const standardKeys = ['moq', 'pack1', 'pack2', 'colors', 'size', 'boxSize', 'cartonSize', 'cartonWeight', 'material'];
+    if (d.salesData) {
+        Object.keys(d.salesData).forEach(key => {
+            if (!standardKeys.includes(key) && d.salesData[key] && d.salesData[key] !== '-') {
+                detailsListHtml += `
+                <li class="imd-item">
+                    <span class="imd-lbl">${key}</span>
+                    <span class="imd-val">${window.toFaDigits(d.salesData[key])}</span>
+                </li>`;
+            }
+        });
+    }
+    if (Array.isArray(d.extraSpecs)) {
+        d.extraSpecs.forEach(sp => {
+            if (sp && sp.label && sp.value && sp.value !== '-') {
+                detailsListHtml += `
+                <li class="imd-item">
+                    <span class="imd-lbl">${sp.label}</span>
+                    <span class="imd-val">${window.toFaDigits(sp.value)}</span>
+                </li>`;
+            }
+        });
+    }
+
     try {
         let packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}');
         packStore[d.id] = { pack1: hlPackNum, pack2: hlCartonNum };
         localStorage.setItem('cleano_html_packs', JSON.stringify(packStore));
+
+        let metaStore = JSON.parse(localStorage.getItem('cleano_html_meta') || '{}');
+        metaStore[d.id] = { titleEn: mainEnglishTitle, title: d.title };
+        localStorage.setItem('cleano_html_meta', JSON.stringify(metaStore));
+        window.syncCatalogWithHtmlMeta();
     } catch(e) {}
 
     let barcodeId = d.id.replace('CL-', ''); 
-    
-    let footerHtml = `
-        <footer class="main-footer">
-            <div class="footer-content">
-                <div class="footer-left">
-                    <span class="footer-logo">CLEANO</span>
-                    <span class="footer-copyright">© 2026 HOME TEXTILE CATALOG</span>
-                </div>
-                <div class="footer-right">
-                    <a href="${bUrl}about/index.html" class="footer-link">PREMIUM QUALITY</a>
-                    <span class="footer-separator"></span>
-                    <a href="${bUrl}about/index.html" class="footer-link">TIMELESS DESIGN</a>
-                    <span class="footer-separator"></span>
-                    <a href="${bUrl}about/index.html" class="footer-link">ABOUT US</a>
-                </div>
-            </div>
-        </footer>
-    `;
 
-    root.innerHTML = amoryStyles + `
+    root.innerHTML = `
         <header class="wudo-header">
             <div class="wh-left">
                 <a href="${bUrl}index.html" class="wudo-logo">CLEANO</a>
@@ -840,14 +1048,15 @@ window.renderProductPage = function() {
                 </nav>
                 <div class="wh-icons">
                     <div class="search-wrapper">
-                        <input type="text" class="search-input" placeholder="Search..." autocomplete="off" onkeyup="window.handleGlobalSearch(this)" onfocus="window.handleGlobalSearch(this)">
+                        <input type="text" class="search-input" placeholder="جستجوی نام یا کد..." autocomplete="off" onkeyup="window.handleGlobalSearch(this)" onfocus="window.handleGlobalSearch(this)">
                         <button class="header-icon-btn search-icon">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         </button>
+                        <div class="global-search-dropdown"></div>
                     </div>
                     <button class="wudo-icon-btn cart-trigger" onclick="window.toggleCartModal()">
                         ${minimalCartSVG}
-                        <span class="cart-count-badge" id="wudo-cart-badge" style="display:none;">0</span>
+                        <span class="cart-count-badge" id="wudo-cart-badge" style="display:none;">۰</span>
                     </button>
                 </div>
             </div>
@@ -862,7 +1071,7 @@ window.renderProductPage = function() {
                     ${d.images.length > 1 ? `<button class="glass-element amory-arrow prev" onclick="window.navAmorySlide(-1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>` : ''}
                     ${d.images.length > 1 ? `<button class="glass-element amory-arrow next" onclick="window.navAmorySlide(1)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>` : ''}
                     <div class="amory-nav">${navHtml}</div>
-                    <button class="glass-element amory-zoom-btn" onclick="window.openLightbox()" title="نمایش تمام‌صفحه">
+                    <button class="glass-element amory-zoom-btn" onclick="window.openLightbox()" title="بزرگ‌نمایی تصویر">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
                     </button>
                 </div>
@@ -872,13 +1081,13 @@ window.renderProductPage = function() {
                         <div class="amory-breadcrumbs">
                             <a href="${bUrl}index.html">HOME</a>
                             <span class="sep">/</span>
-                            <a href="${catLink}">${headerCategoryEn}</a>
+                            <a href="${breadcrumbParentLink}">${breadcrumbParentText}</a>
                             <span class="sep">/</span>
                             <span class="current">${d.ref}</span>
                         </div>
-                        <a href="${catLink}" class="amory-back-btn">
+                        <a href="${backTargetLink}" class="amory-back-btn">
                             BACK
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 5"></polyline></svg>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
                     </div>
 
@@ -888,32 +1097,17 @@ window.renderProductPage = function() {
                         <span class="amory-ref">REF: ${d.ref}</span>
                     </div>
 
-                    <div class="amory-text-specs">
-                        <div class="ats-item">
-                            <span class="ats-lbl">PER CARTON</span>
-                            <span class="ats-val">${hlCartonNum}</span>
-                        </div>
-                        <div class="ats-item">
-                            <span class="ats-lbl">PCS PER PACK</span>
-                            <span class="ats-val">${hlPackNum}</span>
-                        </div>
-                        <div class="ats-item">
-                            <span class="ats-lbl">SIZE</span>
-                            <span class="ats-val" style="direction:ltr; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; text-transform:none;">${hlSize}</span>
-                        </div>
-                    </div>
-
                     <div class="amory-action-row">
                         <div class="amory-qty-box">
                             <button class="amory-qty-btn" onclick="window.changePageQtyNew(-1)">−</button>
                             <div class="amory-qty-display">
-                                <span class="amory-qty-num" id="amory-qty-num-display">1</span>
+                                <input type="text" id="amory-qty-num-display" class="amory-qty-num-input" value="۱" onchange="window.onDirectPageQtyInput(this)" onfocus="this.select()">
                                 <span class="amory-qty-lbl" id="amory-qty-lbl-display">کارتن</span>
                             </div>
                             <input type="hidden" id="amory-qty-input" class="amory-qty-input" value="1">
                             <button class="amory-qty-btn" onclick="window.changePageQtyNew(1)">+</button>
                         </div>
-                        <button class="amory-cart-btn" onclick="window.handleSmartAdd('${d.id}', this, 'amory-qty-input')">افزودن به سبد خرید</button>
+                        <button class="amory-cart-btn" onclick="window.handleSmartAdd('${d.id}', this, 'amory-qty-input')">افزودن به سبد سفارش</button>
                     </div>
 
                     <button class="amory-more-btn" onclick="window.toggleInlineSpecs()">
@@ -922,37 +1116,11 @@ window.renderProductPage = function() {
                     </button>
 
                     <div id="inline-specs-wrapper" class="inline-specs-wrapper">
-                        
                         <p class="imd-desc">${d.description}</p>
-
                         <ul class="imd-list">
-                            <li class="imd-item">
-                                <span class="imd-lbl">بسته‌بندی اصلی</span>
-                                <span class="imd-val ltr">${hlPackText}</span>
-                            </li>
-                            <li class="imd-item">
-                                <span class="imd-lbl">تعداد در کارتن</span>
-                                <span class="imd-val ltr">${hlCartonText}</span>
-                            </li>
-                            <li class="imd-item">
-                                <span class="imd-lbl">سایز محصول</span>
-                                <span class="imd-val ltr">${hlSize}</span>
-                            </li>
-                            <li class="imd-item">
-                                <span class="imd-lbl">تنوع رنگ / طرح</span>
-                                <span class="imd-val ltr">${hlColors}</span>
-                            </li>
-                            <li class="imd-item">
-                                <span class="imd-lbl">ابعاد کارتن <span style="font-family: Arial; font-size: 8px;">(L×W×H)</span></span>
-                                <span class="imd-val ltr">${hlCartonSize}</span>
-                            </li>
-                            <li class="imd-item">
-                                <span class="imd-lbl">وزن کارتن</span>
-                                <span class="imd-val ltr">${hlCartonWeight}</span>
-                            </li>
+                            ${detailsListHtml}
                         </ul>
-
-                        <button class="imd-barcode-trigger" onclick="window.openBarcodePopup()">
+                        <button class="imd-barcode-trigger" id="barcode-trigger-btn" onclick="window.openBarcodePopup()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5V4h4M20 5V4h-4M4 19v1h4M20 19v1h-4M9 9h1v6H9zM12 9h1v6h-1zM15 9h1v6h-1z"></path></svg>
                             VIEW BARCODE
                         </button>
@@ -960,14 +1128,13 @@ window.renderProductPage = function() {
                 </div>
             </div>
 
-            ${footerHtml}
-
+            <footer class="main-footer">${window.getUnifiedFooterHTML()}</footer>
         </div>
 
         <div class="barcode-popup-overlay" id="barcode-popup" onclick="this.classList.remove('active')">
             <div class="barcode-popup-content" onclick="event.stopPropagation()">
                 <button class="barcode-popup-close" onclick="document.getElementById('barcode-popup').classList.remove('active')">✕</button>
-                <img src="barcode-${barcodeId}.png" alt="Barcode ${d.id}" class="barcode-img-large" onerror="this.outerHTML='<span style=\\'font-family:Arial; font-size:12px; color:#aaa;\\'>NO BARCODE IMAGE FOUND</span>'">
+                <img src="barcode-${barcodeId}.png" alt="Barcode ${d.id}" class="barcode-img-large" onerror="const btn=document.getElementById('barcode-trigger-btn'); if(btn) btn.style.display='none'; this.outerHTML='<span style=\\'font-family:Vazirmatn,sans-serif; font-size:11px; color:#999;\\'>تصویر بارکد ثبت نشده است</span>'">
                 <div style="font-family:'Helvetica Neue',Arial,sans-serif; font-size:10px; color:#aaa; letter-spacing:3px; margin-top:15px; text-transform:uppercase;">${d.ref}</div>
             </div>
         </div>
@@ -984,12 +1151,6 @@ window.renderProductPage = function() {
         const fp = document.getElementById('cleano-footer-placeholder');
         if(fp) fp.style.display = 'none';
         document.querySelectorAll('.main-header:not(.wudo-header)').forEach(e => e.style.display = 'none');
-        
-        document.querySelectorAll('.search-input').forEach(input => {
-            input.addEventListener('keyup', function() { window.handleGlobalSearch(this); });
-            input.addEventListener('focus', function() { window.handleGlobalSearch(this); });
-        });
-        
         window.updateCartUI();
     }, 50);
 };
@@ -1000,179 +1161,45 @@ window.renderProductPage = function() {
 window.renderCategoryPage = function() {
     const container = document.getElementById('catalog-container');
     if (!container) return; 
-    
     if (typeof ACTIVE_CATEGORY === 'undefined' || typeof BASE_URL === 'undefined') return;
-    if (typeof catalogDB === 'undefined') return;
+
+    window.syncCatalogWithHtmlMeta();
+
+    try {
+        sessionStorage.setItem('cleano_nav_origin', ACTIVE_CATEGORY === 'all' ? 'all' : 'category');
+    } catch(e) {}
 
     const categoryData = {
-        "dastmal-ashpazkhane": { catNameEn: "KITCHEN TOWELS & CLOTHS", bannerTitleEn: "KITCHEN TOWELS", faTitle: "حوله و دستمال آشپزخانه", desc: "A large set of highly absorbent and durable towels crafted for daily use.", heroImg: "../dastmal-ashpazkhane/cover-dastmal.webp", bgColor: "#f6f6f6" },
-        "set-parcheie": { catNameEn: "FABRIC SET", bannerTitleEn: "CONTEMPORARY DESIGN", faTitle: "ست پارچه‌ای", desc: "A large set of beautiful & fully flexible home textiles. Lets you create your kitchen space quickly & easily.", heroImg: "../set-parcheie/cover-set-parcheie.webp", bgColor: "#f6f6f6" },
-        "set-fer": { catNameEn: "OVEN SET", bannerTitleEn: "OVEN ESSENTIALS", faTitle: "ست فر", desc: "A perfect blend of heat resistance and elegant design for your daily baking needs.", heroImg: "../set-fer/cover-set-fer.webp", bgColor: "#f6f6f6" },
-        "sofre": { catNameEn: "TABLECLOTHS", bannerTitleEn: "MODERN TABLECLOTHS", faTitle: "سفره‌های ژله‌ای", desc: "Easy to clean, beautifully patterned tablecloths that protect and enhance your dining area.", heroImg: "../sofre/cover-sofre.webp", bgColor: "#f6f6f6" },
-        "mahsolat-takmili": { catNameEn: "EXTRAS", bannerTitleEn: "KITCHEN ACCESSORIES", faTitle: "محصولات تکمیلی", desc: "Discover our range of complementary kitchen accessories designed to make life easier.", heroImg: "../mahsolat-takmili/cover-takmili.webp", bgColor: "#f6f6f6" }
+        "dastmal-ashpazkhane": { catNameEn: "KITCHEN TOWELS & CLOTHS", bannerTitleEn: "KITCHEN TOWELS", faTitle: "حوله و دستمال آشپزخانه", desc: "A large set of highly absorbent and durable towels crafted for daily use.", heroImg: "../dastmal-ashpazkhane/cover-dastmal.webp" },
+        "set-parcheie": { catNameEn: "FABRIC SET", bannerTitleEn: "CONTEMPORARY DESIGN", faTitle: "ست پارچه‌ای", desc: "A large set of beautiful & fully flexible home textiles. Lets you create your kitchen space quickly & easily.", heroImg: "../set-parcheie/cover-set-parcheie.webp" },
+        "set-fer": { catNameEn: "OVEN SET", bannerTitleEn: "OVEN ESSENTIALS", faTitle: "ست فر", desc: "A perfect blend of heat resistance and elegant design for your daily baking needs.", heroImg: "../set-fer/cover-set-fer.webp" },
+        "sofre": { catNameEn: "TABLECLOTHS", bannerTitleEn: "MODERN TABLECLOTHS", faTitle: "سفره‌های ژله‌ای", desc: "Easy to clean, beautifully patterned tablecloths that protect and enhance your dining area.", heroImg: "../sofre/cover-sofre.webp" },
+        "mahsolat-takmili": { catNameEn: "EXTRAS", bannerTitleEn: "KITCHEN ACCESSORIES", faTitle: "محصولات تکمیلی", desc: "Discover our range of complementary kitchen accessories designed to make life easier.", heroImg: "../mahsolat-takmili/cover-takmili.webp" }
     };
 
-    const productEnNames = {
-        "دم کن برنج": "RICE COOKER COVER",
-        "دستگیره فر": "OVEN HANDLE COVER",
-        "دستکش فر": "OVEN MITTS",
-        "دستگیره آشپزخانه": "KITCHEN POT HOLDER",
-        "دستگیره قابلمه": "POT HOLDERS",
-        "پیشبند آشپزخانه": "KITCHEN APRON",
-        "نمگیر ظروف": "DISH DRYING MAT",
-        "دستمال طرحدار آشپزخانه": "PATTERNED TOWEL",
-        "دستمال تنظیف دولایه": "DOUBLE-LAYER CLOTH",
-        "دستمال میکروفایبر": "MICROFIBER CLOTH",
-        "دستمال تک رنگ آشپزخانه": "SOLID COLOR TOWEL",
-        "حوله آشپزخانه": "KITCHEN TOWEL",
-        "دستمال حوله‌ای": "TERRY TOWEL",
-        "دستمال نخ پنبه": "COTTON TOWEL",
-        "دستمال وایت ویو": "WHITE VIEW TOWEL",
-        "سفره دو نفره": "2-SEATER TABLECLOTH",
-        "سفره چهار نفره": "4-SEATER TABLECLOTH",
-        "سفره شش نفره": "6-SEATER TABLECLOTH",
-        "سفره هشت نفره": "8-SEATER TABLECLOTH",
-        "کیسه سبزی": "VEGETABLE BAG",
-        "سفره نان": "BREAD CLOTH",
-        "نمگیر میکروفایبر": "MICROFIBER DRYING MAT",
-        "پیشبند ضد آب و ضد لک": "WATERPROOF APRON"
-    };
+    const catInfo = categoryData[ACTIVE_CATEGORY] || { catNameEn: "ALL PRODUCTS", bannerTitleEn: "ALL PRODUCTS", faTitle: "تمامی محصولات", desc: "Our premium collection.", heroImg: "" };
 
-    const catInfo = categoryData[ACTIVE_CATEGORY] || { catNameEn: "ALL PRODUCTS", bannerTitleEn: "ALL PRODUCTS", faTitle: "تمامی محصولات", desc: "Our premium collection.", heroImg: "", bgColor: "#f6f6f6" };
+    let fullHTML = `
+        <header class="main-header inner-header">
+            ${window.getUnifiedHeaderHTML(false, ACTIVE_CATEGORY === 'all')}
+        </header>
 
-    // استایل‌های جدید، کاملاً مینیمال، خلوت و هماهنگ با صفحه سوم
-const catActionStyles = `<style>
-        .minimal-card-img-wrapper .hover-add-action {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            padding: 0 15px !important;
-            height: 48px !important;
-            background: rgba(255, 255, 255, 0.45) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
-            direction: ltr !important;
-            cursor: default !important;
-            overflow: hidden !important;
-            box-sizing: border-box !important;
-        }
-        .cat-qty-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            direction: ltr;
-        }
-        .cat-qty-btn {
-            background: transparent;
-            border: none;
-            color: #1a1a1a;
-            font-size: 15px;
-            width: 20px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-            padding: 0;
-            user-select: none;
-        }
-        .cat-qty-btn:hover {
-            opacity: 0.6;
-        }
-        .cat-qty-label {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            direction: rtl;
-            user-select: none;
-            pointer-events: none;
-        }
-        .cat-qty-num {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a1a1a;
-            line-height: 1;
-        }
-        .cat-qty-unit {
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 10px;
-            font-weight: 400;
-            color: #555;
-            letter-spacing: 0;
-            line-height: 1;
-        }
-        .cat-add-trigger {
-            background: transparent;
-            border: none;
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 11px;
-            font-weight: 500;
-            color: #1a1a1a;
-            letter-spacing: 0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.2s ease;
-            padding: 0;
-            white-space: nowrap;
-        }
-        .cat-add-trigger:hover {
-            opacity: 0.6;
-        }
-        .cat-add-trigger.success-state {
-            color: var(--brand-green) !important;
-            pointer-events: none;
-        }
-    </style>`;
-
-    let fullHTML = catActionStyles;
-
-    fullHTML += `
-    <header class="main-header inner-header" ${ACTIVE_CATEGORY === 'all' ? 'style="position: relative; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.03);"' : ''}>
-        <div class="header-left">
-            <a href="../index.html" class="home-logo">CLEANO</a>
-            <nav class="main-nav-links">
-                <a href="../index.html" class="nav-link">HOME</a>
-                <a href="../all/index.html" class="nav-link">ALL</a>
-            </nav>
-        </div>
-        <div class="header-right">
-            <div class="search-wrapper">
-                <input type="text" class="search-input" placeholder="Search..." autocomplete="off">
-                <button class="header-icon-btn search-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </button>
+        <div class="cat-top-bar-nav">
+            <div class="cat-breadcrumbs">
+                <a href="../index.html">HOME</a>
+                <span>/</span>
+                <span class="current">${catInfo.catNameEn}</span>
             </div>
-            <span class="header-divider"></span>
-            <button class="header-icon-btn cart-trigger" onclick="toggleCartModal()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                <span class="cart-count-badge" id="header-cart-badge" style="display:none;">0</span>
-            </button>
-        </div>
-    </header>
-    `;
-
-    fullHTML += `
-        <div style="max-width: 1300px; margin: 0 auto; padding: 110px 80px 20px 80px; display: flex; justify-content: space-between; align-items: center; direction: ltr;">
-            <div style="display:flex; align-items:center; gap:8px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:9px; font-weight:500; color:#aaa; text-transform:uppercase; letter-spacing:1px;">
-                <a href="../index.html" style="color:#aaa; text-decoration:none; transition:.3s;" onmouseover="this.style.color='var(--brand-green)'" onmouseout="this.style.color='#aaa'">HOME</a>
-                <span style="color:#ddd;">/</span>
-                <span style="color:#1a1a1a; font-weight:600;">${catInfo.catNameEn}</span>
-            </div>
-            <a href="../index.html" style="display:flex; align-items:center; gap:8px; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:10px; font-weight:600; color:#1a1a1a; text-transform:uppercase; letter-spacing:2px; text-decoration:none; transition:.3s;" onmouseover="this.style.color='var(--brand-green)'; this.querySelector('svg').style.transform='translateX(-5px)'" onmouseout="this.style.color='#1a1a1a'; this.querySelector('svg').style.transform='translateX(0)'">
+            <a href="../index.html" class="cat-back-link">
                 BACK
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 5"></polyline></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
         </div>
     `;
 
     if (ACTIVE_CATEGORY !== 'all') {
         fullHTML += `
-        <div class="cat-hero-section" style="padding-top: 0;"> 
+        <div class="cat-hero-section reveal active"> 
             <div class="cat-hero-content">
                 <img src="${catInfo.heroImg}" alt="${catInfo.bannerTitleEn}" class="cat-hero-bg-img" onerror="this.style.display='none'">
                 <div class="cat-hero-text-area">
@@ -1193,39 +1220,42 @@ const catActionStyles = `<style>
                 <a href="../sofre/index.html#filter-anchor" class="${ACTIVE_CATEGORY === 'sofre' ? 'active' : ''}">سفره‌های ژله‌ای</a>
                 <a href="../mahsolat-takmili/index.html#filter-anchor" class="${ACTIVE_CATEGORY === 'mahsolat-takmili' ? 'active' : ''}">محصولات تکمیلی</a>
             </div>
-            <div class="cat-filter-dropdown">
-                FILTER <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
         </div>
         
-        <div class="minimal-page-wrapper" style="padding-top: ${ACTIVE_CATEGORY === 'all' ? '0' : '60px'};">
+        <div class="minimal-page-wrapper" style="padding-top: ${ACTIVE_CATEGORY === 'all' ? '15px' : '55px'};">
     `;
 
-    const generateProductCard = (p, namesDict) => {
-        let enName = namesDict[p.title] || "PRODUCT";
+    const generateProductCard = (p) => {
+        let enName = p.titleEn || "PRODUCT";
+        const productHref = ACTIVE_CATEGORY === 'all' 
+            ? `${BASE_URL}${p.url}?from=all` 
+            : `${BASE_URL}${p.url}`;
+        const addBtnLabel = window.innerWidth <= 900 ? "افزودن" : "افزودن به سبد سفارش";
+
         return `
-            <div class="minimal-product-card">
+            <div class="minimal-product-card reveal">
                 <div class="minimal-card-img-wrapper">
-                    <span class="product-ref-badge">${p.ref}</span>
-                    <a href="${BASE_URL}${p.url}" class="card-link-block">
+                    <span class="product-ref-badge" data-ref="${p.ref}">${p.ref}</span>
+                    <a href="${productHref}" class="card-link-block">
                         <img src="${BASE_URL}${p.img}" alt="${p.title}" class="minimal-card-img">
                     </a>
+                    <button type="button" class="mobile-card-plus-btn" onclick="window.toggleMobileCardAdd(event, this)" aria-label="افزودن سریع">+</button>
                     <div class="hover-add-action" onclick="event.stopPropagation();">
                         <div class="cat-qty-control">
                             <button type="button" class="cat-qty-btn" onclick="window.changeCatQty(event, this, -1)">−</button>
                             <div class="cat-qty-label">
-                                <span class="cat-qty-num">1</span>
+                                <span class="cat-qty-num">۱</span>
                                 <span class="cat-qty-unit">کارتن</span>
                             </div>
                             <button type="button" class="cat-qty-btn" onclick="window.changeCatQty(event, this, 1)">+</button>
                         </div>
                         <button type="button" class="cat-add-trigger" onclick="window.quickAddWithQty(event, '${p.id}', this)">
-                            <span>افزودن به سبد خرید</span>
+                            <span>${addBtnLabel}</span>
                         </button>
                         <input type="hidden" class="pill-input" value="1">
                     </div>
                 </div>
-                <a href="${BASE_URL}${p.url}" class="minimal-card-info" style="text-decoration: none;">
+                <a href="${productHref}" class="minimal-card-info">
                     <span class="minimal-card-title-en">${enName}</span>
                     <span class="minimal-card-title-fa">${p.title}</span>
                     <span class="minimal-explore-link">Explore</span>
@@ -1241,77 +1271,97 @@ const catActionStyles = `<style>
             if (catProds.length > 0) {
                 const info = categoryData[catKey];
                 fullHTML += `
-                    <div style="margin-top: 40px; margin-bottom: 40px; display: flex; align-items: center; gap: 15px; width: 100%;">
+                    <div class="reveal all-cat-divider" style="margin-top: 35px; margin-bottom: 35px; display: flex; align-items: center; gap: 15px; width: 100%; direction: ltr;">
                         <h2 style="margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 3px; color: #1a1a1a; text-transform: uppercase;">${info.catNameEn}</h2>
                         <span style="font-family: 'Vazirmatn', sans-serif; font-size: 11px; font-weight: 400; color: #aaa;">${info.faTitle}</span>
-                        <div style="flex-grow: 1; height: 1px; background-color: #f0f0f0;"></div>
+                        <div class="divider-line" style="flex-grow: 1; height: 1px; background-color: #f0f0f0;"></div>
                     </div>
                     <div class="minimal-product-grid">
                 `;
-                catProds.forEach(p => fullHTML += generateProductCard(p, productEnNames));
+                catProds.forEach(p => fullHTML += generateProductCard(p));
                 fullHTML += `</div>`;
             }
         });
     } else {
         const prods = catalogDB.filter(p => p.url.startsWith(ACTIVE_CATEGORY + '/'));
         fullHTML += `<div class="minimal-product-grid">`;
-        prods.forEach(p => fullHTML += generateProductCard(p, productEnNames));
+        prods.forEach(p => fullHTML += generateProductCard(p));
         fullHTML += `</div>`;
     }
 
-    fullHTML += `</div>`; 
-
     fullHTML += `
-    <footer class="main-footer inner-footer">
-        <div class="footer-content">
-            <div class="footer-left">
-                <span class="footer-logo">CLEANO</span>
-                <span class="footer-copyright">© 2026 HOME TEXTILE CATALOG</span>
-            </div>
-            <div class="footer-right">
-                <a href="../about/index.html" class="footer-link">PREMIUM QUALITY</a>
-                <span class="footer-separator"></span>
-                <a href="../about/index.html" class="footer-link">TIMELESS DESIGN</a>
-                <span class="footer-separator"></span>
-                <a href="../about/index.html" class="footer-link">ABOUT US</a>
-            </div>
         </div>
-    </footer>
+        <footer class="main-footer inner-footer">${window.getUnifiedFooterHTML()}</footer>
     `;
 
     container.innerHTML = fullHTML;
+    setTimeout(reveal, 60);
 };
 
 // =========================================================================
-// 5. توابع راه‌انداز (Initialization) و رویدادهای عمومی
+// 5. راه‌انداز مرکزی (Initialization) و مدیریت اسکرول هدر صفحه اول
 // =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
     try {
         document.body.insertAdjacentHTML('beforeend', cartDrawerHTML);
-        
-        document.querySelectorAll('.cart-trigger').forEach(btn => {
-            btn.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                </svg>
-                <span class="cart-count-badge" style="display:none;">0</span>
-            `;
-        });
 
-        document.querySelectorAll('.search-input').forEach(input => {
-            input.addEventListener('keyup', function() { window.handleGlobalSearch(this); });
-            input.addEventListener('focus', function() { window.handleGlobalSearch(this); });
-        });
+        const isProductPage = typeof PRODUCT_DATA !== 'undefined';
+        const isCategoryPage = !!document.getElementById('catalog-container');
+        const isHomePage = !isProductPage && !isCategoryPage;
 
-        // رندر صفحه محصول تکی
-        if(typeof PRODUCT_DATA !== 'undefined') window.renderProductPage();
+        if (isProductPage) {
+            window.renderProductPage();
+        } else if (isCategoryPage) {
+            window.renderCategoryPage();
+        } else if (isHomePage) {
+            const homeHeader = document.querySelector('.main-header');
+            if (homeHeader) homeHeader.innerHTML = window.getUnifiedHeaderHTML(true, false);
+
+            const homeFooter = document.querySelector('.main-footer');
+            if (homeFooter) homeFooter.innerHTML = window.getUnifiedFooterHTML();
+
+            const updateHomeHeaderState = function() {
+                const hero = document.querySelector('.hero-section');
+                const threshold = hero ? (hero.offsetHeight - 86) : (window.innerHeight - 86);
+                if (window.scrollY < threshold) {
+                    document.body.classList.add('home-on-hero');
+                } else {
+                    document.body.classList.remove('home-on-hero');
+                }
+                if (window.scrollY > 36) {
+                    document.body.classList.add('scrolled-past-top');
+                } else {
+                    document.body.classList.remove('scrolled-past-top');
+                }
+            };
+
+            const topBar = document.getElementById('topNotificationBar');
+            if (topBar && topBar.style.display !== 'none') {
+                document.body.classList.add('has-top-bar');
+                const closeBtn = topBar.querySelector('.top-bar-close');
+                if (closeBtn) {
+                    closeBtn.onclick = function() {
+                        topBar.style.display = 'none';
+                        document.body.classList.remove('has-top-bar');
+                    };
+                }
+            }
+
+            updateHomeHeaderState();
+            window.addEventListener('scroll', updateHomeHeaderState, { passive: true });
+            window.addEventListener('resize', updateHomeHeaderState, { passive: true });
+
+            const heroOrderBtn = document.querySelector('.hero-order-btn-glass');
+            if (heroOrderBtn) {
+                heroOrderBtn.removeAttribute('onclick');
+                heroOrderBtn.href = window.getCleanPath('all/index.html');
+            }
+
+            document.querySelectorAll('.cg-card').forEach(card => card.classList.add('reveal'));
+            setTimeout(reveal, 60);
+        }
         
-        // رندر صفحه دسته‌بندی و ALL
-        if(document.getElementById('catalog-container')) window.renderCategoryPage();
-        
-        setTimeout(window.updateCartUI, 100);
+        setTimeout(window.updateCartUI, 60);
         
     } catch(err) {
         console.error("Cleano Init Error: ", err);
@@ -1327,15 +1377,9 @@ function reveal() {
     for (var i = 0; i < reveals.length; i++) {
         var windowHeight = window.innerHeight;
         var elementTop = reveals[i].getBoundingClientRect().top;
-        if (elementTop < windowHeight - 100) { reveals[i].classList.add("active"); }
+        if (elementTop < windowHeight - 60) { reveals[i].classList.add("active"); }
     }
 }
-reveal();
-
-window.scrollToSection = function(sectionId) {
-    const section = document.getElementById(sectionId);
-    if(section) section.scrollIntoView({ behavior: 'smooth' });
-};
 
 window.openLightbox = function() {
     if(typeof window.amoryImages === 'undefined') return;
@@ -1355,3 +1399,149 @@ window.closeLightbox = function(e, force = false) {
     const l = document.getElementById('lightbox'); 
     if(l) { l.classList.remove('active'); document.body.style.overflow = 'auto'; setTimeout(() => l.style.display = 'none', 400); } 
 };
+
+// =========================================================================
+// 7. امکانات اختصاصی موبایل (Touch Swipe، دکمه + کارت‌ها و اشتراک‌گذاری برگه)
+// =========================================================================
+
+window.toggleMobileCardAdd = function(e, btn) {
+    e.preventDefault();
+    e.stopPropagation();
+    const wrapper = btn.closest('.minimal-card-img-wrapper');
+    if (!wrapper) return;
+    document.querySelectorAll('.minimal-card-img-wrapper.mobile-add-open').forEach(el => {
+        if (el !== wrapper) el.classList.remove('mobile-add-open');
+    });
+    wrapper.classList.toggle('mobile-add-open');
+};
+
+const origQuickAdd = window.quickAddWithQty;
+window.quickAddWithQty = function(e, productId, btn) {
+    origQuickAdd(e, productId, btn);
+    const wrapper = btn.closest('.minimal-card-img-wrapper');
+    if (wrapper && wrapper.classList.contains('mobile-add-open')) {
+        setTimeout(() => wrapper.classList.remove('mobile-add-open'), 1100);
+    }
+};
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.minimal-card-img-wrapper')) {
+        document.querySelectorAll('.minimal-card-img-wrapper.mobile-add-open').forEach(el => el.classList.remove('mobile-add-open'));
+    }
+    const searchBtn = e.target.closest('.search-icon');
+    if (searchBtn && window.innerWidth <= 900) {
+        e.preventDefault();
+        e.stopPropagation();
+        const wrapper = searchBtn.closest('.search-wrapper');
+        if (wrapper) {
+            const isOpen = wrapper.classList.toggle('mobile-search-open');
+            const input = wrapper.querySelector('.search-input');
+            if (isOpen && input) setTimeout(() => input.focus(), 50);
+        }
+    } else if (!e.target.closest('.search-wrapper')) {
+        document.querySelectorAll('.search-wrapper.mobile-search-open').forEach(el => el.classList.remove('mobile-search-open'));
+    }
+});
+
+document.addEventListener('touchstart', function(e) {
+    const gallery = e.target.closest('.amory-left');
+    if (!gallery || e.target.closest('button')) return;
+    window._touchStartX = e.changedTouches[0].screenX;
+    window._touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+document.addEventListener('touchend', function(e) {
+    const gallery = e.target.closest('.amory-left');
+    if (!gallery || typeof window._touchStartX !== 'number') return;
+    const diffX = e.changedTouches[0].screenX - window._touchStartX;
+    const diffY = e.changedTouches[0].screenY - window._touchStartY;
+    window._touchStartX = null;
+
+    if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) window.navAmorySlide(1);
+        else window.navAmorySlide(-1);
+    }
+}, { passive: true });
+
+window.executeImageShare = function() {
+    const btn = document.getElementById('share-image-btn');
+    if (!btn) return;
+    const originalText = btn.innerText;
+    btn.innerText = 'در حال آماده‌سازی...';
+    btn.style.pointerEvents = 'none';
+
+    const runShare = () => {
+        const captureBox = document.createElement('div');
+        captureBox.style.cssText = 'position:fixed;top:0;left:0;z-index:-9999;width:794px;height:1123px;background:#fff;padding:34px 46px;box-sizing:border-box;direction:rtl;';
+        captureBox.innerHTML = generateSinglePageA4Markup();
+        document.body.appendChild(captureBox);
+
+        let jalaliFileName = `سفارش-کیلینو.jpg`;
+        try {
+            const parts = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { day: 'numeric', month: 'long', year: 'numeric' }).formatToParts(new Date());
+            const day = window.toEnDigits((parts.find(p => p.type === 'day') || {}).value || '').trim();
+            const month = ((parts.find(p => p.type === 'month') || {}).value || '').trim().replace(/\s+/g, '-');
+            const year = window.toEnDigits((parts.find(p => p.type === 'year') || {}).value || '').trim();
+            if (day && month && year) jalaliFileName = `سفارش-کیلینو-${day}-${month}-${year}.jpg`;
+        } catch (e) {}
+
+        setTimeout(() => {
+            html2canvas(captureBox, {
+                scale: 2,
+                backgroundColor: "#ffffff",
+                logging: false,
+                onclone: (clonedDoc) => clonedDoc.querySelectorAll('img').forEach(img => img.remove())
+            }).then(canvas => {
+                if (captureBox.parentNode) document.body.removeChild(captureBox);
+                canvas.toBlob(async (blob) => {
+                    btn.innerText = originalText;
+                    btn.style.pointerEvents = 'auto';
+                    if (!blob) return;
+                    const file = new File([blob], jalaliFileName, { type: 'image/jpeg' });
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({ files: [file], title: 'برگه سفارش کیلینو' });
+                            window.closePrintModal(null, true);
+                        } catch (err) {}
+                    } else {
+                        const link = document.createElement('a');
+                        link.download = jalaliFileName;
+                        link.href = URL.createObjectURL(blob);
+                        link.click();
+                        window.closePrintModal(null, true);
+                    }
+                }, 'image/jpeg', 0.95);
+            });
+        }, 120);
+    };
+
+    if (typeof html2canvas === 'undefined') {
+        let script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        script.onload = runShare;
+        document.head.appendChild(script);
+    } else {
+        runShare();
+    }
+};
+
+window.updateHeroBannerForDevice = function() {
+    const heroImg = document.querySelector('.hero-section img');
+    if (!heroImg) return;
+    if (!heroImg.getAttribute('data-desktop-src')) {
+        heroImg.setAttribute('data-desktop-src', heroImg.getAttribute('src'));
+    }
+    const desktopSrc = heroImg.getAttribute('data-desktop-src');
+    const mobileSrc = desktopSrc.replace('banner-bala.webp', 'banner-bala-mobile.webp');
+
+    if (window.innerWidth <= 900) {
+        const testImg = new Image();
+        testImg.onload = function() { heroImg.src = mobileSrc; };
+        testImg.onerror = function() { heroImg.src = desktopSrc; };
+        testImg.src = mobileSrc;
+    } else {
+        heroImg.src = desktopSrc;
+    }
+};
+window.addEventListener('DOMContentLoaded', window.updateHeroBannerForDevice);
+window.addEventListener('resize', window.updateHeroBannerForDevice, { passive: true });
