@@ -407,25 +407,30 @@ body.home-on-hero .main-header {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(246, 246, 246, 0.55);
+    background: rgba(248, 248, 248, 0.65);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     color: #1a1a1a;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(26, 26, 26, 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    height: 48px;
-    padding: 0 38px;
+    height: 44px;
+    padding: 0 28px;
     border-radius: 3px;
     font-family: 'Vazirmatn', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
+.hero-order-btn-glass::after {
+    display: none !important;
+}
+
 .hero-order-btn-glass:hover {
     background: rgba(238, 238, 238, 0.85);
-    border-color: rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.14);
     color: #000;
 }
 
@@ -628,6 +633,42 @@ body.home-on-hero .main-header {
 
 .final-link:hover::after {
     transform: translateX(5px);
+}
+
+.final-link.fa-story-link {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 11.5px;
+    font-weight: 400;
+    color: #666;
+    letter-spacing: 0;
+    direction: rtl;
+    background: transparent !important;
+    border: none !important;
+    padding: 6px 0 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.final-link.fa-story-link::before,
+.final-link.fa-story-link::after {
+    content: "";
+    width: 16px;
+    height: 1px;
+    background-color: var(--brand-green);
+    display: inline-block;
+    transition: width 0.3s ease;
+}
+
+.final-link.fa-story-link:hover {
+    color: #1a1a1a;
+}
+
+.final-link.fa-story-link:hover::before,
+.final-link.fa-story-link:hover::after {
+    width: 24px;
+    transform: none;
 }
 
 .final-image-area {
@@ -1909,6 +1950,8 @@ body.home-on-hero .main-header {
     display: none;
     position: fixed;
     inset: 0;
+    height: 100vh;
+    height: 100dvh;
     z-index: 99999;
     background: rgba(255, 255, 255, 0.98);
     opacity: 0;
@@ -1921,11 +1964,19 @@ body.home-on-hero .main-header {
 
 .lb-close {
     position: absolute;
-    top: 30px;
-    right: 30px;
-    background: none;
-    border: none;
-    font-size: 24px;
+    top: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
     cursor: pointer;
     color: #1a1a1a;
     z-index: 10000;
@@ -1938,11 +1989,13 @@ body.home-on-hero .main-header {
 
 .lb-scroll-area {
     height: 100vh;
+    height: 100dvh;
+    box-sizing: border-box;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px 0;
+    padding: 80px 16px 150px !important;
     gap: 50px;
     scroll-behavior: smooth;
 }
@@ -2282,6 +2335,12 @@ body.home-on-hero .main-header {
     padding: 0 2px;
 }
 
+.cart-quick-tools {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .clear-cart-btn {
     background: rgba(246, 246, 246, 0.55);
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -2301,6 +2360,48 @@ body.home-on-hero .main-header {
     background: rgba(238, 238, 238, 0.85);
     border-color: rgba(0, 0, 0, 0.12);
     color: #1a1a1a;
+}
+
+.add-all-cart-btn {
+    background: rgba(246, 246, 246, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: #666;
+    cursor: pointer;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 3px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.add-all-cart-btn svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--brand-green);
+    flex-shrink: 0;
+}
+
+.add-all-cart-btn:hover {
+    background: rgba(238, 238, 238, 0.85);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #1a1a1a;
+}
+
+.add-all-cart-btn.all-added {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.empty-state-all-btn {
+    height: 38px;
+    padding: 0 16px;
+    font-size: 10.5px;
 }
 
 .cs-total-val {
@@ -2454,16 +2555,6 @@ body.home-on-hero .main-header {
     color: #1a1a1a !important;
 }
 
-/* ========================================================================= */
-/* 9. MOBILE & TABLET NATIVE EXPERIENCE (iOS & ANDROID OPTIMIZED)            */
-/* ========================================================================= */
-
-.mobile-card-plus-btn,
-.print-share-btn,
-.mobile-search-modal-overlay {
-    display: none;
-}
-
 /* پیام لحظه‌ای و مینیمال ذخیره شدن برگه سفارش (Toast Notification) */
 .cleano-toast {
     position: fixed;
@@ -2495,136 +2586,24 @@ body.home-on-hero .main-header {
     transform: translateX(-50%) translateY(0);
 }
 
-/* اصلاح بزرگ‌نمایی تصویر (Lightbox) برای دیده شدن کامل عکس آخر تا انتها */
-#lightbox {
-    height: 100vh;
-    height: 100dvh;
+/* ========================================================================= */
+/* 9. MOBILE & TABLET NATIVE EXPERIENCE (iOS & ANDROID OPTIMIZED)            */
+/* ========================================================================= */
+
+.mobile-card-plus-btn,
+.print-share-btn,
+.mobile-search-modal-overlay {
+    display: none;
 }
 
-.lb-close {
-    width: 42px;
-    height: 42px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    top: 20px;
-    right: 20px;
-}
+@media (max-width: 900px) {
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
 
-.lb-scroll-area {
-    height: 100vh;
-    height: 100dvh;
-    box-sizing: border-box;
-    padding: 80px 16px 150px !important;
-}
-
-/* مدرن‌سازی دکمه سفارش محصولات در دسکتاپ و موبایل با حفظ رنگ و گردی 3px */
-/* مدرن‌سازی دکمه سفارش محصولات (بدون فلش) */
-.hero-order-btn-glass {
-    height: 44px;
-    padding: 0 28px;
-    border-radius: 3px;
-    font-size: 11.5px;
-    font-weight: 400;
-    letter-spacing: 0.3px;
-    background: rgba(248, 248, 248, 0.65);
-    border: 1px solid rgba(26, 26, 26, 0.1);
-}
-
-.hero-order-btn-glass::after {
-    display: none !important;
-}
-
-/* استایل ژورنالی و مینیمال لینک داستان کیلینو (بدون کادر، بدون خط زیر و بدون فلش) */
-.final-link.fa-story-link {
-    font-family: 'Vazirmatn', sans-serif;
-    font-size: 11.5px;
-    font-weight: 400;
-    color: #666;
-    letter-spacing: 0;
-    direction: rtl;
-    background: transparent !important;
-    border: none !important;
-    padding: 6px 0 !important;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: color 0.3s ease, opacity 0.3s ease;
-}
-
-.final-link.fa-story-link::before,
-.final-link.fa-story-link::after {
-    content: "";
-    width: 16px;
-    height: 1px;
-    background-color: var(--brand-green);
-    display: inline-block;
-    transition: width 0.3s ease;
-}
-
-.final-link.fa-story-link:hover {
-    color: #1a1a1a;
-}
-
-.final-link.fa-story-link:hover::before,
-.final-link.fa-story-link:hover::after {
-    width: 24px;
-}
-
-/* دکمه مینیمال افزودن کل محصولات (۱ کارتن) در کنار سطل زباله سبد سفارش */
-.cart-quick-tools {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.add-all-cart-btn {
-    background: rgba(246, 246, 246, 0.55);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    color: #666;
-    cursor: pointer;
-    height: 30px;
-    padding: 0 10px;
-    border-radius: 3px;
-    font-family: 'Vazirmatn', sans-serif;
-    font-size: 10px;
-    font-weight: 400;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.25s ease;
-    white-space: nowrap;
-}
-
-.add-all-cart-btn svg {
-    width: 12px;
-    height: 12px;
-    stroke: var(--brand-green);
-    flex-shrink: 0;
-}
-
-.add-all-cart-btn:hover {
-    background: rgba(238, 238, 238, 0.85);
-    border-color: rgba(0, 0, 0, 0.12);
-    color: #1a1a1a;
-}
-
-.add-all-cart-btn.all-added {
-    opacity: 0.45;
-    pointer-events: none;
-}
-
-.empty-state-all-btn {
-    height: 38px;
-    padding: 0 16px;
-    font-size: 10.5px;
-}
+    body {
+        overflow-x: hidden;
+    }
 
     /* ۱. حذف نوار اعلان بالا و تنظیم هدر موبایل */
     .static-top-bar {
@@ -2663,7 +2642,6 @@ body.home-on-hero .main-header {
         gap: 8px;
     }
 
-    /* غیرفعال کردن باکس جستجوی داخل هدر در موبایل (جایگزین با پاپ‌آپ) */
     .search-wrapper {
         padding: 4px !important;
         border: none !important;
@@ -2735,7 +2713,7 @@ body.home-on-hero .main-header {
         border: none;
         background: transparent;
         font-family: 'Vazirmatn', sans-serif;
-        font-size: 16px; /* جلوگیری از زوم در آیفون */
+        font-size: 16px;
         color: #1a1a1a;
         outline: none;
     }
@@ -2803,7 +2781,7 @@ body.home-on-hero .main-header {
 
     .hero-order-btn-glass {
         height: 40px;
-        padding: 0 22px;
+        padding: 0 24px;
         font-size: 11px;
         font-weight: 400;
         background: rgba(255, 255, 255, 0.68);
@@ -2964,7 +2942,6 @@ body.home-on-hero .main-header {
         object-position: 78% center;
     }
 
-    /* هاله بسیار ملایم در پایین بنر موبایل برای خوانایی کامل متن روی عکس بزرگ */
     .cat-hero-content::after {
         content: "";
         position: absolute;
@@ -3018,7 +2995,6 @@ body.home-on-hero .main-header {
         font-size: 12px;
     }
 
-    /* ایجاد ارتفاع کافی حتی برای دسته‌های کم‌محصول مثل ست فر تا نوار فیلتر دقیقاً زیر هدر بایستد */
     .minimal-page-wrapper {
         padding: 22px 16px 64px !important;
         min-height: calc(100dvh - 115px);

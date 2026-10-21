@@ -52,14 +52,18 @@ const catalogDB = [
     { id: "CL-022", title: "پیشبند ضد آب و ضد لک", titleEn: "APRON WATERPROOF AND ANTI STAIN", ref: "CL-022", url: "mahsolat-takmili/pishband-zede-ab-va-zede-lak/index.html", img: "mahsolat-takmili/cover-pishband-zede-ab-va-zede-lak.webp", salesData: { pack1: "1", pack2: "12" } }
 ];
 
-// همگام‌سازی خودکار دیتابیس با مقادیر ذخیره‌شده از فایل‌های HTML محصولات
+// پاکسازی کش قدیمی در صورت تغییر نسخه دیتابیس و همگام‌سازی با فایل‌های HTML
+try {
+    if (localStorage.getItem('cleano_db_version') !== 'v2.4') {
+        localStorage.removeItem('cleano_html_meta');
+        localStorage.removeItem('cleano_html_packs');
+        localStorage.setItem('cleano_db_version', 'v2.4');
+    }
+} catch(e) {}
+
 window.syncCatalogWithHtmlMeta = function() {
     try {
         const metaStore = JSON.parse(localStorage.getItem('cleano_html_meta') || '{}');
-        if (metaStore["CL-004"] && metaStore["CL-004"].titleEn === "MICROFIBER CLOTH") {
-            metaStore["CL-004"].titleEn = "MICROFIBER TOWEL";
-            localStorage.setItem('cleano_html_meta', JSON.stringify(metaStore));
-        }
         const packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}');
         catalogDB.forEach(item => {
             if (metaStore[item.id]) {
@@ -213,6 +217,7 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         document.querySelectorAll('.global-search-dropdown').forEach(el => el.style.display = 'none');
         document.querySelectorAll('.footer-lang-dropdown.open').forEach(el => el.classList.remove('open'));
+        window.closeMobileSearch(null, true);
         const cartOverlay = document.getElementById('cart-overlay');
         if (cartOverlay && cartOverlay.classList.contains('active')) window.toggleCartModal();
         const printModal = document.getElementById('print-info-modal');
@@ -743,6 +748,28 @@ window.showCleanoToast = function(msg) {
     window._toastTimer = setTimeout(() => {
         toast.classList.remove('active');
     }, 2800);
+};
+
+window.executeImageDownload = function() {
+    const btn = document.getElementById('generate-image-btn');
+    if (!btn) return;
+    const originalText = btn.innerText;
+    btn.innerText = 'در حال ساخت برگه...';
+    btn.style.pointerEvents = 'none';
+
+    if (typeof html2canvas === 'undefined') {
+        let script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        script.onload = () => buildAndDownloadA4Image(btn, originalText);
+        script.onerror = () => {
+            btn.innerText = originalText;
+            btn.style.pointerEvents = 'auto';
+            alert('برای دانلود عکس برگه، اتصال اینترنت خود را بررسی کنید.');
+        };
+        document.head.appendChild(script);
+    } else {
+        buildAndDownloadA4Image(btn, originalText);
+    }
 };
 
 function buildAndDownloadA4Image(btn, originalText) {
@@ -1562,7 +1589,7 @@ window.addEventListener('load', window.initMobileCategoryBarUX);
 window.autoSyncAllProductsFromHTML = async function() {
     if (location.protocol === 'file:') return;
     try {
-        if (sessionStorage.getItem('cleano_full_html_synced_v1')) return;
+        if (sessionStorage.getItem('cleano_full_html_synced_v2')) return;
         let metaStore = JSON.parse(localStorage.getItem('cleano_html_meta') || '{}');
         let packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}');
         let updated = false;
@@ -1591,9 +1618,8 @@ window.autoSyncAllProductsFromHTML = async function() {
         if (updated) {
             localStorage.setItem('cleano_html_meta', JSON.stringify(metaStore));
             localStorage.setItem('cleano_html_packs', JSON.stringify(packStore));
-            sessionStorage.setItem('cleano_full_html_synced_v1', '1');
+            sessionStorage.setItem('cleano_full_html_synced_v2', '1');
             window.syncCatalogWithHtmlMeta();
-            // به‌روزرسانی زنده اسامی انگلیسی روی کارت‌های صفحه فعلی
             document.querySelectorAll('.minimal-product-card').forEach(card => {
                 const ref = card.querySelector('.product-ref-badge')?.getAttribute('data-ref');
                 const prod = catalogDB.find(p => p.id === ref);
@@ -1638,17 +1664,31 @@ window.quickAddWithQty = function(e, productId, btn) {
     }
 };
 
+// جلوگیری از باز شدن صفحه محصول وقتی نوار + باز است (با لمس عکس فقط نوار بسته شود)
 document.addEventListener('click', function(e) {
+    const cardLink = e.target.closest('.card-link-block, .minimal-card-info');
+    if (cardLink && window.innerWidth <= 900) {
+        const card = cardLink.closest('.minimal-product-card');
+        const imgWrapper = card ? card.querySelector('.minimal-card-img-wrapper') : null;
+        if (imgWrapper && imgWrapper.classList.contains('mobile-add-open')) {
+            e.preventDefault();
+            e.stopPropagation();
+            imgWrapper.classList.remove('mobile-add-open');
+            return;
+        }
+    }
+
     if (!e.target.closest('.minimal-card-img-wrapper')) {
         document.querySelectorAll('.minimal-card-img-wrapper.mobile-add-open').forEach(el => el.classList.remove('mobile-add-open'));
     }
+
     const searchBtn = e.target.closest('.search-icon');
     if (searchBtn && window.innerWidth <= 900) {
         e.preventDefault();
         e.stopPropagation();
         window.openMobileSearch();
     }
-});
+}, true);
 
 // ز) ورق زدن عکس‌های گالری محصول با کشیدن انگشت
 document.addEventListener('touchstart', function(e) {
@@ -1755,7 +1795,7 @@ window.executeImageShare = function() {
     }
 };
 
-// ط) جایگزینی هوشمند بنر صفحه اول در موبایل
+// ط) جایگزینی هوشمند بنر صفحه اول و دسته‌بندی‌ها در موبایل
 window.updateHeroBannerForDevice = function() {
     const bannerImgs = document.querySelectorAll('.hero-section img, .cat-hero-bg-img');
     bannerImgs.forEach(img => {
@@ -1778,3 +1818,11 @@ window.updateHeroBannerForDevice = function() {
         }
     });
 };
+
+if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', window.updateHeroBannerForDevice);
+} else {
+    window.updateHeroBannerForDevice();
+}
+window.addEventListener('load', window.updateHeroBannerForDevice);
+window.addEventListener('resize', window.updateHeroBannerForDevice, { passive: true });
