@@ -241,9 +241,15 @@ const cartDrawerHTML = `
         <div class="cart-items-container" id="cart-items-container"></div>
         <div class="cart-footer" id="cart-footer-box">
             <div class="cart-summary-bar" id="cart-summary-bar" style="display:none;">
-                <button class="clear-cart-btn" id="clear-cart-btn" onclick="window.clearAllCart()" title="حذف تمام اقلام سبد">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                </button>
+                <div class="cart-quick-tools">
+                    <button class="clear-cart-btn" id="clear-cart-btn" onclick="window.clearAllCart()" title="حذف تمام اقلام سبد">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                    <button class="add-all-cart-btn" id="add-all-cart-btn" onclick="window.addAllProductsOneCarton()" title="افزودن ۱ کارتن از تمام محصولات به سبد">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>افزودن کل محصولات (۱ کارتن)</span>
+                    </button>
+                </div>
                 <span class="cs-total-val" id="cs-total-cartons">مجموع: ۰ کارتن</span>
             </div>
             <button class="pill-download-btn" onclick="window.openPrintModal()" id="main-download-btn">
@@ -314,6 +320,17 @@ window.removeFromCart = function(productId) {
 
 window.clearAllCart = function() {
     orderList = [];
+    localStorage.setItem('cleano_order_list', JSON.stringify(orderList));
+    window.updateCartUI();
+};
+
+window.addAllProductsOneCarton = function() {
+    catalogDB.forEach(p => {
+        const existing = orderList.find(i => i.id === p.id);
+        if (!existing) {
+            orderList.push({ id: p.id, qty: 1 });
+        }
+    });
     localStorage.setItem('cleano_order_list', JSON.stringify(orderList));
     window.updateCartUI();
 };
@@ -502,11 +519,26 @@ window.updateCartUI = function() {
     }
 
     const allCatalogLink = window.getCleanPath('all/index.html');
+    const addAllBtn = document.getElementById('add-all-cart-btn');
+    if (addAllBtn) {
+        if (totalDistinctItems >= catalogDB.length) {
+            addAllBtn.classList.add('all-added');
+            addAllBtn.querySelector('span').innerText = 'کل محصولات در سبد است ✓';
+        } else {
+            addAllBtn.classList.remove('all-added');
+            addAllBtn.querySelector('span').innerText = 'افزودن کل محصولات (۱ کارتن)';
+        }
+    }
+
     if (totalDistinctItems === 0) {
         container.innerHTML = `
             <div class="cart-empty-state">
                 <p class="cart-empty-text">سبد سفارش شما در حال حاضر خالی است.</p>
-                <a href="${allCatalogLink}" class="cart-empty-cta">مشاهده کاتالوگ و انتخاب محصولات ←</a>
+                <a href="${allCatalogLink}" class="cart-empty-cta">مشاهده کاتالوگ و انتخاب محصولات</a>
+                <button type="button" class="add-all-cart-btn empty-state-all-btn" onclick="window.addAllProductsOneCarton()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>افزودن کل محصولات (۱ کارتن)</span>
+                </button>
             </div>
         `;
         if(footerBox) footerBox.style.display = 'none';
