@@ -3,110 +3,375 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>کیلینو | درباره ما</title>
-    <meta name="description" content="داستان برند CLEANO و کارخانه تولید منسوجات آشپزخانه با طراحی مینیمال و کیفیت پایدار.">
-    
+    <title>کیلینو | داستان برند</title>
+    <meta name="description" content="فلسفه طراحی و کیفیت در مجموعه منسوجات آشپزخانه و خانگی کیلینو (CLEANO).">
+
+    <!-- پیش‌نمایش عمودی و مینیمال لینک -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="CLEANO">
+    <meta property="og:title" content="کیلینو | داستان و فلسفه طراحی">
+    <meta property="og:description" content="سادگی، کارایی و کیفیت ماندگار در مجموعه منسوجات آشپزخانه کیلینو.">
+    <meta property="og:image" content="https://cleano-textile.github.io/catalog/aks-page-aval/banner-bala-mobile.webp">
+    <meta property="og:image:width" content="1080">
+    <meta property="og:image:height" content="1920">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='70' font-family='sans-serif' font-weight='300' fill='%231a1a1a'>C</text></svg>">
-    
-    <!-- اتصال به هسته مرکزی با پوشه قبل (چون فایل داخل پوشه about است) -->
-    <link rel="stylesheet" href="../cleano-core.css?v=2.0">
-    
+    <link rel="stylesheet" href="../cleano-core.css?v=65.0">
+
     <style>
-        /* هدر اختصاصی صفحه درباره ما */
-        .about-hero { text-align: center; padding: 120px 20px 80px; background: var(--bg-page); }
-        .about-hero h1 { font-size: 42px; font-weight: 300; letter-spacing: -1px; margin: 0 0 20px 0; color: var(--text-main); }
-        .about-hero p { font-size: 11px; color: var(--text-muted); letter-spacing: 4px; text-transform: uppercase; font-family: sans-serif; margin: 0; font-weight: 400; }
-        
-        /* بخش داستان برند */
-        .about-story { max-width: 700px; margin: 0 auto 80px; padding: 0 30px; text-align: center; line-height: 2.2; font-size: 15px; color: var(--text-muted); font-weight: 300; }
-        .about-story strong { color: var(--text-main); font-weight: 500; }
+        /* تنظیم هدر در صفحه درباره ما به صورت شیشه‌ای ثابت */
+        body.about-page-body .main-header {
+            background: rgba(255, 255, 255, 0.88) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03) !important;
+        }
 
-        /* تصویر عریض میانی */
-        .about-image { max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; }
-        .about-image img { width: 100%; height: auto; min-height: 40vh; object-fit: cover; background: var(--bg-img); display: block; filter: grayscale(20%); transition: filter 0.8s ease; }
-        .about-image img:hover { filter: grayscale(0%); }
+        .about-editorial-wrapper {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 30px 80px 110px;
+            box-sizing: border-box;
+        }
 
-        /* ارزش‌های برند */
-        .values-section { max-width: 1000px; margin: 0 auto 100px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; padding: 0 40px; text-align: center; }
-        .value-box { display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .value-icon { font-size: 28px; color: var(--text-main); font-weight: 300; }
-        .value-box h3 { font-size: 18px; font-weight: 500; margin: 0; color: var(--text-main); letter-spacing: -0.5px; }
-        .value-box p { font-size: 13px; color: var(--text-muted); line-height: 2; margin: 0; font-weight: 300; }
+        /* ۱. بخش معرفی و تیتر ژورنالی */
+        .about-hero {
+            text-align: center;
+            max-width: 680px;
+            margin: 20px auto 65px;
+            direction: ltr;
+        }
 
-        /* بخش دعوت به همکاری B2B */
-        .b2b-contact { background: #fafafa; padding: 80px 20px; text-align: center; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 60px; }
-        .b2b-contact h2 { font-size: 24px; font-weight: 300; color: var(--text-main); margin: 0 0 15px 0; }
-        .b2b-contact p { font-size: 14px; color: var(--text-muted); margin: 0 0 30px 0; font-weight: 300; }
-        .b2b-btn { display: inline-block; padding: 12px 30px; background: var(--text-main); color: #fff; text-decoration: none; font-size: 13px; font-weight: 300; letter-spacing: 1px; transition: 0.3s ease; }
-        .b2b-btn:hover { background: var(--brand-green); }
+        .about-en-tag {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: #999;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 20px;
+        }
 
-        @media (max-width: 768px) {
-            .about-hero { padding: 80px 20px 60px; }
-            .about-hero h1 { font-size: 32px; }
-            .about-story { text-align: right; font-size: 14px; }
-            .values-section { grid-template-columns: 1fr; gap: 40px; }
-            .about-image { padding: 0 20px; margin-bottom: 60px; }
+        .about-en-main {
+            font-family: 'Playfair Display', serif;
+            font-size: 50px;
+            font-weight: 400;
+            color: var(--text-main);
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            margin: 0 0 18px 0;
+        }
+
+        .about-en-main .italic- word {
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .about-fa-lead {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #666;
+            margin: 0;
+            direction: rtl;
+        }
+
+        /* ۲. قاب تصویر ژورنالی */
+        .about-visual-frame {
+            width: 100%;
+            aspect-ratio: 16/9;
+            max-height: 500px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #f6f6f6;
+            margin-bottom: 75px;
+        }
+
+        .about-visual-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .about-visual-frame:hover img {
+            transform: scale(1.03);
+        }
+
+        /* ۳. متن داستان و فلسفه برند */
+        .about-narrative {
+            max-width: 680px;
+            margin: 0 auto 90px;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .about-narrative p {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 13.5px;
+            font-weight: 300;
+            color: #555;
+            line-height: 2.35;
+            margin: 0 0 24px 0;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        .about-narrative strong {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* ۴. سه اصل کلیدی برند (ستون‌های مینیمال) */
+        .about-pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+            padding-top: 55px;
+            border-top: 1px solid #efefef;
+            margin-bottom: 95px;
+            direction: rtl;
+        }
+
+        .pillar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: right;
+        }
+
+        .pillar-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 16px;
+            direction: ltr;
+        }
+
+        .pillar-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--brand-green);
+            font-style: italic;
+        }
+
+        .pillar-en {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        .pillar-title {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin: 0 0 10px 0;
+        }
+
+        .pillar-desc {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 12px;
+            font-weight: 300;
+            color: #777;
+            line-height: 2.1;
+            margin: 0;
+            text-align: justify;
+        }
+
+        /* ۵. بخش پایانی هدایت به کاتالوگ (بدون اطلاعات تماس) */
+        .about-closing {
+            text-align: center;
+            padding: 60px 20px 20px;
+            border-top: 1px solid #efefef;
+        }
+
+        .about-closing-sub {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 9.5px;
+            font-weight: 600;
+            letter-spacing: 3.5px;
+            color: #aaa;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .about-closing-title {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-main);
+            margin: 0 0 28px 0;
+        }
+
+        /* بهینه‌سازی اختصاصی موبایل */
+        @media (max-width: 900px) {
+            .about-editorial-wrapper {
+                padding: 10px 20px 70px;
+            }
+
+            .about-hero {
+                margin: 10px auto 36px;
+            }
+
+            .about-en-tag {
+                font-size: 9px;
+                letter-spacing: 3px;
+                margin-bottom: 12px;
+            }
+
+            .about-en-main {
+                font-size: 32px;
+                margin-bottom: 12px;
+            }
+
+            .about-fa-lead {
+                font-size: 12.5px;
+            }
+
+            .about-visual-frame {
+                aspect-ratio: 4/3;
+                margin-bottom: 42px;
+            }
+
+            .about-narrative {
+                margin-bottom: 50px;
+            }
+
+            .about-narrative p {
+                font-size: 12.5px;
+                line-height: 2.2;
+                text-align: justify;
+                text-align-last: right;
+            }
+
+            .about-pillars {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding-top: 36px;
+                margin-bottom: 55px;
+            }
+
+            .pillar-item {
+                padding-bottom: 28px;
+                border-bottom: 1px solid #f5f5f5;
+            }
+
+            .pillar-item:last-child {
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+            .about-closing {
+                padding: 42px 10px 10px;
+            }
+
+            .about-closing-title {
+                font-size: 14px;
+                margin-bottom: 22px;
+            }
         }
     </style>
 </head>
-<body>
+<body class="about-page-body">
 
-    <!-- جایگاه هدر -->
-    <div id="cleano-header-placeholder"></div>
+    <!-- هدر یکپارچه سایت -->
+    <header class="main-header"></header>
 
-    <!-- تیتر صفحه -->
-    <div class="about-hero">
-        <h1>روحِ تازه، برای قلبِ خانه.</h1>
-        <p>The CLEANO Story</p>
-    </div>
-
-    <!-- داستان برند -->
-    <div class="about-story">
-        ما در <strong>CLEANO (خانواده تولیدی کیلینو)</strong> بر این باوریم که آشپزخانه صرفاً محلی برای پخت‌وپز نیست؛ بلکه تپنده‌ترین نقطه‌ی هر خانه و محل خلق خاطرات است. داستان ما با یک هدف ساده آغاز شد: جایگزین کردن منسوجات شلوغ و بی‌کیفیت بازار، با محصولاتی که زیبایی بصری، مینیمالیسم و دوام را در هم آمیخته‌اند.
-        <br><br>
-        امروز، مجموعه CLEANO با تکیه بر کارگاه تولیدی متمرکز و تخصصی خود در شهر رشت (استان گیلان)، تمام مراحل ایده، برش، دوخت و بسته‌بندی را با بالاترین استانداردهای کنترلی انجام می‌دهد. ما با دقت در انتخاب متریال و طراحی الگوهای مدرن (الهام‌گرفته از سبک‌های اسکاندیناوی و مینیمال)، در تلاشیم تا استانداردهای بازار منسوجات خانگی ایران را ارتقا دهیم.
-    </div>
-
-    <!-- تصویر عریض میانی (می‌توانید بعداً عکس کارگاه یا محصولات را جایگزین کنید) -->
-    <div class="about-image">
-        <img src="../aks-page-aval/hero-banner.png" alt="Cleano Production Aesthetics" onerror="this.onerror=null; this.src='../aks-page-aval/hero-banner.webp'">
-    </div>
-
-    <!-- ارزش‌های برند -->
-    <div class="values-section">
-        <div class="value-box">
-            <div class="value-icon">01</div>
-            <h3>طراحی مینیمال و کاربردی</h3>
-            <p>خداحافظی با طرح‌های شلوغ. محصولات ما برای خانه‌های مدرن طراحی شده‌اند تا در عین سادگی، بیشترین کارایی را در محیط آشپزخانه داشته باشند.</p>
+    <!-- نوار بازگشت هماهنگ با سایر صفحات داخلی (چپ در موبایل، راست در دسکتاپ) -->
+    <div class="cat-top-bar-nav">
+        <div class="cat-breadcrumbs">
+            <a href="../index.html">HOME</a>
+            <span>/</span>
+            <span class="current">OUR STORY</span>
         </div>
-        <div class="value-box">
-            <div class="value-icon">02</div>
-            <h3>تولید تخصصی و کنترل کیفیت</h3>
-            <p>در کارگاه تخصصی کیلینو، هر قطعه پیش از بسته‌بندی از لحاظ ثبات رنگ، کیفیت بافت و دقت در دوردوزی مورد بررسی دقیق قرار می‌گیرد.</p>
-        </div>
-        <div class="value-box">
-            <div class="value-icon">03</div>
-            <h3>تمرکز بر فروش عمده (B2B)</h3>
-            <p>ساختار تولید ما برای تامین پایدارِ شبکه‌ی توزیع، فروشگاه‌های زنجیره‌ای و نمایندگان فروش با قیمت‌گذاری چندلایه‌ی رقابتی بهینه‌سازی شده است.</p>
-        </div>
+        <a href="../index.html" class="cat-back-link">
+            BACK
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
     </div>
 
-    <!-- دعوت به همکاری B2B -->
-    <div class="b2b-contact">
-        <h2>به شبکه فروشندگان کیلینو بپیوندید</h2>
-        <p>جهت دریافت کاتالوگ جامع PDF، لیست قیمت‌های عمده و شرایط اخذ نمایندگی پخش با ما در ارتباط باشید.</p>
-        <a href="https://wa.me/989000000000" target="_blank" class="b2b-btn">ارتباط با واحد فروش (واتس‌اپ)</a>
-    </div>
+    <!-- محتوای ژورنالی درباره ما -->
+    <main class="about-editorial-wrapper">
 
-    <!-- جایگاه فوتر -->
-    <div id="cleano-footer-placeholder"></div>
+        <section class="about-hero reveal active">
+            <span class="about-en-tag">— OUR PHILOSOPHY</span>
+            <h1 class="about-en-main">A Touch of <span class="italic-word" style="font-style:italic; color:#88898c;">Simplicity.</span></h1>
+            <p class="about-fa-lead">سادگی، کارایی و زیباییِ ماندگار در قلب خانه</p>
+        </section>
+
+        <div class="about-visual-frame reveal active">
+            <img src="../aks-page-aval/aks-paeen.webp" alt="CLEANO Home Textile" onerror="this.onerror=null; this.src='../aks-page-aval/banner-bala.webp';">
+        </div>
+
+        <section class="about-narrative reveal">
+            <p>
+                در <strong>کیلینو (CLEANO)</strong> بر این باوریم که آشپزخانه و فضای خانه، شایسته‌ی آرامش بصری و نظم هستند. ایده‌ی شکل‌گیری این مجموعه از یک نیاز ساده آغاز شد: گذر از طرح‌های شلوغ و پرزرق‌وبرق، و رسیدن به منسوجاتی که با سادگیِ اصیل خود، حس لطافت و هماهنگی را به فضای روزمره ببخشند.
+            </p>
+            <p>
+                هر قطعه در این کاتالوگ با الهام از طراحی مینیمال و با تمرکز بر کارایی واقعی خلق شده است. از انتخاب الیاف با قدرت جذب بالا و بافت‌های لطیف تا دقت در دوردوزی و ثبات رنگ، تمام جزئیات به گونه‌ای کنار هم قرار گرفته‌اند تا محصول نهایی در استفاده‌ی مکرر روزانه، فرم و زیبایی اولیه‌ی خود را حفظ کند.
+            </p>
+        </section>
+
+        <section class="about-pillars reveal">
+            <div class="pillar-item">
+                <div class="pillar-head">
+                    <span class="pillar-num">01</span>
+                    <span class="pillar-en">MINIMAL AESTHETICS</span>
+                </div>
+                <h3 class="pillar-title">طراحی مینیمال و هماهنگ</h3>
+                <p class="pillar-desc">الگوهای ساده، خطوط منظم و پالت‌های رنگی ملایم که بدون ایجاد شلوغی بصری، با دکوراسیون آشپزخانه‌های مدرن هماهنگ می‌شوند.</p>
+            </div>
+
+            <div class="pillar-item">
+                <div class="pillar-head">
+                    <span class="pillar-num">02</span>
+                    <span class="pillar-en">SELECTED MATERIALS</span>
+                </div>
+                <h3 class="pillar-title">متریال گزیده و بادوام</h3>
+                <p class="pillar-desc">بهره‌گیری از پارچه‌های استاندارد، الیاف طبیعی و بافت‌های مقاوم که در برابر شستشوهای مکرر و استفاده‌ی روزمره، کیفیت و لطافت خود را از دست نمی‌دهند.</p>
+            </div>
+
+            <div class="pillar-item">
+                <div class="pillar-head">
+                    <span class="pillar-num">03</span>
+                    <span class="pillar-en">EVERYDAY FUNCTION</span>
+                </div>
+                <h3 class="pillar-title">کارایی در جزئیات</h3>
+                <p class="pillar-desc">توجه دقیق به ابعاد استاندارد، لایه‌های محافظ در برابر حرارت و رطوبت، و دوخت صنعتیِ تمیز برای تجربه‌ای راحت و مطمئن در خانه.</p>
+            </div>
+        </section>
+
+        <section class="about-closing reveal">
+            <span class="about-closing-sub">THE COLLECTION</span>
+            <h2 class="about-closing-title">مجموعه کامل منسوجات کیلینو را مرور کنید</h2>
+            <a href="../all/index.html" class="hero-order-btn-glass">مشاهده تمام محصولات</a>
+        </section>
+
+    </main>
+
+    <!-- فوتر یکپارچه سایت -->
+    <footer class="main-footer"></footer>
 
     <script>
-        const BASE_URL = "../"; 
-        // در صفحه درباره ما، هیچ دسته‌بندی خاصی اکتیو نیست
-        const ACTIVE_CATEGORY = ""; 
+        const BASE_URL = "../";
+        const ACTIVE_CATEGORY = "";
+        document.addEventListener("DOMContentLoaded", function() {
+            // برداشتن حالت فعال از لینک HOME در هدر زمانی که در صفحه درباره ما هستیم
+            setTimeout(function() {
+                document.querySelectorAll('.main-header .nav-link.active').forEach(function(el) {
+                    el.classList.remove('active');
+                });
+            }, 80);
+        });
     </script>
-    <script src="../cleano-core.js?v=2.0"></script>
-
+    <script src="../cleano-core.js?v=65.0"></script>
 </body>
 </html>
