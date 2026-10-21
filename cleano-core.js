@@ -27,7 +27,7 @@ window.toEnDigits = function(str) {
 };
 
 const catalogDB = [
-    { id: "CL-017", title: "دستگیره فر", titleEn: "OVEN HANDLE COVER", ref: "CL-017", url: "set-fer/dastgire-fer/index.html", img: "set-fer/cover-dastgire-fer.webp", salesData: { pack1: "2", pack2: "12" } },
+    { id: "CL-017", title: "دستگیره فر", titleEn: "OVEN HOLDER", ref: "CL-017", url: "set-fer/dastgire-fer/index.html", img: "set-fer/cover-dastgire-fer.webp", salesData: { pack1: "2", pack2: "12" } },
     { id: "CL-018", title: "دستکش فر", titleEn: "OVEN GLOVES", ref: "CL-018", url: "set-fer/dastkesh-fer/index.html", img: "set-fer/cover-dastkesh-fer.webp", salesData: { pack1: "2", pack2: "12" } },
     { id: "CL-016", title: "دستگیره آشپزخانه", titleEn: "POT HOLDER", ref: "CL-016", url: "set-parcheie/dastgire-ashpazkhane/index.html", img: "set-parcheie/cover-dastgire-ashpazkhane.webp", salesData: { pack1: "2", pack2: "12" } },
     { id: "CL-014", title: "دستگیره قابلمه", titleEn: "POT HOLDER", ref: "CL-014", url: "set-parcheie/dastgire-ghablame/index.html", img: "set-parcheie/cover-dastgire-ghablame.webp", salesData: { pack1: "2", pack2: "24" } },
@@ -39,8 +39,8 @@ const catalogDB = [
     { id: "CL-004", title: "دستمال میکروفایبر", titleEn: "MICROFIBER TOWEL", ref: "CL-004", url: "dastmal-ashpazkhane/dastmal-microfiber/index.html", img: "dastmal-ashpazkhane/cover-dastmal-microfiber.webp", salesData: { pack1: "1", pack2: "24" } },
     { id: "CL-005", title: "دستمال تک رنگ آشپزخانه", titleEn: "SINGLE COLOR KITCHEN NAPKIN", ref: "CL-005", url: "dastmal-ashpazkhane/dastmal-takrang-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-dastmal-takrang-ashpazkhane.webp", salesData: { pack1: "2", pack2: "24" } },
     { id: "CL-006", title: "حوله آشپزخانه", titleEn: "KITCHEN TOWEL", ref: "CL-006", url: "dastmal-ashpazkhane/hole-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-hole-ashpazkhane.webp", salesData: { pack1: "1", pack2: "15" } },
-    { id: "CL-028", title: "دستمال حوله‌ای", titleEn: "TERRY TOWEL", ref: "CL-028", url: "dastmal-ashpazkhane/dastmal-holeie/index.html", img: "dastmal-ashpazkhane/cover-dastmal-holeie.webp", salesData: { pack1: "2", pack2: "12" } },
-    { id: "CL-029", title: "دستمال نخ پنبه", titleEn: "COTTON TOWEL", ref: "CL-029", url: "dastmal-ashpazkhane/dastmal-nakh-panbe/index.html", img: "dastmal-ashpazkhane/cover-dastmal-nakh-panbe.webp", salesData: { pack1: "2", pack2: "12" } },
+    { id: "CL-028", title: "دستمال حوله‌ای", titleEn: "HAND KERCHIEF", ref: "CL-028", url: "dastmal-ashpazkhane/dastmal-holeie/index.html", img: "dastmal-ashpazkhane/cover-dastmal-holeie.webp", salesData: { pack1: "2", pack2: "12" } },
+    { id: "CL-029", title: "دستمال نخ پنبه", titleEn: "WAFFLE WEAVE COTTON", ref: "CL-029", url: "dastmal-ashpazkhane/dastmal-nakh-panbe/index.html", img: "dastmal-ashpazkhane/cover-dastmal-nakh-panbe.webp", salesData: { pack1: "2", pack2: "12" } },
     { id: "CL-030", title: "دستمال وایت ویو", titleEn: "WHITE VIEW TOWEL", ref: "CL-030", url: "dastmal-ashpazkhane/dastmal-white-view/index.html", img: "dastmal-ashpazkhane/cover-dastmal-white-view.webp", salesData: { pack1: "2", pack2: "24" } },
     { id: "CL-010", title: "سفره دو نفره", titleEn: "TWOSOME TABLECLOTH", ref: "CL-010", url: "sofre/sofre-do-nafare/index.html", img: "sofre/cover-sofre-do-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
     { id: "CL-011", title: "سفره چهار نفره", titleEn: "FOURSOME TABLECLOTH", ref: "CL-011", url: "sofre/sofre-chahar-nafare/index.html", img: "sofre/cover-sofre-chahar-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
@@ -1414,58 +1414,175 @@ window.closeLightbox = function(e, force = false) {
 };
 
 // =========================================================================
-// 7. امکانات اختصاصی موبایل (Touch Swipe، قفل اسکرول، فیلتر هوشمند و اشتراک‌گذاری)
+// 7. امکانات اختصاصی موبایل (پاپ‌آپ جستجو، همگام‌سازی HTMLها، فیلتر و اشتراک‌گذاری)
 // =========================================================================
 
-// الف) قفل استاندارد اسکرول صفحه پشتی در iOS و Android هنگام باز بودن پنجره‌ها
-window.syncBodyScrollLock = function() {
-    const cartOpen = document.getElementById('cart-overlay')?.classList.contains('active');
-    const printOpen = document.getElementById('print-info-modal')?.classList.contains('active');
-    const lbOpen = document.getElementById('lightbox')?.classList.contains('active');
-    if (cartOpen || printOpen || lbOpen) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
-    }
-};
-
+// الف) قفل استاندارد اسکرول صفحه پشتی هنگام باز بودن پنجره‌ها
 document.addEventListener('touchmove', function(e) {
     const cartOpen = document.getElementById('cart-overlay')?.classList.contains('active');
     const printOpen = document.getElementById('print-info-modal')?.classList.contains('active');
     const lbOpen = document.getElementById('lightbox')?.classList.contains('active');
-    if (!cartOpen && !printOpen && !lbOpen) return;
+    const searchOpen = document.getElementById('mobile-search-overlay')?.classList.contains('active');
+    if (!cartOpen && !printOpen && !lbOpen && !searchOpen) return;
 
-    // اجازه اسکرول فقط در داخل لیست سبد خرید و لیست عکس‌های بزرگ‌نمایی
-    if (e.target.closest('#cart-items-container') || e.target.closest('#lb-scroll-area')) return;
+    if (e.target.closest('#cart-items-container') || e.target.closest('#lb-scroll-area') || e.target.closest('#ms-results')) return;
     e.preventDefault();
 }, { passive: false });
 
-// ب) تنظیم موقعیت نوار دسته‌بندی‌ها زیر هدر و وسط‌چین کردن دسته فعال در موبایل
+// ب) پاپ‌آپ جستجوی اختصاصی موبایل
+window.ensureMobileSearchModal = function() {
+    if (document.getElementById('mobile-search-overlay')) return;
+    const modalHTML = `
+        <div class="mobile-search-modal-overlay" id="mobile-search-overlay" onclick="window.closeMobileSearch(event)">
+            <div class="mobile-search-modal" onclick="event.stopPropagation()">
+                <div class="ms-input-bar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="ms-input" class="ms-input" placeholder="جستجوی نام یا کد محصول..." autocomplete="off" oninput="window.handleMobileModalSearch(this.value)">
+                    <button type="button" class="ms-close-btn" onclick="window.closeMobileSearch(null, true)">✕</button>
+                </div>
+                <div class="ms-results" id="ms-results"></div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+};
+
+window.openMobileSearch = function() {
+    window.ensureMobileSearchModal();
+    const overlay = document.getElementById('mobile-search-overlay');
+    const input = document.getElementById('ms-input');
+    const resultsBox = document.getElementById('ms-results');
+    if (!overlay) return;
+    overlay.classList.add('active');
+    if (input) {
+        input.value = '';
+        if (resultsBox) resultsBox.innerHTML = '';
+        setTimeout(() => input.focus(), 60);
+    }
+};
+
+window.closeMobileSearch = function(e, force = false) {
+    if (force || (e && e.target.id === 'mobile-search-overlay')) {
+        const overlay = document.getElementById('mobile-search-overlay');
+        if (overlay) overlay.classList.remove('active');
+    }
+};
+
+window.handleMobileModalSearch = function(rawVal) {
+    const query = window.toEnDigits((rawVal || '').trim()).toLowerCase();
+    const resultsBox = document.getElementById('ms-results');
+    if (!resultsBox) return;
+    if (query.length < 1) { resultsBox.innerHTML = ''; return; }
+
+    window.syncCatalogWithHtmlMeta();
+    const results = catalogDB.filter(item =>
+        item.title.toLowerCase().includes(query) ||
+        item.ref.toLowerCase().includes(query) ||
+        (item.titleEn && item.titleEn.toLowerCase().includes(query))
+    );
+
+    if (results.length > 0) {
+        const fallbackImg = window.getCleanPath('aks-page-aval/cat-set-parcheie.webp');
+        resultsBox.innerHTML = results.map(res => `
+            <a href="${window.getCleanPath(res.url)}" class="g-search-item">
+                <img src="${window.getCleanPath(res.img)}" alt="${res.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">
+                <div class="g-search-info">
+                    <span class="g-search-title">${res.title}</span>
+                    <span class="g-search-ref">${res.ref}</span>
+                </div>
+            </a>
+        `).join('');
+    } else {
+        resultsBox.innerHTML = '<div class="g-search-empty">محصولی یافت نشد.</div>';
+    }
+};
+
+// ج) اسکرول خودکار نوار دسته‌بندی به زیر هدر (حتی در ست فر) و وسط‌چین کردن دسته فعال
 window.initMobileCategoryBarUX = function() {
     const filterBar = document.getElementById('filter-anchor');
     if (!filterBar || typeof ACTIVE_CATEGORY === 'undefined' || ACTIVE_CATEGORY === 'all') return;
 
-    // ۱. آوردن دسته‌بندی فعال به وسط نوار اسکرول افقی
     const activeLink = filterBar.querySelector('a.active');
     if (activeLink) {
         const scrollLeft = activeLink.offsetLeft - (filterBar.clientWidth / 2) + (activeLink.clientWidth / 2);
         filterBar.scrollTo({ left: scrollLeft, behavior: 'smooth' });
     }
 
-    // ۲. در موبایل: شروع صفحه از نوار دسته‌بندی‌ها زیر هدر (با قابلیت اسکرول به بالا برای دیدن بنر)
-    if (window.innerWidth <= 900 && window.scrollY < 10) {
-        setTimeout(() => {
+    if (window.innerWidth <= 900) {
+        const scrollBarUnderHeader = () => {
             const headerHeight = 60;
             const barTop = filterBar.getBoundingClientRect().top + window.scrollY - headerHeight;
-            if (barTop > 0) {
-                window.scrollTo({ top: barTop, behavior: 'instant' });
+            if (barTop > 0 && window.scrollY < 20) {
+                window.scrollTo(0, barTop);
             }
-        }, 60);
+        };
+        setTimeout(scrollBarUnderHeader, 50);
+        setTimeout(scrollBarUnderHeader, 220);
     }
 };
-window.addEventListener('DOMContentLoaded', () => setTimeout(window.initMobileCategoryBarUX, 90));
+window.addEventListener('DOMContentLoaded', window.initMobileCategoryBarUX);
+window.addEventListener('load', window.initMobileCategoryBarUX);
 
-// ج) باز کردن نوار خرید سریع روی کارت‌های موبایل با زدن دکمه +
+// د) همگام‌سازی خودکار نام انگلیسی و تعداد کارتن هر ۲۳ محصول از فایل‌های HTML در پس‌زمینه
+window.autoSyncAllProductsFromHTML = async function() {
+    if (location.protocol === 'file:') return;
+    try {
+        if (sessionStorage.getItem('cleano_full_html_synced_v1')) return;
+        let metaStore = JSON.parse(localStorage.getItem('cleano_html_meta') || '{}');
+        let packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}');
+        let updated = false;
+
+        await Promise.all(catalogDB.map(async (item) => {
+            try {
+                const res = await fetch(window.getCleanPath(item.url));
+                if (!res.ok) return;
+                const text = await res.text();
+                const enMatch = text.match(/titleEn\s*:\s*["']([^"']+)["']/);
+                const p1Match = text.match(/pack1\s*:\s*["']([^"']+)["']/);
+                const p2Match = text.match(/pack2\s*:\s*["']([^"']+)["']/);
+                if (enMatch && enMatch[1]) {
+                    metaStore[item.id] = { titleEn: enMatch[1].trim(), title: item.title };
+                    updated = true;
+                }
+                if (p1Match || p2Match) {
+                    const p1 = p1Match ? window.toEnDigits(p1Match[1]).replace(/[^0-9]/g, '') : (item.salesData?.pack1 || '1');
+                    const p2 = p2Match ? window.toEnDigits(p2Match[1]).replace(/[^0-9]/g, '') : (item.salesData?.pack2 || '12');
+                    packStore[item.id] = { pack1: p1 || '1', pack2: p2 || '12' };
+                    updated = true;
+                }
+            } catch (err) {}
+        }));
+
+        if (updated) {
+            localStorage.setItem('cleano_html_meta', JSON.stringify(metaStore));
+            localStorage.setItem('cleano_html_packs', JSON.stringify(packStore));
+            sessionStorage.setItem('cleano_full_html_synced_v1', '1');
+            window.syncCatalogWithHtmlMeta();
+            // به‌روزرسانی زنده اسامی انگلیسی روی کارت‌های صفحه فعلی
+            document.querySelectorAll('.minimal-product-card').forEach(card => {
+                const ref = card.querySelector('.product-ref-badge')?.getAttribute('data-ref');
+                const prod = catalogDB.find(p => p.id === ref);
+                const enEl = card.querySelector('.minimal-card-title-en');
+                if (prod && enEl && prod.titleEn) enEl.innerText = prod.titleEn;
+            });
+        }
+    } catch (e) {}
+};
+
+// هـ) فارسی و مینیمال کردن لینک بخش پایانی صفحه اول (آشنایی با داستان کیلینو)
+window.localizeHomeStoryLink = function() {
+    const storyLink = document.querySelector('.final-link');
+    if (storyLink) {
+        storyLink.innerText = 'آشنایی با داستان کیلینو';
+        storyLink.classList.add('fa-story-link');
+    }
+};
+window.addEventListener('DOMContentLoaded', () => {
+    window.localizeHomeStoryLink();
+    setTimeout(window.autoSyncAllProductsFromHTML, 400);
+});
+
+// و) باز کردن نوار خرید سریع روی کارت‌های موبایل با زدن دکمه +
 window.toggleMobileCardAdd = function(e, btn) {
     e.preventDefault();
     e.stopPropagation();
@@ -1494,18 +1611,11 @@ document.addEventListener('click', function(e) {
     if (searchBtn && window.innerWidth <= 900) {
         e.preventDefault();
         e.stopPropagation();
-        const wrapper = searchBtn.closest('.search-wrapper');
-        if (wrapper) {
-            const isOpen = wrapper.classList.toggle('mobile-search-open');
-            const input = wrapper.querySelector('.search-input');
-            if (isOpen && input) setTimeout(() => input.focus(), 50);
-        }
-    } else if (!e.target.closest('.search-wrapper')) {
-        document.querySelectorAll('.search-wrapper.mobile-search-open').forEach(el => el.classList.remove('mobile-search-open'));
+        window.openMobileSearch();
     }
 });
 
-// د) ورق زدن عکس‌های گالری محصول با کشیدن انگشت (Touch Swipe در iOS و Android)
+// ز) ورق زدن عکس‌های گالری محصول با کشیدن انگشت
 document.addEventListener('touchstart', function(e) {
     const gallery = e.target.closest('.amory-left');
     if (!gallery || e.target.closest('button')) return;
@@ -1526,7 +1636,7 @@ document.addEventListener('touchend', function(e) {
     }
 }, { passive: true });
 
-// هـ) اشتراک‌گذاری مستقیم عکس برگه سفارش سازگار با iOS Safari و Android Chrome
+// ح) اشتراک‌گذاری مستقیم عکس برگه سفارش در موبایل
 window.executeImageShare = function() {
     const btn = document.getElementById('share-image-btn');
     if (!btn) return;
@@ -1568,7 +1678,6 @@ window.executeImageShare = function() {
                             await navigator.share({ files: [file], title: 'برگه سفارش کیلینو' });
                             window.closePrintModal(null, true);
                         } catch (err) {
-                            // اگر کاربر خودش پنجره اشتراک‌گذاری را بست، کاری نکن؛ اگر خطای مرورگر بود دانلود کن
                             if (err && err.name !== 'AbortError') {
                                 const url = URL.createObjectURL(blob);
                                 const link = document.createElement('a');
@@ -1611,7 +1720,7 @@ window.executeImageShare = function() {
     }
 };
 
-// و) جایگزینی هوشمند بنر صفحه اول در موبایل
+// ط) جایگزینی هوشمند بنر صفحه اول در موبایل
 window.updateHeroBannerForDevice = function() {
     const heroImg = document.querySelector('.hero-section img');
     if (!heroImg) return;

@@ -2459,16 +2459,22 @@ body.home-on-hero .main-header {
 /* ========================================================================= */
 
 .mobile-card-plus-btn,
-.print-share-btn {
+.print-share-btn,
+.mobile-search-modal-overlay {
     display: none;
 }
 
-/* استایل شیشه‌ای دکمه بستن بزرگ‌نمایی تصویر (خوانا روی عکس‌های تیره و روشن) */
+/* اصلاح بزرگ‌نمایی تصویر (Lightbox) برای دیده شدن کامل عکس آخر تا انتها */
+#lightbox {
+    height: 100vh;
+    height: 100dvh;
+}
+
 .lb-close {
     width: 42px;
     height: 42px;
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.78);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(0, 0, 0, 0.06);
@@ -2480,6 +2486,60 @@ body.home-on-hero .main-header {
     right: 20px;
 }
 
+.lb-scroll-area {
+    height: 100vh;
+    height: 100dvh;
+    box-sizing: border-box;
+    padding: 80px 16px 150px !important;
+}
+
+/* مدرن‌سازی دکمه سفارش محصولات در دسکتاپ و موبایل با حفظ رنگ و گردی 3px */
+.hero-order-btn-glass {
+    height: 44px;
+    padding: 0 26px;
+    border-radius: 3px;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    gap: 10px;
+    background: rgba(248, 248, 248, 0.65);
+    border: 1px solid rgba(26, 26, 26, 0.1);
+}
+
+.hero-order-btn-glass::after {
+    content: "←";
+    font-size: 13px;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+}
+
+.hero-order-btn-glass:hover::after {
+    transform: translateX(-4px);
+}
+
+/* تبدیل لینک بخش پایانی صفحه اول به متن فارسی مینیمال (بدون کادر دکمه) */
+.final-link.fa-story-link {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
+    direction: rtl;
+    background: transparent !important;
+    border: none !important;
+    padding: 4px 0 !important;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.25) !important;
+    border-radius: 0 !important;
+}
+
+.final-link.fa-story-link::after {
+    content: "←";
+    font-size: 13px;
+}
+
+.final-link.fa-story-link:hover::after {
+    transform: translateX(-4px);
+}
+
 @media (max-width: 900px) {
     * {
         -webkit-tap-highlight-color: transparent;
@@ -2489,7 +2549,7 @@ body.home-on-hero .main-header {
         overflow-x: hidden;
     }
 
-    /* ۱. حذف کامل نوار اعلان بالای صفحه در موبایل */
+    /* ۱. حذف نوار اعلان بالا و تنظیم هدر موبایل */
     .static-top-bar {
         display: none !important;
     }
@@ -2526,56 +2586,108 @@ body.home-on-hero .main-header {
         gap: 8px;
     }
 
+    /* غیرفعال کردن باکس جستجوی داخل هدر در موبایل (جایگزین با پاپ‌آپ) */
     .search-wrapper {
-        position: static;
-        padding: 4px;
+        padding: 4px !important;
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
     }
 
-    .search-wrapper .search-input {
+    .search-wrapper .search-input,
+    .search-wrapper .global-search-dropdown {
+        display: none !important;
+    }
+
+    /* پاپ‌آپ جستجوی اختصاصی موبایل */
+    .mobile-search-modal-overlay {
         position: fixed;
-        top: 60px !important;
-        left: 0;
-        width: 100% !important;
-        height: 48px;
-        padding: 0 18px !important;
-        margin: 0 !important;
-        background: rgba(255, 255, 255, 0.97);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        inset: 0;
+        background: rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 25000;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 72px 16px 20px;
         box-sizing: border-box;
-        font-size: 16px;
         opacity: 0;
         visibility: hidden;
-        transform: translateY(-8px);
-        transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
-        z-index: 9998;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
     }
 
-    .search-wrapper.mobile-search-open .search-input {
+    .mobile-search-modal-overlay.active {
         opacity: 1;
         visibility: visible;
-        transform: translateY(0);
     }
 
-    .global-search-dropdown {
-        position: fixed;
-        top: 108px !important;
-        left: 12px;
-        right: 12px;
-        width: auto;
-        max-height: 60vh;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    .mobile-search-modal {
+        width: 100%;
+        max-width: 420px;
+        background: rgba(255, 255, 255, 0.97);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 6px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.14);
+        overflow: hidden;
+        direction: rtl;
+        transform: translateY(-10px) scale(0.98);
+        transition: transform 0.28s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    /* ۲. صفحه اول و طراحی ژورنالی بخش پایانی (با پس‌زمینه سفیدِ خودِ تم) */
+    .mobile-search-modal-overlay.active .mobile-search-modal {
+        transform: translateY(0) scale(1);
+    }
+
+    .ms-input-bar {
+        display: flex;
+        align-items: center;
+        padding: 6px 14px;
+        border-bottom: 1px solid #efefef;
+        gap: 10px;
+    }
+
+    .ms-input-bar svg {
+        color: #888;
+        flex-shrink: 0;
+    }
+
+    .ms-input {
+        flex: 1;
+        height: 42px;
+        border: none;
+        background: transparent;
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 16px; /* جلوگیری از زوم در آیفون */
+        color: #1a1a1a;
+        outline: none;
+    }
+
+    .ms-close-btn {
+        background: none;
+        border: none;
+        color: #999;
+        font-size: 16px;
+        padding: 6px;
+        cursor: pointer;
+    }
+
+    .ms-results {
+        max-height: 55vh;
+        overflow-y: auto;
+        padding: 6px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ms-results:empty {
+        display: none;
+    }
+
+    /* ۲. بنر اول موبایل و دکمه مدرن سفارش محصولات */
     .hero-section {
         height: 100vh;
         height: 100dvh;
-        padding: 0 24px 68px;
+        padding: 0 24px 64px;
         align-items: flex-end;
         justify-content: center;
         box-sizing: border-box;
@@ -2603,7 +2715,7 @@ body.home-on-hero .main-header {
     .hero-en-desc {
         font-size: 12px;
         line-height: 1.65;
-        margin-bottom: 24px;
+        margin-bottom: 22px;
         max-width: 310px;
     }
 
@@ -2613,10 +2725,15 @@ body.home-on-hero .main-header {
     }
 
     .hero-order-btn-glass {
-        height: 46px;
-        padding: 0 36px;
-        font-size: 12px;
-        background: rgba(255, 255, 255, 0.72);
+        height: 40px;
+        padding: 0 22px;
+        font-size: 11px;
+        font-weight: 400;
+        background: rgba(255, 255, 255, 0.68);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(26, 26, 26, 0.12);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
     }
 
     .collection-grid-section {
@@ -2641,10 +2758,10 @@ body.home-on-hero .main-header {
         min-width: 100%;
     }
 
-    /* بخش پایانی (Our Story) با تم سفید اصلی، خط عمودی ژورنالی و اولویت متن قبل از عکس */
+    /* بخش پایانی صفحه اول با لینک متنی مینیمال (بدون دکمه) */
     .final-section {
         background-color: var(--bg-page);
-        padding: 40px 0 72px;
+        padding: 36px 0 68px;
         position: relative;
     }
 
@@ -2652,15 +2769,15 @@ body.home-on-hero .main-header {
         content: "";
         display: block;
         width: 1px;
-        height: 42px;
+        height: 40px;
         background-color: #dcdcdc;
-        margin: 0 auto 32px;
+        margin: 0 auto 28px;
     }
 
     .final-content-wrapper {
-        flex-direction: column; /* قرار گرفتن تیتر و دکمه بالای عکس برای تمایز کامل از دسته‌بندی‌ها */
+        flex-direction: column;
         padding: 0 22px;
-        gap: 32px;
+        gap: 28px;
     }
 
     .final-text-area {
@@ -2675,23 +2792,15 @@ body.home-on-hero .main-header {
     }
 
     .final-title {
-        font-size: 32px;
-        margin-bottom: 16px;
+        font-size: 31px;
+        margin-bottom: 14px;
     }
 
     .final-desc {
         font-size: 12.5px;
         line-height: 1.8;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         max-width: 330px;
-    }
-
-    .final-link {
-        background: rgba(246, 246, 246, 0.7);
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        padding: 12px 24px;
-        border-radius: 3px;
-        font-size: 10px;
     }
 
     .final-image-area {
@@ -2714,7 +2823,7 @@ body.home-on-hero .main-header {
         font-size: 9px;
     }
 
-    /* ۴. نوار بازگشت در سمت چپ (مشترک در دسته‌بندی، ALL و صفحه محصول) */
+    /* ۴. نوار بازگشت در سمت چپ */
     .cat-top-bar-nav,
     .amory-top-nav {
         flex-direction: row-reverse;
@@ -2759,14 +2868,14 @@ body.home-on-hero .main-header {
         font-weight: 500;
     }
 
-    /* ۵. تنظیم دقیق بنر دسته‌بندی‌ها و نوار چسبان فیلتر در موبایل */
+    /* ۵. صفحات دسته‌بندی (همراه با ارتفاع کافی برای قرار گرفتن نوار ست فر زیر هدر) */
     .cat-hero-section {
         padding-bottom: 10px;
     }
 
     .cat-hero-content {
         width: calc(100% - 32px);
-        aspect-ratio: 16/9; /* حفظ نسبت اصلی بنر برای جلوگیری از افتادن متن روی تصویر محصول */
+        aspect-ratio: 16/9;
         padding: 18px 20px;
         align-items: center;
         justify-content: flex-start;
@@ -2791,7 +2900,6 @@ body.home-on-hero .main-header {
         overflow: hidden;
     }
 
-    /* چسبان شدن نوار دسته‌بندی‌ها دقیقاً زیر هدر موبایل */
     .cat-filter-bar {
         position: sticky;
         top: 60px;
@@ -2819,8 +2927,11 @@ body.home-on-hero .main-header {
         font-size: 12px;
     }
 
+    /* ایجاد ارتفاع کافی حتی برای دسته‌های کم‌محصول مثل ست فر تا نوار فیلتر دقیقاً زیر هدر بایستد */
     .minimal-page-wrapper {
         padding: 22px 16px 64px !important;
+        min-height: calc(100dvh - 115px);
+        box-sizing: border-box;
     }
 
     .all-cat-divider {
@@ -2945,7 +3056,7 @@ body.home-on-hero .main-header {
         font-size: 9px;
     }
 
-    /* ۶. صفحه تکی محصول (Level 3) در موبایل */
+    /* ۶. صفحه تکی محصول (Level 3) */
     .wudo-header {
         height: 60px;
         background: rgba(255, 255, 255, 0.92);
@@ -3009,7 +3120,6 @@ body.home-on-hero .main-header {
         gap: 10px;
     }
 
-    /* افزایش ناحیه لمس نقطه‌های گالری در موبایل */
     .amory-nav-item {
         position: relative;
     }
@@ -3065,7 +3175,7 @@ body.home-on-hero .main-header {
         max-width: 100%;
     }
 
-    /* ۷. کشوی سبد سفارش و پنجره ضدکیبورد مشخصات سفارش‌دهنده در موبایل */
+    /* ۷. سبد سفارش و مودال فاکتور */
     .cart-overlay {
         align-items: flex-end;
     }
@@ -3098,7 +3208,6 @@ body.home-on-hero .main-header {
         padding: 14px 20px calc(22px + env(safe-area-inset-bottom, 0px));
     }
 
-    /* قرارگیری پنجره مشخصات در مرکز صفحه موبایل تا کیبورد روی دکمه‌ها نیفتد */
     .print-modal-overlay {
         align-items: center;
         padding: 16px;
