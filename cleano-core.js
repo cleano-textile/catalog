@@ -729,25 +729,20 @@ function generateSinglePageA4Markup() {
     `;
 }
 
-window.executeImageDownload = function() {
-    const btn = document.getElementById('generate-image-btn');
-    const originalText = btn.innerText;
-    btn.innerText = 'در حال ساخت برگه...';
-    btn.style.pointerEvents = 'none';
-
-    if (typeof html2canvas === 'undefined') {
-        let script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-        script.onload = () => buildAndDownloadA4Image(btn, originalText);
-        script.onerror = () => {
-            btn.innerText = originalText;
-            btn.style.pointerEvents = 'auto';
-            alert('برای دانلود عکس برگه، اتصال اینترنت خود را بررسی کنید یا از دکمه چاپ مستقیم (Save as PDF) استفاده نمایید.');
-        };
-        document.head.appendChild(script);
-    } else {
-        buildAndDownloadA4Image(btn, originalText);
+window.showCleanoToast = function(msg) {
+    let toast = document.getElementById('cleano-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'cleano-toast';
+        toast.className = 'cleano-toast';
+        document.body.appendChild(toast);
     }
+    toast.innerText = msg;
+    toast.classList.add('active');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(() => {
+        toast.classList.remove('active');
+    }, 2800);
 };
 
 function buildAndDownloadA4Image(btn, originalText) {
@@ -782,23 +777,31 @@ function buildAndDownloadA4Image(btn, originalText) {
     setTimeout(() => {
         html2canvas(captureBox, {
             scale: 2,
+            useCORS: true,
             backgroundColor: "#ffffff",
             logging: false,
             onclone: (clonedDoc) => {
                 clonedDoc.querySelectorAll('img').forEach(img => img.remove());
             }
         }).then(canvas => {
-            const imgData = canvas.toDataURL('image/jpeg', 0.95);
-            const link = document.createElement('a');
-            link.download = jalaliFileName;
-            link.href = imgData;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
             if (captureBox.parentNode) document.body.removeChild(captureBox);
-            window.closePrintModal(null, true);
-            btn.innerText = originalText;
-            btn.style.pointerEvents = 'auto';
+            canvas.toBlob((blob) => {
+                btn.innerText = originalText;
+                btn.style.pointerEvents = 'auto';
+                if (!blob) return;
+
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = jalaliFileName;
+                link.href = url;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(() => URL.revokeObjectURL(url), 4000);
+
+                window.closePrintModal(null, true);
+                window.showCleanoToast('تصویر برگه سفارش ذخیره شد ✓');
+            }, 'image/jpeg', 0.95);
         }).catch(err => {
             console.error("Image Download Error:", err);
             if (captureBox.parentNode) document.body.removeChild(captureBox);
@@ -1754,22 +1757,24 @@ window.executeImageShare = function() {
 
 // ط) جایگزینی هوشمند بنر صفحه اول در موبایل
 window.updateHeroBannerForDevice = function() {
-    const heroImg = document.querySelector('.hero-section img');
-    if (!heroImg) return;
-    if (!heroImg.getAttribute('data-desktop-src')) {
-        heroImg.setAttribute('data-desktop-src', heroImg.getAttribute('src'));
-    }
-    const desktopSrc = heroImg.getAttribute('data-desktop-src');
-    const mobileSrc = desktopSrc.replace('banner-bala.webp', 'banner-bala-mobile.webp');
+    const bannerImgs = document.querySelectorAll('.hero-section img, .cat-hero-bg-img');
+    bannerImgs.forEach(img => {
+        if (!img.getAttribute('data-desktop-src')) {
+            img.setAttribute('data-desktop-src', img.getAttribute('src'));
+        }
+        const desktopSrc = img.getAttribute('data-desktop-src');
+        const mobileSrc = desktopSrc.replace('.webp', '-mobile.webp');
 
-    if (window.innerWidth <= 900) {
-        const testImg = new Image();
-        testImg.onload = function() { heroImg.src = mobileSrc; };
-        testImg.onerror = function() { heroImg.src = desktopSrc; };
-        testImg.src = mobileSrc;
-    } else {
-        heroImg.src = desktopSrc;
-    }
+        if (window.innerWidth <= 900) {
+            const testImg = new Image();
+            testImg.onload = function() {
+                img.src = mobileSrc;
+                img.style.objectPosition = 'center center';
+            };
+            testImg.onerror = function() { img.src = desktopSrc; };
+            testImg.src = mobileSrc;
+        } else {
+            img.src = desktopSrc;
+        }
+    });
 };
-window.addEventListener('DOMContentLoaded', window.updateHeroBannerForDevice);
-window.addEventListener('resize', window.updateHeroBannerForDevice, { passive: true });
