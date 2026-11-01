@@ -27,13 +27,18 @@ window.toEnDigits = function(str) {
 };
 
 const catalogDB = [
-    { id: "CL-017", title: "دستگیره فر", titleEn: "OVEN HOLDER", ref: "CL-017", url: "set-fer/dastgire-fer/index.html", img: "set-fer/cover-dastgire-fer.webp", salesData: { pack1: "2", pack2: "12" } },
-    { id: "CL-018", title: "دستکش فر", titleEn: "OVEN GLOVES", ref: "CL-018", url: "set-fer/dastkesh-fer/index.html", img: "set-fer/cover-dastkesh-fer.webp", salesData: { pack1: "2", pack2: "12" } },
-    { id: "CL-016", title: "دستگیره آشپزخانه", titleEn: "POT HOLDER", ref: "CL-016", url: "set-parcheie/dastgire-ashpazkhane/index.html", img: "set-parcheie/cover-dastgire-ashpazkhane.webp", salesData: { pack1: "2", pack2: "12" } },
-    { id: "CL-014", title: "دستگیره قابلمه", titleEn: "POT HOLDER", ref: "CL-014", url: "set-parcheie/dastgire-ghablame/index.html", img: "set-parcheie/cover-dastgire-ghablame.webp", salesData: { pack1: "2", pack2: "24" } },
+    // ۱. ست پارچه‌ای (از راست به چپ: دم‌کن، پیشبند، نمگیر، دستگیره آشپزخانه، دستگیره قابلمه)
     { id: "CL-023", title: "دم کن برنج", titleEn: "RICE COOKER", ref: "CL-023", url: "set-parcheie/damkon-berenj/index.html", img: "set-parcheie/cover-damkon-berenj.webp", salesData: { pack1: "3", pack2: "12" } },
     { id: "CL-021", title: "پیشبند آشپزخانه", titleEn: "APRON", ref: "CL-021", url: "set-parcheie/pishband/index.html", img: "set-parcheie/cover-pishband.webp", salesData: { pack1: "1", pack2: "24" } },
     { id: "CL-019", title: "نمگیر ظروف", titleEn: "DISH DRAINER", ref: "CL-019", url: "set-parcheie/namgir-zorof/index.html", img: "set-parcheie/cover-namgir-zorof.webp", salesData: { pack1: "1", pack2: "24" } },
+    { id: "CL-016", title: "دستگیره آشپزخانه", titleEn: "POT HOLDER", ref: "CL-016", url: "set-parcheie/dastgire-ashpazkhane/index.html", img: "set-parcheie/cover-dastgire-ashpazkhane.webp", salesData: { pack1: "2", pack2: "12" } },
+    { id: "CL-014", title: "دستگیره قابلمه", titleEn: "POT HOLDER", ref: "CL-014", url: "set-parcheie/dastgire-ghablame/index.html", img: "set-parcheie/cover-dastgire-ghablame.webp", salesData: { pack1: "2", pack2: "24" } },
+
+    // ۲. ست فر
+    { id: "CL-017", title: "دستگیره فر", titleEn: "OVEN HOLDER", ref: "CL-017", url: "set-fer/dastgire-fer/index.html", img: "set-fer/cover-dastgire-fer.webp", salesData: { pack1: "2", pack2: "12" } },
+    { id: "CL-018", title: "دستکش فر", titleEn: "OVEN GLOVES", ref: "CL-018", url: "set-fer/dastkesh-fer/index.html", img: "set-fer/cover-dastkesh-fer.webp", salesData: { pack1: "2", pack2: "12" } },
+
+    // ۳. حوله و دستمال آشپزخانه (طرحدار، تنظیف، میکروفایبر، تک‌رنگ، حوله، دستمال حوله‌ای، نخ پنبه، وایت ویو)
     { id: "CL-001", title: "دستمال طرحدار آشپزخانه", titleEn: "PATTERNED KITCHEN NAPKIN", ref: "CL-001", url: "dastmal-ashpazkhane/dastmal-tarhdar-ashpazkhane/index.html", img: "dastmal-ashpazkhane/cover-dastmal-tarhdar-ashpazkhane.webp", salesData: { pack1: "3", pack2: "24" } },
     { id: "CL-002", title: "دستمال تنظیف دولایه", titleEn: "DOUBLE LAYER NAPKIN", ref: "CL-002", url: "dastmal-ashpazkhane/dastmal-tanzif-dolaie/index.html", img: "dastmal-ashpazkhane/cover-dastmal-tanzif-dolaie.webp", salesData: { pack1: "2", pack2: "24" } },
     { id: "CL-004", title: "دستمال میکروفایبر", titleEn: "MICROFIBER TOWEL", ref: "CL-004", url: "dastmal-ashpazkhane/dastmal-microfiber/index.html", img: "dastmal-ashpazkhane/cover-dastmal-microfiber.webp", salesData: { pack1: "1", pack2: "24" } },
@@ -42,10 +47,14 @@ const catalogDB = [
     { id: "CL-028", title: "دستمال حوله‌ای", titleEn: "HAND KERCHIEF", ref: "CL-028", url: "dastmal-ashpazkhane/dastmal-holeie/index.html", img: "dastmal-ashpazkhane/cover-dastmal-holeie.webp", salesData: { pack1: "2", pack2: "12" } },
     { id: "CL-029", title: "دستمال نخ پنبه", titleEn: "WAFFLE WEAVE COTTON", ref: "CL-029", url: "dastmal-ashpazkhane/dastmal-nakh-panbe/index.html", img: "dastmal-ashpazkhane/cover-dastmal-nakh-panbe.webp", salesData: { pack1: "2", pack2: "12" } },
     { id: "CL-030", title: "دستمال وایت ویو", titleEn: "WHITE VIEW TOWEL", ref: "CL-030", url: "dastmal-ashpazkhane/dastmal-white-view/index.html", img: "dastmal-ashpazkhane/cover-dastmal-white-view.webp", salesData: { pack1: "2", pack2: "24" } },
+
+    // ۴. سفره‌های ژله‌ای
     { id: "CL-010", title: "سفره دو نفره", titleEn: "TWOSOME TABLECLOTH", ref: "CL-010", url: "sofre/sofre-do-nafare/index.html", img: "sofre/cover-sofre-do-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
     { id: "CL-011", title: "سفره چهار نفره", titleEn: "FOURSOME TABLECLOTH", ref: "CL-011", url: "sofre/sofre-chahar-nafare/index.html", img: "sofre/cover-sofre-chahar-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
     { id: "CL-012", title: "سفره شش نفره", titleEn: "SIXSOME TABLECLOTH", ref: "CL-012", url: "sofre/sofre-shesh-nafare/index.html", img: "sofre/cover-sofre-shesh-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
     { id: "CL-013", title: "سفره هشت نفره", titleEn: "EIGHTSOME TABLECLOTH", ref: "CL-013", url: "sofre/sofre-hasht-nafare/index.html", img: "sofre/cover-sofre-hasht-nafare.webp", salesData: { pack1: "1", pack2: "12" } },
+
+    // ۵. محصولات تکمیلی
     { id: "CL-007", title: "کیسه سبزی", titleEn: "VEGETABLE BAG", ref: "CL-007", url: "mahsolat-takmili/kise-sabzi/index.html", img: "mahsolat-takmili/cover-kise-sabzi.webp", salesData: { pack1: "1", pack2: "24" } },
     { id: "CL-009", title: "سفره نان", titleEn: "BREAD CLOTH", ref: "CL-009", url: "mahsolat-takmili/sofre-nan/index.html", img: "mahsolat-takmili/cover-sofre-nan.webp", salesData: { pack1: "1", pack2: "24" } },
     { id: "CL-020", title: "نمگیر میکروفایبر", titleEn: "MICROFIBER DISH DRAINER", ref: "CL-020", url: "mahsolat-takmili/namgir-microfiber/index.html", img: "mahsolat-takmili/cover-namgir-microfiber.webp", salesData: { pack1: "1", pack2: "12" } },
@@ -54,10 +63,10 @@ const catalogDB = [
 
 // پاکسازی کش قدیمی در صورت تغییر نسخه دیتابیس و همگام‌سازی با فایل‌های HTML
 try {
-    if (localStorage.getItem('cleano_db_version') !== 'v2.4') {
+    if (localStorage.getItem('cleano_db_version') !== 'v2.5') {
         localStorage.removeItem('cleano_html_meta');
         localStorage.removeItem('cleano_html_packs');
-        localStorage.setItem('cleano_db_version', 'v2.4');
+        localStorage.setItem('cleano_db_version', 'v2.5');
     }
 } catch(e) {}
 
@@ -596,11 +605,12 @@ function generateSinglePageA4Markup() {
         return 'سایر محصولات'; 
     };
 
-    const categoriesOrder = ['ست فر', 'ست پارچه‌ای', 'حوله و دستمال آشپزخانه', 'سفره‌های ژله‌ای', 'محصولات تکمیلی', 'سایر محصولات'];
+    // رعایت دقیق ترتیب دسته‌بندی‌ها و محصولات در برگه سفارش نهایی A4
+    const categoriesOrder = ['ست پارچه‌ای', 'ست فر', 'حوله و دستمال آشپزخانه', 'سفره‌های ژله‌ای', 'محصولات تکمیلی', 'سایر محصولات'];
     let groupedOrder = {};
-    validItems.forEach(item => {
-        const p = catalogDB.find(x => x.id === item.id);
-        if (p) {
+    catalogDB.forEach(p => {
+        const item = validItems.find(x => x.id === p.id);
+        if (item) {
             const cat = getCatName(p.url);
             if (!groupedOrder[cat]) groupedOrder[cat] = [];
             groupedOrder[cat].push({ ...item, p: p });
@@ -1245,9 +1255,9 @@ window.renderCategoryPage = function() {
     } catch(e) {}
 
     const categoryData = {
-        "dastmal-ashpazkhane": { catNameEn: "KITCHEN TOWELS & CLOTHS", bannerTitleEn: "KITCHEN TOWELS", faTitle: "حوله و دستمال آشپزخانه", desc: "A large set of highly absorbent and durable towels crafted for daily use.", heroImg: "../dastmal-ashpazkhane/cover-dastmal.webp" },
         "set-parcheie": { catNameEn: "FABRIC SET", bannerTitleEn: "CONTEMPORARY DESIGN", faTitle: "ست پارچه‌ای", desc: "A large set of beautiful & fully flexible home textiles. Lets you create your kitchen space quickly & easily.", heroImg: "../set-parcheie/cover-set-parcheie.webp" },
         "set-fer": { catNameEn: "OVEN SET", bannerTitleEn: "OVEN ESSENTIALS", faTitle: "ست فر", desc: "A perfect blend of heat resistance and elegant design for your daily baking needs.", heroImg: "../set-fer/cover-set-fer.webp" },
+        "dastmal-ashpazkhane": { catNameEn: "KITCHEN TOWELS & CLOTHS", bannerTitleEn: "KITCHEN TOWELS", faTitle: "حوله و دستمال آشپزخانه", desc: "A large set of highly absorbent and durable towels crafted for daily use.", heroImg: "../dastmal-ashpazkhane/cover-dastmal.webp" },
         "sofre": { catNameEn: "TABLECLOTHS", bannerTitleEn: "MODERN TABLECLOTHS", faTitle: "سفره‌های ژله‌ای", desc: "Easy to clean, beautifully patterned tablecloths that protect and enhance your dining area.", heroImg: "../sofre/cover-sofre.webp" },
         "mahsolat-takmili": { catNameEn: "EXTRAS", bannerTitleEn: "KITCHEN ACCESSORIES", faTitle: "محصولات تکمیلی", desc: "Discover our range of complementary kitchen accessories designed to make life easier.", heroImg: "../mahsolat-takmili/cover-takmili.webp" }
     };
@@ -1286,11 +1296,12 @@ window.renderCategoryPage = function() {
         `;
     }
 
+    // چیدمان نوار دسته‌بندی از راست به چپ: ست پارچه‌ای، ست فر، دستمال‌ها، سفره‌ها، محصولات تکمیلی
     fullHTML += `
         <div class="cat-filter-bar" id="filter-anchor" ${ACTIVE_CATEGORY === 'all' ? 'style="display:none;"' : ''}>
             <div class="cat-filter-links">
-                <a href="../set-fer/index.html#filter-anchor" class="${ACTIVE_CATEGORY === 'set-fer' ? 'active' : ''}">ست فر</a>
                 <a href="../set-parcheie/index.html#filter-anchor" class="${ACTIVE_CATEGORY === 'set-parcheie' ? 'active' : ''}">ست پارچه‌ای</a>
+                <a href="../set-fer/index.html#filter-anchor" class="${ACTIVE_CATEGORY === 'set-fer' ? 'active' : ''}">ست فر</a>
                 <a href="../dastmal-ashpazkhane/index.html#filter-anchor" class="${ACTIVE_CATEGORY === 'dastmal-ashpazkhane' ? 'active' : ''}">حوله و دستمال آشپزخانه</a>
                 <a href="../sofre/index.html#filter-anchor" class="${ACTIVE_CATEGORY === 'sofre' ? 'active' : ''}">سفره‌های ژله‌ای</a>
                 <a href="../mahsolat-takmili/index.html#filter-anchor" class="${ACTIVE_CATEGORY === 'mahsolat-takmili' ? 'active' : ''}">محصولات تکمیلی</a>
@@ -1340,7 +1351,7 @@ window.renderCategoryPage = function() {
     };
 
     if (ACTIVE_CATEGORY === 'all') {
-        const categoriesOrder = ["dastmal-ashpazkhane", "set-parcheie", "set-fer", "sofre", "mahsolat-takmili"];
+        const categoriesOrder = ["set-parcheie", "set-fer", "dastmal-ashpazkhane", "sofre", "mahsolat-takmili"];
         categoriesOrder.forEach(catKey => {
             const catProds = catalogDB.filter(p => p.url.startsWith(catKey + '/'));
             if (catProds.length > 0) {
@@ -1426,10 +1437,11 @@ document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('scroll', updateHomeHeaderState, { passive: true });
             window.addEventListener('resize', updateHomeHeaderState, { passive: true });
 
+            // هدایت دکمه سفارش محصولات صفحه اول به دسته‌بندی ست پارچه‌ای
             const heroOrderBtn = document.querySelector('.hero-order-btn-glass');
-            if (heroOrderBtn) {
+            if (heroOrderBtn && !document.body.classList.contains('about-page-body')) {
                 heroOrderBtn.removeAttribute('onclick');
-                heroOrderBtn.href = window.getCleanPath('all/index.html');
+                heroOrderBtn.href = window.getCleanPath('set-parcheie/index.html');
             }
 
             document.querySelectorAll('.cg-card').forEach(card => card.classList.add('reveal'));
@@ -1589,7 +1601,7 @@ window.addEventListener('load', window.initMobileCategoryBarUX);
 window.autoSyncAllProductsFromHTML = async function() {
     if (location.protocol === 'file:') return;
     try {
-        if (sessionStorage.getItem('cleano_full_html_synced_v2')) return;
+        if (sessionStorage.getItem('cleano_full_html_synced_v3')) return;
         let metaStore = JSON.parse(localStorage.getItem('cleano_html_meta') || '{}');
         let packStore = JSON.parse(localStorage.getItem('cleano_html_packs') || '{}');
         let updated = false;
@@ -1618,7 +1630,7 @@ window.autoSyncAllProductsFromHTML = async function() {
         if (updated) {
             localStorage.setItem('cleano_html_meta', JSON.stringify(metaStore));
             localStorage.setItem('cleano_html_packs', JSON.stringify(packStore));
-            sessionStorage.setItem('cleano_full_html_synced_v2', '1');
+            sessionStorage.setItem('cleano_full_html_synced_v3', '1');
             window.syncCatalogWithHtmlMeta();
             document.querySelectorAll('.minimal-product-card').forEach(card => {
                 const ref = card.querySelector('.product-ref-badge')?.getAttribute('data-ref');
